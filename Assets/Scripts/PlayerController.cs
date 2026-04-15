@@ -3,10 +3,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    private Rigidbody2D _rigidbody;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Application.targetFrameRate = 60;
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -14,13 +17,13 @@ public class PlayerController : MonoBehaviour
     {
         if (Keyboard.current.dKey.isPressed)
         {
-            this.transform.Translate(0.5f, 0, 0);
+            _rigidbody.linearVelocity = Vector2.right * 5f;
         }
 
         if (Keyboard.current.aKey.isPressed)
         {
-            this.transform.Translate(-0.5f, 0, 0);
-        }
+            _rigidbody.linearVelocity = Vector2.left * 5f;
 
+        }
     }
 }
