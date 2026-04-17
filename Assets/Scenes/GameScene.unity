@@ -523,11 +523,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 5
   jumpForce: 5
-  groundCheck: {fileID: 0}
+  groundCheck: {fileID: 817381981}
   checkSize: {x: 0.5, y: 0.1}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!114 &771603171
 MonoBehaviour:
   m_ObjectHideFlags: 0
