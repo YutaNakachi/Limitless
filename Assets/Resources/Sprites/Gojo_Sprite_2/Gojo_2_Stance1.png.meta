@@ -118,12 +118,12 @@ TextureImporter:
       name: Gojo_2_Stance1_0
       rect:
         serializedVersion: 2
-        x: 33
-        y: 38
-        width: 113
-        height: 260
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 34
+        y: 39
+        width: 111
+        height: 258
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -140,12 +140,12 @@ TextureImporter:
       name: Gojo_2_Stance1_1
       rect:
         serializedVersion: 2
-        x: 202
-        y: 38
-        width: 115
-        height: 260
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 203
+        y: 39
+        width: 113
+        height: 258
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -162,12 +162,12 @@ TextureImporter:
       name: Gojo_2_Stance1_2
       rect:
         serializedVersion: 2
-        x: 347
-        y: 38
-        width: 114
-        height: 260
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 348
+        y: 39
+        width: 112
+        height: 258
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -184,12 +184,12 @@ TextureImporter:
       name: Gojo_2_Stance1_3
       rect:
         serializedVersion: 2
-        x: 493
-        y: 39
-        width: 113
-        height: 258
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 494
+        y: 40
+        width: 111
+        height: 256
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -206,12 +206,12 @@ TextureImporter:
       name: Gojo_2_Stance1_4
       rect:
         serializedVersion: 2
-        x: 642
-        y: 38
-        width: 111
-        height: 260
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 643
+        y: 39
+        width: 109
+        height: 258
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -228,12 +228,12 @@ TextureImporter:
       name: Gojo_2_Stance1_5
       rect:
         serializedVersion: 2
-        x: 802
-        y: 38
-        width: 109
-        height: 259
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 803
+        y: 39
+        width: 107
+        height: 257
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -250,7 +250,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 84f066435aa93e74e86f29882fed5d8a
     internalID: 0
     vertices: []
     indices: 
@@ -258,7 +258,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Gojo_2_Stance1_0: -2504868674060693174
       Gojo_2_Stance1_1: 672501214038327248

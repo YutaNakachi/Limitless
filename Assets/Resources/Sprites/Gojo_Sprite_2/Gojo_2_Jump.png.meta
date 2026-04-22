@@ -121,12 +121,12 @@ TextureImporter:
       name: Gojo_2_Jump_0
       rect:
         serializedVersion: 2
-        x: 27
-        y: 12
-        width: 169
-        height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 28
+        y: 13
+        width: 167
+        height: 218
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -143,12 +143,12 @@ TextureImporter:
       name: Gojo_2_Jump_1
       rect:
         serializedVersion: 2
-        x: 253
-        y: 12
-        width: 150
-        height: 195
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 254
+        y: 13
+        width: 148
+        height: 193
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -165,12 +165,12 @@ TextureImporter:
       name: Gojo_2_Jump_2
       rect:
         serializedVersion: 2
-        x: 437
-        y: 15
-        width: 148
-        height: 267
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 438
+        y: 16
+        width: 146
+        height: 265
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -187,12 +187,12 @@ TextureImporter:
       name: Gojo_2_Jump_3
       rect:
         serializedVersion: 2
-        x: 606
-        y: 134
-        width: 144
-        height: 198
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 607
+        y: 135
+        width: 142
+        height: 196
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -209,12 +209,12 @@ TextureImporter:
       name: Gojo_2_Jump_4
       rect:
         serializedVersion: 2
-        x: 802
-        y: 44
-        width: 125
-        height: 244
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 803
+        y: 45
+        width: 123
+        height: 242
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -231,12 +231,12 @@ TextureImporter:
       name: Gojo_2_Jump_5
       rect:
         serializedVersion: 2
-        x: 963
-        y: 14
-        width: 110
-        height: 259
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 964
+        y: 15
+        width: 108
+        height: 257
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -253,12 +253,12 @@ TextureImporter:
       name: Gojo_2_Jump_6
       rect:
         serializedVersion: 2
-        x: 1102
-        y: 13
-        width: 152
-        height: 194
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1103
+        y: 14
+        width: 150
+        height: 192
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -275,7 +275,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: ca8e805533c98514a9d8af83a4512890
     internalID: 0
     vertices: []
     indices: 
@@ -283,7 +283,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Gojo_2_Jump_0: 2269469962688780976
       Gojo_2_Jump_1: 7710011617450482827
