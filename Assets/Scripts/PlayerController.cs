@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private bool isGrounded;
     private bool isCrouching;
+    private bool isOnDash;
 
     private Vector2 moveInput;
     private Vector3 firstScale;
@@ -43,21 +44,21 @@ public class PlayerController : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !isOnDash)
         {
             // 左右の入力方向を特定（入力がない場合は正面など、方向を決める）
-            Vector2 dashDirection = new Vector2(moveInput.x, 0).normalized;
+            Vector2 dashDirection = new Vector2(transform.localScale.x, 0).normalized;
 
             // 入力が完全に0の時は、キャラが向いている方向に飛ばすと親切
-            if (dashDirection.sqrMagnitude < 0.01f)
-            {
-                dashDirection = new Vector2(transform.localScale.x, 0);
-            }
+            //if (dashDirection.sqrMagnitude < 0.01f)
+            //{
+            //    dashDirection = new Vector2(transform.localScale.x, 0);
+            //}
+
+            isOnDash = true;
 
             // 瞬間的な力を加える
             _rigidbody.AddForce(dashDirection * dashSpeed, ForceMode2D.Impulse);
-
-            _animator.SetTrigger("Dash");
         }
     }
 
@@ -113,14 +114,20 @@ public class PlayerController : MonoBehaviour
                 currentVelocityX = moveInput.x * moveSpeed;
             }
         }
-        // 空中にいるときは linearVelocity.x をいじらない（＝慣性で進む）
+        // 空中にいるときは慣性で進む
         else
         {
             float airControl = 5f;
             currentVelocityX = Mathf.MoveTowards(currentVelocityX, moveInput.x * moveSpeed, airControl * Time.deltaTime);
         }
 
-        _rigidbody.linearVelocity = new Vector2(currentVelocityX, _rigidbody.linearVelocity.y);
+        if (!isOnDash)
+        {
+            _rigidbody.linearVelocity = new Vector2(currentVelocityX, _rigidbody.linearVelocity.y);
+        }
+        else { }
+
+        if (_rigidbody.linearVelocityX < 0.1) isOnDash = false;
 
 
         // プレイヤーの向きを変更
@@ -137,6 +144,7 @@ public class PlayerController : MonoBehaviour
         _animator.SetFloat("MoveSpeed", _rigidbody.linearVelocity.magnitude);
         _animator.SetBool("IsGrounded", isGrounded);
         _animator.SetBool("IsCrouching", isCrouching);
+        _animator.SetBool("IsOnDash", isOnDash);
     }
 
     // デバッグ用に判定エリアを画面に表示する
