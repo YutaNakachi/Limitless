@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Vector3 firstScale;
     private float currentVelocityX;
-
+    private float gravity;
 
     void Awake()
     {
@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         firstScale = transform.localScale;
+        gravity = _rigidbody.gravityScale;
         _animator.SetTrigger("Intro");
     }
 
@@ -46,16 +47,10 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed && !isOnDash)
         {
+            isOnDash = true;
+
             // 左右の入力方向を特定（入力がない場合は正面など、方向を決める）
             Vector2 dashDirection = new Vector2(transform.localScale.x, 0).normalized;
-
-            // 入力が完全に0の時は、キャラが向いている方向に飛ばすと親切
-            //if (dashDirection.sqrMagnitude < 0.01f)
-            //{
-            //    dashDirection = new Vector2(transform.localScale.x, 0);
-            //}
-
-            isOnDash = true;
 
             // 瞬間的な力を加える
             _rigidbody.AddForce(dashDirection * dashSpeed, ForceMode2D.Impulse);
@@ -65,7 +60,6 @@ public class PlayerController : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         // ボタンが押された瞬間、かつ接地している場合
-        if (context.started && isGrounded)
         {
             // 速度を一度リセットしてから飛ばすと、ジャンプ力が安定
             _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, 0);
@@ -125,9 +119,14 @@ public class PlayerController : MonoBehaviour
         {
             _rigidbody.linearVelocity = new Vector2(currentVelocityX, _rigidbody.linearVelocity.y);
         }
-        else { }
+        else if (isOnDash)
+        {
+            if (Mathf.Abs(_rigidbody.linearVelocityX) < 0.1)
+            {
+                isOnDash = false;
+            }
+        }
 
-        if (_rigidbody.linearVelocityX < 0.1) isOnDash = false;
 
 
         // プレイヤーの向きを変更

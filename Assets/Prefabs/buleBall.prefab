@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9193687074472046189}
   - component: {fileID: 20196217672130269}
   m_Layer: 0
-  m_Name: BuleBallPrefab
+  m_Name: buleBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8818770741624020675, guid: 3559d1a529f21734eb3393bb316c990f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
