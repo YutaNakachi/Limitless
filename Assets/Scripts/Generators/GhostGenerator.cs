@@ -1,13 +1,16 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GhostGenerator : ObjectGenerator
 {
     [SerializeField] private GameObject ghostPrefab;
-
+    [SerializeField] private int maxGhostCount = 10; // 最大同時出現数
     public float ghostSpawnInterval;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // 現在画面に存在しているゴーストを保持するリスト
+    private List<GameObject> activeGhosts = new List<GameObject>();
+
     void Start()
     {
         StartCoroutine(GhostSpawnLoop());
@@ -17,13 +20,26 @@ public class GhostGenerator : ObjectGenerator
     {
         while (true)
         {
-            // 1. 指定した秒数待機
             yield return new WaitForSeconds(ghostSpawnInterval);
 
-            // 2. 生成処理
-            GenerateObject(ghostPrefab, new Vector3(Random.Range(-7.5f, 7.5f), Random.Range(0.0f, 3.5f)));
+            // 1. すでに破壊された(nullになった)要素をリストから削除
+            activeGhosts.RemoveAll(ghost => ghost == null);
 
-            // 3. ループの先頭に戻り、再び待機に入る
+            // 2. 現在の数が最大数未満なら生成する
+            if (activeGhosts.Count < maxGhostCount)
+            {
+                GameObject newGhost = GenerateObject(ghostPrefab, new Vector3(Random.Range(-7.5f, 7.5f), Random.Range(0.0f, 3.5f)));
+
+                // 生成したゴーストをリストに追加
+                if (newGhost != null)
+                {
+                    activeGhosts.Add(newGhost);
+                }
+            }
+            else
+            {
+                Debug.Log("ゴーストが上限に達しているため、生成を待機します。");
+            }
         }
     }
 }

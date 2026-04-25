@@ -9,6 +9,8 @@ public class GhostController : MonoBehaviour
     private float seedX;
     private float seedY;
 
+    private bool isInvincible;
+
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();

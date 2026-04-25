@@ -355,9 +355,9 @@ GameObject:
   - component: {fileID: 771603170}
   - component: {fileID: 771603171}
   - component: {fileID: 771603172}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -948,6 +948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GhostGenerator
   ghostPrefab: {fileID: 6559199684679116014, guid: 1c2280d75eabd304c964f7ad5bf2ca55, type: 3}
+  maxGhostCount: 10
   ghostSpawnInterval: 1
 --- !u!4 &1447816637
 Transform:
@@ -973,6 +974,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1721503973}
+  - component: {fileID: 1721503974}
   m_Layer: 0
   m_Name: Director
   m_TagString: Untagged
@@ -995,6 +997,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1721503974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721503972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a91d769ebcd0aef43b150c26c3c0de31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameDirector
 --- !u!1 &1805236919
 GameObject:
   m_ObjectHideFlags: 0

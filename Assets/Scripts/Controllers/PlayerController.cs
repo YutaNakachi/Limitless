@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         // ボタンが押された瞬間、かつ接地している場合
+        if (context.started && isGrounded)
         {
             // 速度を一度リセットしてから飛ばすと、ジャンプ力が安定
             _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, 0);
