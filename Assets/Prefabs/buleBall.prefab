@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2830561686582066827}
   m_Layer: 7
   m_Name: buleBall
-  m_TagString: BlueBall
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

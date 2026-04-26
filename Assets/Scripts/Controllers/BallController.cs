@@ -5,6 +5,10 @@ public class BallController : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int attackDamage = 10; // ボールの攻撃力
 
+    private Rigidbody2D _rigidbody;
+
+    void Awake() => _rigidbody = GetComponent<Rigidbody2D>();
+
     /// <summary>
     /// CollisionDetector（イベント）から呼び出されるメソッド
     /// </summary>
@@ -25,5 +29,11 @@ public class BallController : MonoBehaviour
         {
             // 敵以外（プレイヤー自身や壁など）に当たった時の処理が必要なら
         }
+    }
+
+    public void ShotBall(Vector2 direction, float force)
+    {
+        _rigidbody.linearVelocity = Vector2.zero;
+        _rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
     }
 }
