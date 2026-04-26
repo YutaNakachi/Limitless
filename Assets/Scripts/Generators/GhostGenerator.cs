@@ -38,7 +38,7 @@ public class GhostGenerator : ObjectGenerator
             }
             else
             {
-                Debug.Log("ゴーストが上限に達しているため、生成を待機します。");
+
             }
         }
     }

@@ -1,12 +1,8 @@
-using UnityEngine;
-
 public class GhostStatus : EnemyStatus
 {
-    protected override void PlayDeathAnimation()
+    protected override void OnDie()
     {
-        // ゴースト特有の「スゥーッと消える」演出ロジックをここに書く
-        Debug.Log("お化けが成仏しました");
-        Destroy(gameObject);
+        base.OnDie();
     }
 
     protected override void OnInvincibilityEnd()

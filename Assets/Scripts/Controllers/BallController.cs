@@ -13,17 +13,17 @@ public class BallController : MonoBehaviour
     /// CollisionDetector（イベント）から呼び出されるメソッド
     /// </summary>
     /// <param name="collider">衝突した相手のCollider2D</param>
-    public void OnHit(Collider2D collider)
+    public void OnHitEnemy(Collider2D collider)
     {
         // 相手が「EnemyStatus」を持っているか確認
-        EnemyStatus targetEnemy = collider.GetComponent<EnemyStatus>();
+        EnemyStatus target = collider.GetComponent<EnemyStatus>();
 
-        if (targetEnemy != null)
+        if (target != null)
         {
             // 敵であればダメージを与える
-            targetEnemy.TakeDamage(attackDamage);
+            target.TakeDamage(attackDamage);
 
-            Debug.Log($"敵 {collider.gameObject.name} にダメージ！");
+            Debug.Log($"{collider.gameObject.name} にダメージ！");
         }
         else
         {

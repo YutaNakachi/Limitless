@@ -575,6 +575,7 @@ GameObject:
   - component: {fileID: 771603172}
   - component: {fileID: 771603170}
   - component: {fileID: 771603174}
+  - component: {fileID: 771603176}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -699,7 +700,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 5
   dashSpeed: 10
+  dashDuration: 0.25
   jumpForce: 17
+  maxNumOfAirJumps: 1
+  dashJumpForce: 1.04
   groundCheck: {fileID: 817381981}
   checkSize: {x: 0.5, y: 0.1}
   groundLayer:
@@ -754,7 +758,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 771603170}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnAttack
+        m_MethodName: OnKick
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -945,6 +949,20 @@ MonoBehaviour:
   shootCollider: {fileID: 618391910}
   shootForce: 25
   angle: 40
+--- !u!114 &771603176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771603165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366f861a132b72c45a2840fe4419d9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
+  maxHp: 10
+  invincibilityDuration: 0
 --- !u!1 &817381980
 GameObject:
   m_ObjectHideFlags: 0

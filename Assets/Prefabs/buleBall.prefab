@@ -188,7 +188,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 20196217672130269}
         m_TargetAssemblyTypeName: BallController, Assembly-CSharp
-        m_MethodName: OnHit
+        m_MethodName: OnHitEnemy
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

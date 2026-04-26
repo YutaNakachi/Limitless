@@ -22,6 +22,7 @@ public class PlayerShoot : MonoBehaviour
 
         // プレイヤーよりボールが左なら -1、右なら 1 を掛ける
         float side = (ballInRange.transform.position.x < transform.position.x) ? -1f : 1f;
+
         // X = Cos, Y = Sin で方向ベクトルを作る
         Vector3 direction = new Vector3(Mathf.Cos(rad) * side, Mathf.Sin(rad));
 

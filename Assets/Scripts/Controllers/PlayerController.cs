@@ -3,10 +3,17 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement Settings")]
+    [Header("Walking Speed")]
     [SerializeField] private float moveSpeed = 5f;
+
+    [Header("Dash Settings")]
     [SerializeField] private float dashSpeed = 10f;
+    [SerializeField] private float dashDuration = 0.2f;
+
+    [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 12f;
+    [SerializeField] private int maxNumOfAirJumps = 1;
+    [SerializeField] private float dashJumpForce = 1.1f;
 
     [Header("Ground Check Settings")]
     [SerializeField] private Transform groundCheck; // 足元に配置する空のGameObject
@@ -22,7 +29,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Vector3 firstScale;
     private float currentVelocityX;
-    private float gravity;
+    private int remainingAirJumpCount;
+    private float dashTimer;
+    private float originalGravityScale; // 元の重力を保存する変数
 
     void Awake()
     {
@@ -34,7 +43,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         firstScale = transform.localScale;
-        gravity = _rigidbody.gravityScale;
+        originalGravityScale = _rigidbody.gravityScale;
         _animator.SetTrigger("Intro");
     }
 
@@ -48,24 +57,53 @@ public class PlayerController : MonoBehaviour
         if (context.performed && !isOnDash)
         {
             isOnDash = true;
+            dashTimer = dashDuration;
 
-            // 左右の入力方向を特定（入力がない場合は正面など、方向を決める）
-            Vector2 dashDirection = new Vector2(transform.localScale.x, 0).normalized;
+            // ダッシュ中は重力を0に
+            _rigidbody.gravityScale = 0;
 
-            // 瞬間的な力を加える
-            _rigidbody.AddForce(dashDirection * dashSpeed, ForceMode2D.Impulse);
+            // Y方向の速度を完全に殺し、真横だけの速度をセットする
+            float direction = moveInput.x != 0 ? Mathf.Sign(moveInput.x) : Mathf.Sign(transform.localScale.x);
+            _rigidbody.linearVelocity = new Vector2(direction * dashSpeed, 0);
         }
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        // ボタンが押された瞬間、かつ接地している場合
-        if (context.started && isGrounded)
+        if (context.started)
         {
-            // 速度を一度リセットしてから飛ばすと、ジャンプ力が安定
-            _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, 0);
-            _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            _animator.SetTrigger("Jump");
+            if (isGrounded || remainingAirJumpCount > 0)
+            {
+                if (isOnDash && isGrounded)
+                {
+                    isOnDash = false;
+                    _rigidbody.gravityScale = originalGravityScale;
+
+                    // ダッシュの勢いを計算（例：10 * 1.5 = 15）
+                    float jumpDashVelocityX = _rigidbody.linearVelocityX * dashJumpForce;
+
+                    // 変数に代入
+                    currentVelocityX = jumpDashVelocityX;
+
+                    // 物理的な速度も即座に更新
+                    _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce * dashJumpForce);
+                }
+                else if (isGrounded)
+                {
+                    // 通常ジャンプ
+                    currentVelocityX = _rigidbody.linearVelocityX;
+                    _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce);
+                }
+                else
+                {
+                    // 空中でのジャンプ
+                    currentVelocityX = _rigidbody.linearVelocityX;
+                    _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce);
+                    remainingAirJumpCount--;
+                }
+
+                _animator.SetTrigger("Jump");
+            }
         }
     }
 
@@ -82,7 +120,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
+    public void OnKick(InputAction.CallbackContext context)
     {
         if (context.started)
         {
@@ -96,39 +134,17 @@ public class PlayerController : MonoBehaviour
         // 指定した範囲(checkSize)内に、GroundレイヤーのColliderがあるかチェック
         isGrounded = Physics2D.OverlapBox(groundCheck.position, checkSize, 0f, groundLayer);
 
-        if (isGrounded)
+        // ジャンプ回数復活
+        if (isGrounded) remainingAirJumpCount = maxNumOfAirJumps;
+
+        if (isOnDash)
         {
-            if (isCrouching)
-            {
-                // しゃがみ中は強制的に横移動を 0 に
-                currentVelocityX = 0;
-            }
-            else
-            {
-                // 通常の移動
-                currentVelocityX = moveInput.x * moveSpeed;
-            }
+            HandleDash();
         }
-        // 空中にいるときは慣性で進む
         else
         {
-            float airControl = 5f;
-            currentVelocityX = Mathf.MoveTowards(currentVelocityX, moveInput.x * moveSpeed, airControl * Time.deltaTime);
+            HandleNormalMovement();
         }
-
-        if (!isOnDash)
-        {
-            _rigidbody.linearVelocity = new Vector2(currentVelocityX, _rigidbody.linearVelocity.y);
-        }
-        else if (isOnDash)
-        {
-            if (Mathf.Abs(_rigidbody.linearVelocityX) < 0.1)
-            {
-                isOnDash = false;
-            }
-        }
-
-
 
         // プレイヤーの向きを変更
         if (_rigidbody.linearVelocityX > 0)
@@ -145,6 +161,43 @@ public class PlayerController : MonoBehaviour
         _animator.SetBool("IsGrounded", isGrounded);
         _animator.SetBool("IsCrouching", isCrouching);
         _animator.SetBool("IsOnDash", isOnDash);
+    }
+
+    private void HandleDash()
+    {
+        dashTimer -= Time.deltaTime;
+
+        // ダッシュ中は毎フレーム Y 速度を 0 に固定
+        _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, 0);
+
+        if (dashTimer <= 0)
+        {
+            isOnDash = false;
+
+            // 重力を元に戻す
+            _rigidbody.gravityScale = originalGravityScale;
+        }
+    }
+
+    private void HandleNormalMovement()
+    {
+        // 目標とする速度を決定
+        float targetSpeed = isCrouching ? 0 : moveInput.x * moveSpeed;
+
+        if (isGrounded)
+        {
+            // 地面にいるとき：素早く目標速度に合わせる
+            float groundAccel = 50f; // 地面の食いつき
+            currentVelocityX = Mathf.MoveTowards(currentVelocityX, targetSpeed, groundAccel * Time.deltaTime);
+        }
+        else
+        {
+            // 空中にいるとき：ゆっくり目標速度に合わせる
+            float airControl = 5f;
+            currentVelocityX = Mathf.MoveTowards(currentVelocityX, targetSpeed, airControl * Time.deltaTime);
+        }
+
+        _rigidbody.linearVelocity = new Vector2(currentVelocityX, _rigidbody.linearVelocity.y);
     }
 
     // デバッグ用に判定エリアを画面に表示する

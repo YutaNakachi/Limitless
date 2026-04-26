@@ -19,10 +19,24 @@ public abstract class EnemyStatus : MobStatus
             Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
         }
 
-        // 3. 個別の死亡演出を呼び出す
-        PlayDeathAnimation();
+        Destroy(gameObject);
     }
 
-    // 各敵キャラ（Ghostなど）に、自分専用の消え方を書かせるためのabstract
-    protected abstract void PlayDeathAnimation();
+    public void OnAttack(Collider2D collider)
+    {
+        // 相手が「PlayerStatus」を持っているか確認
+        PlayerStatus target = collider.GetComponent<PlayerStatus>();
+
+        if (target != null)
+        {
+            // プレイヤーであればダメージを与える
+            target.TakeDamage(attackPower);
+
+            Debug.Log($"{collider.gameObject.name} にダメージ！");
+        }
+        else
+        {
+            // 敵以外（プレイヤー自身や壁など）に当たった時の処理が必要なら
+        }
+    }
 }
