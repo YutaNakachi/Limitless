@@ -1,6 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[System.Serializable]
+public struct ColliderData
+{
+    public Vector2 size;
+    public Vector2 offset;
+    public CapsuleDirection2D direction;
+}
+
 public class PlayerController : MonoBehaviour
 {
     [Header("Walking Speed")]
@@ -20,8 +28,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 checkSize = new Vector2(0.5f, 0.1f); // 判定エリアのサイズ
     [SerializeField] private LayerMask groundLayer; // Groundレイヤーだけを判定対象にする
 
+    [Header("Collider Settings")]
+    [SerializeField] private ColliderData normalCollider;
+    [SerializeField] private ColliderData crouchCollider;
+    [SerializeField] private ColliderData dashCollider;
+
     private Rigidbody2D _rigidbody;
     private Animator _animator;
+    private CapsuleCollider2D _collider;
     private bool isGrounded;
     private bool isCrouching;
     private bool isOnDash;
@@ -38,6 +52,7 @@ public class PlayerController : MonoBehaviour
         Application.targetFrameRate = 60;
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _collider = GetComponent<CapsuleCollider2D>();
     }
 
     void Start()
@@ -167,6 +182,9 @@ public class PlayerController : MonoBehaviour
     {
         dashTimer -= Time.deltaTime;
 
+        // Collider形状を変更
+        UpdateCollider(dashCollider);
+
         // ダッシュ中は毎フレーム Y 速度を 0 に固定
         _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, 0);
 
@@ -182,7 +200,18 @@ public class PlayerController : MonoBehaviour
     private void HandleNormalMovement()
     {
         // 目標とする速度を決定
-        float targetSpeed = isCrouching ? 0 : moveInput.x * moveSpeed;
+        float targetSpeed;
+        if (isCrouching)
+        {
+            UpdateCollider(crouchCollider);
+            targetSpeed = 0;
+        }
+        else
+        {
+            UpdateCollider(normalCollider);
+            targetSpeed = moveInput.x * moveSpeed;
+        }
+
 
         if (isGrounded)
         {
@@ -198,6 +227,14 @@ public class PlayerController : MonoBehaviour
         }
 
         _rigidbody.linearVelocity = new Vector2(currentVelocityX, _rigidbody.linearVelocity.y);
+    }
+
+    // Collider形状を切り替えるためのメソッド
+    private void UpdateCollider(ColliderData data)
+    {
+        _collider.size = data.size;
+        _collider.offset = data.offset;
+        _collider.direction = data.direction;
     }
 
     // デバッグ用に判定エリアを画面に表示する

@@ -709,6 +709,18 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  normalCollider:
+    size: {x: 1.16, y: 2.65}
+    offset: {x: 0, y: 1.325}
+    direction: 0
+  crouchCollider:
+    size: {x: 1.16, y: 1.9}
+    offset: {x: 0, y: 0.95}
+    direction: 0
+  dashCollider:
+    size: {x: 2.3, y: 1.39}
+    offset: {x: 0, y: 0.7}
+    direction: 1
 --- !u!114 &771603171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -932,7 +944,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 1.325}
-  m_Size: {x: 1.1600001, y: 2.65}
+  m_Size: {x: 1.16, y: 2.65}
   m_Direction: 0
 --- !u!114 &771603174
 MonoBehaviour:
