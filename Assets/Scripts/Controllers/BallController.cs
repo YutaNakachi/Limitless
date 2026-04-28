@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
@@ -35,5 +36,16 @@ public class BallController : MonoBehaviour
     {
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
+
+        StartCoroutine(DestroyABall());
+    }
+
+    private IEnumerator DestroyABall()
+    {
+        yield return new WaitUntil(() => _rigidbody.linearVelocity.magnitude <= 0.1f);
+        _rigidbody.linearVelocity = Vector3.zero;
+
+        yield return new WaitForSeconds(1);
+        Destroy(gameObject);
     }
 }
