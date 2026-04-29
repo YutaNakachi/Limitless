@@ -1,12 +1,18 @@
 using System.Collections;
 using UnityEngine;
 
+public enum BallColor { None, Red, Blue }
+
 public class BallController : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private int attackDamage = 10; // ボールの攻撃力
 
     private Rigidbody2D _rigidbody;
+
+    public BallColor ballColor;
+    public bool isKicked = false;
+
 
     void Awake() => _rigidbody = GetComponent<Rigidbody2D>();
 
@@ -34,6 +40,8 @@ public class BallController : MonoBehaviour
 
     public void ShotBall(Vector2 direction, float force)
     {
+        isKicked = true;
+        GetComponent<Collider2D>().isTrigger = false;
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
 
@@ -47,5 +55,21 @@ public class BallController : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
+    }
+
+    public void Orbit(Vector3 targetPosition)
+    {
+        transform.position = targetPosition;
+    }
+
+    public void ApplyColorVisual()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        switch (ballColor)
+        {
+            case BallColor.Red: sr.color = Color.red; break;
+            case BallColor.Blue: sr.color = Color.blue; break;
+            case BallColor.None: sr.color = Color.white; break;
+        }
     }
 }
