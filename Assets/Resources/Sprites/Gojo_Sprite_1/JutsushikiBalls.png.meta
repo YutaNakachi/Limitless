@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: 80a2814c0f7d9b041ba88bcb0ad27745
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6294554345687384620
+    second: JutsushikiBalls_0
+  - first:
+      213: 6181466442844166296
+    second: JutsushikiBalls_1
+  - first:
+      213: -3933214811069344998
+    second: JutsushikiBalls_2
+  - first:
+      213: -508348905667292239
+    second: JutsushikiBalls_3
+  - first:
+      213: -1994171957947073874
+    second: JutsushikiBalls_4
+  - first:
+      213: 931298922154232234
+    second: JutsushikiBalls_5
+  - first:
+      213: 7451664734109950218
+    second: JutsushikiBalls_6
+  - first:
+      213: 3022091157437017973
+    second: JutsushikiBalls_7
+  - first:
+      213: 3784794131118478649
+    second: JutsushikiBalls_8
+  - first:
+      213: 4227191466721032038
+    second: JutsushikiBalls_9
+  - first:
+      213: -3689323103501596531
+    second: JutsushikiBalls_10
+  - first:
+      213: -6800247691196347140
+    second: JutsushikiBalls_11
+  - first:
+      213: -5149999077535421969
+    second: JutsushikiBalls_12
+  - first:
+      213: 6296906917124445469
+    second: JutsushikiBalls_13
+  - first:
+      213: -5005062695920381967
+    second: JutsushikiBalls_14
+  - first:
+      213: 4259798121678642932
+    second: JutsushikiBalls_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: JutsushikiBalls_0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 316
+        width: 230
+        height: 233
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4dd79ed2c2045a8a0800000000000000
+      internalID: -6294554345687384620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_1
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 317
+        width: 233
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89859bc9afaf8c550800000000000000
+      internalID: 6181466442844166296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_2
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 315
+        width: 232
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1318e8e7f96a69c0800000000000000
+      internalID: -3933214811069344998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_3
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 158
+        width: 259
+        height: 284
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b31eb71d5bf1f8f0800000000000000
+      internalID: -508348905667292239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_4
+      rect:
+        serializedVersion: 2
+        x: 1362
+        y: 136
+        width: 327
+        height: 336
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eaaf4897b274354e0800000000000000
+      internalID: -1994171957947073874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_5
+      rect:
+        serializedVersion: 2
+        x: 1728
+        y: 125
+        width: 352
+        height: 350
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa905ba7f63acec00800000000000000
+      internalID: 931298922154232234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_6
+      rect:
+        serializedVersion: 2
+        x: 2110
+        y: 125
+        width: 328
+        height: 347
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a01ede55891a96760800000000000000
+      internalID: 7451664734109950218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_7
+      rect:
+        serializedVersion: 2
+        x: 2481
+        y: 125
+        width: 320
+        height: 311
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57fe1ed55ef90f920800000000000000
+      internalID: 3022091157437017973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_8
+      rect:
+        serializedVersion: 2
+        x: 2849
+        y: 135
+        width: 296
+        height: 303
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 935dc45a53a468430800000000000000
+      internalID: 3784794131118478649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_9
+      rect:
+        serializedVersion: 2
+        x: 3193
+        y: 61
+        width: 459
+        height: 425
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 667387b0e300aaa30800000000000000
+      internalID: 4227191466721032038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_10
+      rect:
+        serializedVersion: 2
+        x: 3746
+        y: 31
+        width: 665
+        height: 496
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d88452a2f24ecccc0800000000000000
+      internalID: -3689323103501596531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_11
+      rect:
+        serializedVersion: 2
+        x: 4485
+        y: 84
+        width: 146
+        height: 264
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfc429d01caa0a1a0800000000000000
+      internalID: -6800247691196347140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_12
+      rect:
+        serializedVersion: 2
+        x: 4702
+        y: 84
+        width: 110
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe969e5ff178788b0800000000000000
+      internalID: -5149999077535421969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_13
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 25
+        width: 230
+        height: 227
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1517ea8a7b136750800000000000000
+      internalID: 6296906917124445469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_14
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 24
+        width: 231
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ff4b1bfef17a8ab0800000000000000
+      internalID: -5005062695920381967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: JutsushikiBalls_15
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 24
+        width: 229
+        height: 229
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fe188182d7dd1b30800000000000000
+      internalID: 4259798121678642932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      JutsushikiBalls_0: -6294554345687384620
+      JutsushikiBalls_1: 6181466442844166296
+      JutsushikiBalls_10: -3689323103501596531
+      JutsushikiBalls_11: -6800247691196347140
+      JutsushikiBalls_12: -5149999077535421969
+      JutsushikiBalls_13: 6296906917124445469
+      JutsushikiBalls_14: -5005062695920381967
+      JutsushikiBalls_15: 4259798121678642932
+      JutsushikiBalls_2: -3933214811069344998
+      JutsushikiBalls_3: -508348905667292239
+      JutsushikiBalls_4: -1994171957947073874
+      JutsushikiBalls_5: 931298922154232234
+      JutsushikiBalls_6: 7451664734109950218
+      JutsushikiBalls_7: 3022091157437017973
+      JutsushikiBalls_8: 3784794131118478649
+      JutsushikiBalls_9: 4227191466721032038
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

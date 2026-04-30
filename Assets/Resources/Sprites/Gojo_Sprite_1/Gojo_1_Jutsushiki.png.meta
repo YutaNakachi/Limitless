@@ -1,0 +1,429 @@
+fileFormatVersion: 2
+guid: 7b5f82d3085f7684e86581d48f8c5256
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8550466914748367144
+    second: Gojo_1_Jutsushiki_0
+  - first:
+      213: 851798109645914805
+    second: Gojo_1_Jutsushiki_1
+  - first:
+      213: 8947788379940712170
+    second: Gojo_1_Jutsushiki_2
+  - first:
+      213: 6226250690631009653
+    second: Gojo_1_Jutsushiki_3
+  - first:
+      213: -8981487098230947553
+    second: Gojo_1_Jutsushiki_4
+  - first:
+      213: 6385152924477445820
+    second: Gojo_1_Jutsushiki_5
+  - first:
+      213: 2661862000917562990
+    second: Gojo_1_Jutsushiki_6
+  - first:
+      213: 5266602292284275490
+    second: Gojo_1_Jutsushiki_7
+  - first:
+      213: -3066830062564563816
+    second: Gojo_1_Jutsushiki_8
+  - first:
+      213: 6215700619811252237
+    second: Gojo_1_Jutsushiki_9
+  - first:
+      213: 2317584038482392310
+    second: Gojo_1_Jutsushiki_10
+  - first:
+      213: 8348369192991137208
+    second: Gojo_1_Jutsushiki_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Gojo_1_Jutsushiki_0
+      rect:
+        serializedVersion: 2
+        x: 1207
+        y: 361
+        width: 90
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8218e4d4b5c59a670800000000000000
+      internalID: 8550466914748367144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Jutsushiki_1
+      rect:
+        serializedVersion: 2
+        x: 1521
+        y: 122
+        width: 371
+        height: 239
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b24bc12ed132db00800000000000000
+      internalID: 851798109645914805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Jutsushiki_2
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 34
+        width: 115
+        height: 263
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aeeebb7cf1eec2c70800000000000000
+      internalID: 8947788379940712170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Jutsushiki_3
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 34
+        width: 116
+        height: 264
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5758799d306186650800000000000000
+      internalID: 6226250690631009653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Jutsushiki_4
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 34
+        width: 110
+        height: 264
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f11c033f1195b5380800000000000000
+      internalID: -8981487098230947553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Jutsushiki_5
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 34
+        width: 162
+        height: 262
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb6560c31ce9c9850800000000000000
+      internalID: 6385152924477445820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Jutsushiki_6
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 33
+        width: 128
+        height: 299
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e664dcdf265d0f420800000000000000
+      internalID: 2661862000917562990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Jutsushiki_7
+      rect:
+        serializedVersion: 2
+        x: 938
+        y: 33
+        width: 112
+        height: 297
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22bbcd491eab61940800000000000000
+      internalID: 5266602292284275490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Jutsushiki_8
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 21
+        width: 116
+        height: 308
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 894a95e8e4e6075d0800000000000000
+      internalID: -3066830062564563816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Jutsushiki_9
+      rect:
+        serializedVersion: 2
+        x: 2009
+        y: 43
+        width: 102
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d08660218ca924650800000000000000
+      internalID: 6215700619811252237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Jutsushiki_10
+      rect:
+        serializedVersion: 2
+        x: 2132
+        y: 39
+        width: 120
+        height: 262
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f4bbd66766b92020800000000000000
+      internalID: 2317584038482392310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Jutsushiki_11
+      rect:
+        serializedVersion: 2
+        x: 2274
+        y: 39
+        width: 170
+        height: 257
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bd1d0aac8d5bd370800000000000000
+      internalID: 8348369192991137208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Gojo_1_Jutsushiki_0: 8550466914748367144
+      Gojo_1_Jutsushiki_1: 851798109645914805
+      Gojo_1_Jutsushiki_10: 2317584038482392310
+      Gojo_1_Jutsushiki_11: 8348369192991137208
+      Gojo_1_Jutsushiki_2: 8947788379940712170
+      Gojo_1_Jutsushiki_3: 6226250690631009653
+      Gojo_1_Jutsushiki_4: -8981487098230947553
+      Gojo_1_Jutsushiki_5: 6385152924477445820
+      Gojo_1_Jutsushiki_6: 2661862000917562990
+      Gojo_1_Jutsushiki_7: 5266602292284275490
+      Gojo_1_Jutsushiki_8: -3066830062564563816
+      Gojo_1_Jutsushiki_9: 6215700619811252237
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

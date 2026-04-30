@@ -1,0 +1,351 @@
+fileFormatVersion: 2
+guid: 6c5f9a49f4e39144697cc9301c8ab1d7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4759825619583372771
+    second: Gojo_1_JutsushikiAka_0
+  - first:
+      213: 988832512624334194
+    second: Gojo_1_JutsushikiAka_1
+  - first:
+      213: 3329837309554765553
+    second: Gojo_1_JutsushikiAka_2
+  - first:
+      213: 7204568149069908438
+    second: Gojo_1_JutsushikiAka_3
+  - first:
+      213: -3322771424305125688
+    second: Gojo_1_JutsushikiAka_4
+  - first:
+      213: -2028111665515857517
+    second: Gojo_1_JutsushikiAka_5
+  - first:
+      213: -6740309520942815866
+    second: Gojo_1_JutsushikiAka_6
+  - first:
+      213: -5559648962939509300
+    second: Gojo_1_JutsushikiAka_7
+  - first:
+      213: -393483112983456692
+    second: Gojo_1_JutsushikiAka_8
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Gojo_1_JutsushikiAka_0
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 43
+        width: 107
+        height: 267
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ed0210be2c4e0240800000000000000
+      internalID: 4759825619583372771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_JutsushikiAka_1
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 43
+        width: 112
+        height: 267
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27594516ee909bd00800000000000000
+      internalID: 988832512624334194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_JutsushikiAka_2
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 44
+        width: 140
+        height: 266
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1feaadb0465f53e20800000000000000
+      internalID: 3329837309554765553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_JutsushikiAka_3
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 44
+        width: 122
+        height: 266
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d9c7656f84cbf360800000000000000
+      internalID: 7204568149069908438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_JutsushikiAka_4
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 43
+        width: 134
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c669709ef423e1d0800000000000000
+      internalID: -3322771424305125688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_JutsushikiAka_5
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 275
+        width: 48
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 399f9148f23bad3e0800000000000000
+      internalID: -2028111665515857517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_JutsushikiAka_6
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 43
+        width: 182
+        height: 267
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6852500d33c9572a0800000000000000
+      internalID: -6740309520942815866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_JutsushikiAka_7
+      rect:
+        serializedVersion: 2
+        x: 1210
+        y: 42
+        width: 190
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc52f1879b828d2b0800000000000000
+      internalID: -5559648962939509300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_JutsushikiAka_8
+      rect:
+        serializedVersion: 2
+        x: 907
+        y: 255
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c44918981311a8af0800000000000000
+      internalID: -393483112983456692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Gojo_1_JutsushikiAka_0: 4759825619583372771
+      Gojo_1_JutsushikiAka_1: 988832512624334194
+      Gojo_1_JutsushikiAka_2: 3329837309554765553
+      Gojo_1_JutsushikiAka_3: 7204568149069908438
+      Gojo_1_JutsushikiAka_4: -3322771424305125688
+      Gojo_1_JutsushikiAka_5: -2028111665515857517
+      Gojo_1_JutsushikiAka_6: -6740309520942815866
+      Gojo_1_JutsushikiAka_7: -5559648962939509300
+      Gojo_1_JutsushikiAka_8: -393483112983456692
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,481 @@
+fileFormatVersion: 2
+guid: f5aefa6393b9c5a45a60d789ac2ab9ad
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8091460182933119016
+    second: Gojo_1_KyoshikiMurasaki_0
+  - first:
+      213: 7610236827550483754
+    second: Gojo_1_KyoshikiMurasaki_1
+  - first:
+      213: 5751505108366612699
+    second: Gojo_1_KyoshikiMurasaki_2
+  - first:
+      213: 1616036829814342776
+    second: Gojo_1_KyoshikiMurasaki_3
+  - first:
+      213: -6847126946787294997
+    second: Gojo_1_KyoshikiMurasaki_4
+  - first:
+      213: 3972366476409518238
+    second: Gojo_1_KyoshikiMurasaki_5
+  - first:
+      213: -1344740608643808238
+    second: Gojo_1_KyoshikiMurasaki_6
+  - first:
+      213: -4197826518236532817
+    second: Gojo_1_KyoshikiMurasaki_7
+  - first:
+      213: 4865224133702160803
+    second: Gojo_1_KyoshikiMurasaki_8
+  - first:
+      213: -2470011261004058108
+    second: Gojo_1_KyoshikiMurasaki_9
+  - first:
+      213: 5119559356838756273
+    second: Gojo_1_KyoshikiMurasaki_10
+  - first:
+      213: -4262349685731423795
+    second: Gojo_1_KyoshikiMurasaki_11
+  - first:
+      213: 2668285788096958559
+    second: Gojo_1_KyoshikiMurasaki_12
+  - first:
+      213: 6981011921773016825
+    second: Gojo_1_KyoshikiMurasaki_13
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_0
+      rect:
+        serializedVersion: 2
+        x: 939
+        y: 171
+        width: 57
+        height: 211
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82022fd7a24aa4070800000000000000
+      internalID: 8091460182933119016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_1
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 302
+        width: 27
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a250ebae21efc9960800000000000000
+      internalID: 7610236827550483754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_2
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 179
+        width: 27
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd8590c5c6371df40800000000000000
+      internalID: 5751505108366612699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_3
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 271
+        width: 16
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87448014fe05d6610800000000000000
+      internalID: 1616036829814342776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_4
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 43
+        width: 202
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be00dbcc15e1af0a0800000000000000
+      internalID: -6847126946787294997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_5
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 43
+        width: 202
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e983f08834ea02730800000000000000
+      internalID: 3972366476409518238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_6
+      rect:
+        serializedVersion: 2
+        x: 1037
+        y: 43
+        width: 200
+        height: 231
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2144eba8a85865de0800000000000000
+      internalID: -1344740608643808238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_7
+      rect:
+        serializedVersion: 2
+        x: 1283
+        y: 43
+        width: 203
+        height: 231
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fafebcfc5035eb5c0800000000000000
+      internalID: -4197826518236532817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_8
+      rect:
+        serializedVersion: 2
+        x: 1757
+        y: 42
+        width: 201
+        height: 233
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a199f1929fb48340800000000000000
+      internalID: 4865224133702160803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_9
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 43
+        width: 200
+        height: 219
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40273a448d1c8bdd0800000000000000
+      internalID: -2470011261004058108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_10
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 44
+        width: 202
+        height: 220
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bfb6e64c145c0740800000000000000
+      internalID: 5119559356838756273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_11
+      rect:
+        serializedVersion: 2
+        x: 1504
+        y: 235
+        width: 21
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc90b713b8719d4c0800000000000000
+      internalID: -4262349685731423795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_12
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 171
+        width: 30
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f501ebe79c7a70520800000000000000
+      internalID: 2668285788096958559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_KyoshikiMurasaki_13
+      rect:
+        serializedVersion: 2
+        x: 1530
+        y: 141
+        width: 25
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f63c0a1b5981e060800000000000000
+      internalID: 6981011921773016825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Gojo_1_KyoshikiMurasaki_0: 8091460182933119016
+      Gojo_1_KyoshikiMurasaki_1: 7610236827550483754
+      Gojo_1_KyoshikiMurasaki_10: 5119559356838756273
+      Gojo_1_KyoshikiMurasaki_11: -4262349685731423795
+      Gojo_1_KyoshikiMurasaki_12: 2668285788096958559
+      Gojo_1_KyoshikiMurasaki_13: 6981011921773016825
+      Gojo_1_KyoshikiMurasaki_2: 5751505108366612699
+      Gojo_1_KyoshikiMurasaki_3: 1616036829814342776
+      Gojo_1_KyoshikiMurasaki_4: -6847126946787294997
+      Gojo_1_KyoshikiMurasaki_5: 3972366476409518238
+      Gojo_1_KyoshikiMurasaki_6: -1344740608643808238
+      Gojo_1_KyoshikiMurasaki_7: -4197826518236532817
+      Gojo_1_KyoshikiMurasaki_8: 4865224133702160803
+      Gojo_1_KyoshikiMurasaki_9: -2470011261004058108
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
