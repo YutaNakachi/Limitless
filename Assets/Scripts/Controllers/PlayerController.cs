@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private CapsuleCollider2D _collider;
+    private BallManager _ballManager;
     private bool isGrounded;
     private bool isCrouching;
     private bool isOnDash;
@@ -53,6 +54,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _collider = GetComponent<CapsuleCollider2D>();
+        _ballManager = GetComponent<BallManager>();
     }
 
     void Start()
@@ -140,6 +142,14 @@ public class PlayerController : MonoBehaviour
         if (context.started)
         {
             _animator.SetTrigger("Kick");
+        }
+    }
+
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            _ballManager.RefillEmptySlots();
         }
     }
 

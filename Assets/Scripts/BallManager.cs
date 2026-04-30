@@ -14,13 +14,12 @@ public class BallManager : MonoBehaviour
     private float currentAngle;
     private bool isReloading;
 
-    void Start()
+    private void Start()
     {
         GenerateBalls();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // 残弾チェック：蹴られていないボールが0になったら自動リロード
         if (!isReloading && GetRemainingBallCount() == 0)
@@ -33,7 +32,7 @@ public class BallManager : MonoBehaviour
     }
 
 
-    void UpdateBallPositions()
+    private void UpdateBallPositions()
     {
         for (int i = 0; i < activeBalls.Count; i++)
         {
@@ -61,9 +60,38 @@ public class BallManager : MonoBehaviour
             // ColliderのisTriggerを一旦ON
             ball.GetComponent<Collider2D>().isTrigger = true;
 
-            // 色の割り当て（例：1/3ずつの確率）
-            int rand = Random.Range(0, 3);
-            ball.ballColor = (BallColor)rand;
+            // 色のランダム決定
+            ball.ballColor = (BallColor)Random.Range(0, 3);
+
+            // 色に合わせて見た目を変える処理を呼ぶ
+            ball.ApplyColorVisual();
+
+            activeBalls.Add(ball);
+        }
+    }
+
+    public void RefillEmptySlots()
+    {
+        // 1. まず、すでに蹴られたボール（isKicked）や、Destroyされたボールをリストから除外
+        activeBalls.RemoveAll(ball => ball == null || ball.isKicked);
+
+        // 2. 最大数に足りない分だけ補充
+        int refillCount = maxBalls - activeBalls.Count;
+
+        if (refillCount <= 0) return; // 満タンなら何もしない
+
+        Debug.Log($"{refillCount}個のボールを補充します。");
+
+        for (int i = 0; i < refillCount; i++)
+        {
+            GameObject go = Instantiate(ballPrefab);
+            BallController ball = go.GetComponent<BallController>();
+
+            // ColliderのisTriggerを一旦ON
+            ball.GetComponent<Collider2D>().isTrigger = true;
+
+            // 色のランダム決定
+            ball.ballColor = (BallColor)Random.Range(0, 3);
 
             // 色に合わせて見た目を変える処理を呼ぶ
             ball.ApplyColorVisual();
