@@ -1,8 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-public enum BallColor { None, Red, Blue }
-
 public class BallController : MonoBehaviour
 {
     [Header("Settings")]
@@ -10,9 +8,7 @@ public class BallController : MonoBehaviour
 
     private Rigidbody2D _rigidbody;
 
-    public BallColor ballColor;
-    public bool isKicked = false;
-
+    public bool isKicked { get; private set; } = false;
 
     void Awake() => _rigidbody = GetComponent<Rigidbody2D>();
 
@@ -22,6 +18,8 @@ public class BallController : MonoBehaviour
     /// <param name="collider">衝突した相手のCollider2D</param>
     public void OnHitEnemy(Collider2D collider)
     {
+        if (!isKicked) return;
+
         // 相手が「EnemyStatus」を持っているか確認
         EnemyStatus target = collider.GetComponent<EnemyStatus>();
 
@@ -60,16 +58,5 @@ public class BallController : MonoBehaviour
     public void Orbit(Vector3 targetPosition)
     {
         transform.position = targetPosition;
-    }
-
-    public void ApplyColorVisual()
-    {
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        switch (ballColor)
-        {
-            case BallColor.Red: sr.color = Color.red; break;
-            case BallColor.Blue: sr.color = Color.blue; break;
-            case BallColor.None: sr.color = Color.white; break;
-        }
     }
 }

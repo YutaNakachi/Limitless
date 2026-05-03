@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnReload(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !_ballManager.isReloading)
         {
             _ballManager.RefillEmptySlots();
         }
