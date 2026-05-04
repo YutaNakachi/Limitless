@@ -1007,14 +1007,13 @@ MonoBehaviour:
   balls:
   - <Type>k__BackingField: 0
     <BallPrefab>k__BackingField: {fileID: 7504175457323940421, guid: f3405f959028c074591f4d4b9dd50a0c, type: 3}
-    <Rate>k__BackingField: 80
+    <Rate>k__BackingField: 96
   - <Type>k__BackingField: 1
     <BallPrefab>k__BackingField: {fileID: 1782844606876501862, guid: 7f1da97624b32ae47bddaeae664a7589, type: 3}
-    <Rate>k__BackingField: 10
+    <Rate>k__BackingField: 2
   - <Type>k__BackingField: 2
     <BallPrefab>k__BackingField: {fileID: 7878110154866715779, guid: 938ea9809d292af4b89ffb8276b3b5d1, type: 3}
-    <Rate>k__BackingField: 10
-  normalBall: {fileID: 7504175457323940421, guid: f3405f959028c074591f4d4b9dd50a0c, type: 3}
+    <Rate>k__BackingField: 2
   maxBalls: 5
   orbitRadius: 1.3
   rotateSpeed: 150

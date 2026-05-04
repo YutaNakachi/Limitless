@@ -22,13 +22,16 @@ public class BallManager : MonoBehaviour
     [SerializeField] private float reloadTime = 2.0f;
 
 
-    private List<BallController> activeBalls = new List<BallController>();
+    //private List<BallController> activeBalls = new List<BallController>();
+    private BallController[] activeBalls;
+
     private float currentAngle;
+
     public bool isReloading { get; private set; } = false;
 
     private void Start()
     {
-        //GenerateBalls();
+        activeBalls = new BallController[maxBalls];
     }
 
     private void Update()
@@ -46,7 +49,7 @@ public class BallManager : MonoBehaviour
 
     private void UpdateBallPositions()
     {
-        for (int i = 0; i < activeBalls.Count; i++)
+        for (int i = 0; i < activeBalls.Length; i++)
         {
             if (activeBalls[i] == null || activeBalls[i].isKicked) continue;
 
@@ -55,7 +58,7 @@ public class BallManager : MonoBehaviour
             float rad = angle * Mathf.Deg2Rad;
             Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * orbitRadius;
 
-            activeBalls[i].Orbit(transform.position + offset + new Vector3(0, GetComponent<CapsuleCollider2D>().size.y / 2 - 0.2f, 0));
+            activeBalls[i].transform.position = transform.position + offset + new Vector3(0, GetComponent<CapsuleCollider2D>().size.y / 2 - 0.2f, 0);
         }
     }
 
@@ -90,42 +93,36 @@ public class BallManager : MonoBehaviour
 
     private IEnumerator ReloadBalls()
     {
-        // すでに蹴られたボール（isKicked）や、Destroyされたボールをリストから除外
-        activeBalls.RemoveAll(ball => ball == null || ball.isKicked);
-
-        // 最大数に足りない分だけ補充
-        int refillCount = maxBalls - activeBalls.Count;
-
-        if (refillCount <= 0)
-        {
-            isReloading = false;
-            yield break; // 満タンなら何もしない
-        }
-
-        Debug.Log($"{refillCount}個のボールを補充します。");
-
         if (isReloading)
         {
-            for (int i = 0; i < refillCount; i++)
+            for (int i = 0; i < activeBalls.Length; i++)
             {
                 yield return new WaitForSeconds(0.5f);
 
-                GameObject generatedBall = GetRandomBall();
+                // 枠が空（null）、または中身がすでに蹴られている場合
+                if (activeBalls[i] == null || activeBalls[i].isKicked)
+                {
+                    // 飛んでいった古いボールが残っている場合は念のため参照を切る
+                    activeBalls[i] = null;
 
-                GameObject go = Instantiate(generatedBall);
-                BallController ball = go.GetComponent<BallController>();
+                    GameObject generatedBall = GetRandomBall();
 
-                // ColliderのisTriggerを一旦ON
-                ball.GetComponent<Collider2D>().isTrigger = true;
+                    // 新しいボールを生成
+                    GameObject go = Instantiate(generatedBall);
+                    BallController ball = go.GetComponent<BallController>();
 
-                activeBalls.Add(ball);
+                    // ColliderのisTriggerを一旦ON
+                    ball.GetComponent<Collider2D>().isTrigger = true;
 
-                // 生成時のSEやエフェクトをここで鳴らすと最高に気持ちいいです
-                // AudioSource.PlayClipAtPoint(reloadSound, transform.position);
+                    // リストの「i番目」に上書き代入
+                    activeBalls[i] = ball;
+
+                    // 生成時のSEやエフェクトをここで鳴らす
+                    // AudioSource.PlayClipAtPoint(reloadSound, transform.position);
+                }
             }
+            isReloading = false;
         }
-
-        isReloading = false;
     }
 
     private int GetRemainingBallCount()
