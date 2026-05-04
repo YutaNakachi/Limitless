@@ -1014,7 +1014,7 @@ MonoBehaviour:
   - <Type>k__BackingField: 2
     <BallPrefab>k__BackingField: {fileID: 7878110154866715779, guid: 938ea9809d292af4b89ffb8276b3b5d1, type: 3}
     <Rate>k__BackingField: 2
-  maxBalls: 5
+  maxBalls: 6
   orbitRadius: 1.3
   rotateSpeed: 150
   reloadTime: 2

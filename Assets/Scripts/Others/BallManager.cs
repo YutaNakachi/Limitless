@@ -29,7 +29,7 @@ public class BallManager : MonoBehaviour
 
     public bool isReloading { get; private set; } = false;
 
-    private void Start()
+    private void OnEnable()
     {
         activeBalls = new BallController[maxBalls];
     }
@@ -53,13 +53,18 @@ public class BallManager : MonoBehaviour
         {
             if (activeBalls[i] == null || activeBalls[i].isKicked) continue;
 
-            // 各ボールの角度を均等に割り振る（360度 / ボール数）
-            float angle = currentAngle + (i * 360f / maxBalls);
-            float rad = angle * Mathf.Deg2Rad;
-            Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * orbitRadius;
-
-            activeBalls[i].transform.position = transform.position + offset + new Vector3(0, GetComponent<CapsuleCollider2D>().size.y / 2 - 0.2f, 0);
+            SetBallPosition(activeBalls[i].transform, i);
         }
+    }
+
+    private void SetBallPosition(Transform ballTransform, int index)
+    {
+        // 各ボールの角度を均等に割り振る（360度 / ボール数）
+        float angle = currentAngle + (index * 360f / maxBalls);
+        float rad = angle * Mathf.Deg2Rad;
+        Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * orbitRadius;
+
+        ballTransform.transform.position = transform.position + offset + new Vector3(0, GetComponent<CapsuleCollider2D>().size.y / 2 - 0.2f, 0);
     }
 
     public GameObject GetRandomBall()
@@ -97,11 +102,11 @@ public class BallManager : MonoBehaviour
         {
             for (int i = 0; i < activeBalls.Length; i++)
             {
-                yield return new WaitForSeconds(0.5f);
-
                 // 枠が空（null）、または中身がすでに蹴られている場合
                 if (activeBalls[i] == null || activeBalls[i].isKicked)
                 {
+                    yield return new WaitForSeconds(0.5f);
+
                     // 飛んでいった古いボールが残っている場合は念のため参照を切る
                     activeBalls[i] = null;
 
@@ -113,6 +118,8 @@ public class BallManager : MonoBehaviour
 
                     // ColliderのisTriggerを一旦ON
                     ball.GetComponent<Collider2D>().isTrigger = true;
+
+                    SetBallPosition(ball.transform, i);
 
                     // リストの「i番目」に上書き代入
                     activeBalls[i] = ball;
