@@ -42,7 +42,9 @@ public class BallManager : MonoBehaviour
             StartCoroutine(OutOfBallsRoutine());
         }
 
-        currentAngle -= rotateSpeed * Time.deltaTime;
+        // Mathf.Sign は 正なら 1、負なら -1 を返す
+        currentAngle -= Mathf.Sign(transform.localScale.x) * rotateSpeed * Time.deltaTime;
+
         UpdateBallPositions();
     }
 
