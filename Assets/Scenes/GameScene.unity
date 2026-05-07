@@ -1017,7 +1017,7 @@ MonoBehaviour:
   maxBalls: 6
   orbitRadius: 1.3
   rotateSpeed: 150
-  reloadTime: 2
+  reloadTime: 1
 --- !u!1 &817381980
 GameObject:
   m_ObjectHideFlags: 0

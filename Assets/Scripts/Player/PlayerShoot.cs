@@ -28,7 +28,7 @@ public class PlayerShoot : MonoBehaviour
 
         ballInRange.ShotBall(direction, shootForce);
 
-        Debug.Log("ナイスシュート！");
+        Debug.Log("ナイスキック！");
     }
 
     public void OnShootFinished()

@@ -7,10 +7,14 @@ public class BallController : MonoBehaviour
     [SerializeField] private int attackDamage = 10; // ボールの攻撃力
 
     private Rigidbody2D _rigidbody;
+    private BallAbility _ballAbility;
 
     public bool isKicked { get; private set; } = false;
 
-    void Awake() => _rigidbody = GetComponent<Rigidbody2D>();
+    void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
 
     /// <summary>
     /// CollisionDetector（イベント）から呼び出されるメソッド
@@ -40,6 +44,7 @@ public class BallController : MonoBehaviour
     {
         isKicked = true;
         GetComponent<Collider2D>().isTrigger = false;
+        GetComponent<ParticleSystem>().Play();
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
 
@@ -53,10 +58,5 @@ public class BallController : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
-    }
-
-    public void Orbit(Vector3 targetPosition)
-    {
-        transform.position = targetPosition;
     }
 }
