@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1733520324380695162}
   - component: {fileID: 1068058751500147389}
   - component: {fileID: 9193687074472046189}
-  - component: {fileID: 20196217672130269}
   - component: {fileID: 2830561686582066827}
+  - component: {fileID: 2731458096786607003}
   m_Layer: 7
   m_Name: buleBall
   m_TagString: Ball
@@ -158,19 +158,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &20196217672130269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7878110154866715779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63770b0bdc0163b448292017a6a90c54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BallController
-  attackDamage: 10
 --- !u!114 &2830561686582066827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,9 +173,9 @@ MonoBehaviour:
   onTriggerEnter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 20196217672130269}
-        m_TargetAssemblyTypeName: BallController, Assembly-CSharp
-        m_MethodName: OnHitEnemy
+      - m_Target: {fileID: 2731458096786607003}
+        m_TargetAssemblyTypeName: BlueBallAbility, Assembly-CSharp
+        m_MethodName: OnHit
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -201,3 +188,16 @@ MonoBehaviour:
   onTriggerStay:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2731458096786607003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878110154866715779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f22ef32abc472419af51d2a9d1921b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlueBallAbility
+  attackDamage: 10

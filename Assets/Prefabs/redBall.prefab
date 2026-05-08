@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 218605003222511719}
   - component: {fileID: 2708661837943990022}
   - component: {fileID: 7863520676212122607}
-  - component: {fileID: 8094890939165469616}
   - component: {fileID: 7980472764479293225}
+  - component: {fileID: 540534759779040637}
   m_Layer: 7
   m_Name: redBall
   m_TagString: Ball
@@ -158,19 +158,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &8094890939165469616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1782844606876501862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63770b0bdc0163b448292017a6a90c54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BallController
-  attackDamage: 10
 --- !u!114 &7980472764479293225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,9 +173,9 @@ MonoBehaviour:
   onTriggerEnter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8094890939165469616}
-        m_TargetAssemblyTypeName: BallController, Assembly-CSharp
-        m_MethodName: OnHitEnemy
+      - m_Target: {fileID: 540534759779040637}
+        m_TargetAssemblyTypeName: RedBallAbility, Assembly-CSharp
+        m_MethodName: OnHit
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -201,3 +188,16 @@ MonoBehaviour:
   onTriggerStay:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &540534759779040637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782844606876501862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5300c9c21b02dac4ca4f4f23aabdbfc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RedBallAbility
+  attackDamage: 10

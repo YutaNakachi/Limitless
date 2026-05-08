@@ -23,7 +23,7 @@ public class BallManager : MonoBehaviour
 
 
     //private List<BallController> activeBalls = new List<BallController>();
-    private BallController[] activeBalls;
+    private BallAbility[] activeBalls;
 
     private float currentAngle;
 
@@ -31,7 +31,7 @@ public class BallManager : MonoBehaviour
 
     private void OnEnable()
     {
-        activeBalls = new BallController[maxBalls];
+        activeBalls = new BallAbility[maxBalls];
     }
 
     private void Update()
@@ -116,7 +116,7 @@ public class BallManager : MonoBehaviour
 
                     // 新しいボールを生成
                     GameObject go = Instantiate(generatedBall);
-                    BallController ball = go.GetComponent<BallController>();
+                    BallAbility ball = go.GetComponent<BallAbility>();
 
                     // ColliderのisTriggerを一旦ON
                     ball.GetComponent<Collider2D>().isTrigger = true;

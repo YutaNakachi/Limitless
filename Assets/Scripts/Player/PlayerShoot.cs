@@ -16,7 +16,7 @@ public class PlayerShoot : MonoBehaviour
     {
         if (!collider.CompareTag("Ball")) return;
 
-        BallController ballInRange = collider.GetComponent<BallController>();
+        BallAbility ballInRange = collider.GetComponent<BallAbility>();
 
         //Vector2 direction = (ballInRange.transform.position - transform.position).normalized;
 
@@ -26,7 +26,7 @@ public class PlayerShoot : MonoBehaviour
         // X = Cos, Y = Sin で方向ベクトルを作る
         Vector3 direction = new Vector3(Mathf.Cos(rad) * side, Mathf.Sin(rad));
 
-        ballInRange.ShotBall(direction, shootForce);
+        ballInRange.Fire(direction, shootForce);
 
         Debug.Log("ナイスキック！");
     }
