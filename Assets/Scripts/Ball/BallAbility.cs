@@ -47,7 +47,7 @@ public abstract class BallAbility : MonoBehaviour
     {
         isKicked = true;
         GetComponent<Collider2D>().isTrigger = false;
-        GetComponent<ParticleSystem>().Play();
+        //GetComponent<ParticleSystem>().Play();
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
 
