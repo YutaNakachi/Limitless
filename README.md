@@ -1,6 +1,6 @@
 # Limitless
 
-![Unity Version](https://img.shields.io/badge/Unity-6.3%20LTS%20B-blue?logo=unity)
+![Unity Version](https://img.shields.io/badge/Unity-6.3%20LTS%20%B-blue?logo=unity)
 ![Platform](https://img.shields.io/badge/Platform-PC%20%2F%20WebGL-orange)
 ![Players](https://img.shields.io/badge/Players-1--2%20Players-green)
 
