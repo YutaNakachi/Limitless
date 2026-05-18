@@ -48,6 +48,7 @@
 - **ダッシュ**: `A` または `D` キーを**すばやく2回入力**
 - **キック**: `マウス左クリック` （正面のキックポイントに来た球を射出）
 - **オンタイム・リロード**: `R` キー（空きスロットへランダム装填）
+※Gamepadでの操作を追加予定
 
 ---
 
@@ -65,3 +66,19 @@ Assets/
         ├── Actors/        # プレイヤー（2段ジャンプ・2回押しダッシュ）、敵AI
         ├── Ball/          # BallController、BallAbility（抽象）、各種カラー実装
         └── Managers/      # BallManager（6スロット配列上書き）、GameManager
+```
+---
+
+## 📦 使用外部アセット / ライブラリ（Assets）
+プロジェクトのビルドや演出に使用している外部アセットおよびパッケージのリストです。クローン後に不足している場合は、Unity Asset StoreまたはPackage Managerよりインポートしてください。
+
+| アセット名 | 導入方法 / ソース | 用途 / 役割 |
+| :--- | :--- | :--- |
+| **Pixel Adventure 1** | Unity Asset Store | Tilemap, ギミック用素材 |
+| **Comic Explosion Effect** | Unity Asset Store | Effect素材 |
+| **Cartoon FX Remaster Free** | Unity Asset Store | Effect素材 |
+| **8-bit Fantasy & Adventure Music** | Unity Asset Store | SE, BGM素材 |
+| **Retro Action Music - Final Punch EX** | Unity Asset Store | SE, BGM素材 |
+| **DoTween** | Unity Asset Store | アニメーション実装簡略化 |
+
+> ⚠️ **注意事項**: 有料アセットなどのライセンスが含まれる場合、アセットそのもののファイルをパブリックリポジトリにそのまま公開（アップロード）しないよう、`.gitignore` で適切に管理してください。
