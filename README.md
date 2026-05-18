@@ -77,8 +77,9 @@ Assets/
 | **Pixel Adventure 1** | Unity Asset Store | Tilemap, ギミック用素材 |
 | **Comic Explosion Effect** | Unity Asset Store | Effect素材 |
 | **Cartoon FX Remaster Free** | Unity Asset Store | Effect素材 |
-| **8-bit Fantasy & Adventure Music** | Unity Asset Store | SE, BGM素材 |
-| **Retro Action Music - Final Punch EX** | Unity Asset Store | SE, BGM素材 |
+| **8-bit Fantasy & Adventure Music** | Unity Asset Store | BGM素材 |
+| **Retro Action Music - Final Punch EX** | Unity Asset Store | BGM素材 |
 | **DoTween** | Unity Asset Store | アニメーション実装簡略化 |
+| **Free Sound Effects Pack** | Unity Asset Store | SE素材 |
 
 > ⚠️ **注意事項**: 有料アセットなどのライセンスが含まれる場合、アセットそのもののファイルをパブリックリポジトリにそのまま公開（アップロード）しないよう、`.gitignore` で適切に管理してください。
