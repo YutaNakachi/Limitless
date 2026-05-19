@@ -101,10 +101,12 @@ Assets/
 
 ### 1. PlayerObject の構成
 プレイヤーは、物理演算・移動ロジックを司る「親オブジェクト」と、見た目やエフェクトを制御する「子オブジェクト」に分離してカプセル化します。
-- **Player (親GameObject)**: `Rigidbody2D`（Gravity Scaleは通常1、ダッシュ時0固定）, `Collider2D`, `PlayerController.cs`
-  - 📌 *仕様ノート*: Sキー（しゃがみ）入力時、スクリプトから `BoxCollider2D` の `Size.y` と `Offset.y` を動的に縮小する。
-- **Visual (子GameObject)**: `SpriteRenderer`, `Animator`
-  - 📌 *仕様ノート*: 向きの反転は親の `transform.localScale.x` の符号（`Mathf.Sign`）を切り替えることで、子オブジェクトおよびオービット全体を同期反転させる。
+- **Player (親GameObject)**: `Rigidbody2D`, `CapsuleCollider2D`, 'PlayerInput', `PlayerController.cs`, 'PlayerShoot.cs', 'PlayerStatus.cs', 'BallManager.cs'
+  - 📌 *仕様ノート*: しゃがみ時やダッシュ時、スクリプトから `CapsuleCollider2D` の `Size.y` と `Offset.y` を動的に縮小する。
+- **Visual (子GameObject)**:
+  - GroundCheck: 'isGrounded'Check用の空GameObject
+  - ShootCollider: Shoot用Collider
+
 
 ### 2. EnemyObject の構成
 （※ステージ実装時に詳細を追記予定）
