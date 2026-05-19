@@ -364,50 +364,6 @@
                 },
                 {
                     "name": "",
-                    "id": "5f73b47f-670e-4af1-a7c0-8c841682d02e",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "MultiTap(tapDelay=0.3)",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "139680d9-8726-476f-9a1b-86dc94c15b71",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "MultiTap(tapDelay=0.3)",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a017461d-9841-466c-80ec-69127e2d69d9",
-                    "path": "<Keyboard>/d",
-                    "interactions": "MultiTap(tapDelay=0.3)",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c5ef6909-8545-4146-a12c-162fd958a50d",
-                    "path": "<Keyboard>/a",
-                    "interactions": "MultiTap(tapDelay=0.3)",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "37566b14-1c0f-4d7e-991f-41eaeebe56fb",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
@@ -419,44 +375,11 @@
                 },
                 {
                     "name": "",
-                    "id": "272276cd-e5dc-4bed-9f6c-8bd642e847c2",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "MultiTap(tapDelay=0.3)",
+                    "id": "08158b3c-aa9f-4c6a-8899-a43b17d4c86a",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ffee72ed-4128-44c1-a2d8-b097df439a74",
-                    "path": "<Gamepad>/leftStick/left",
-                    "interactions": "MultiTap(tapDelay=0.3)",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c799b6e6-6fc5-46f8-b381-40f6aa1601f0",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "MultiTap(tapDelay=0.3)",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c869a16f-4ed4-4e26-bfdd-6ea276650b97",
-                    "path": "<Gamepad>/dpad/left",
-                    "interactions": "MultiTap(tapDelay=0.3)",
-                    "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Keyboard&Mouse",
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -512,28 +435,6 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "86644300-36b2-43f6-8a4a-e445d7af12fc",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b3045fbc-16e4-46b6-8201-b6c638f5e49a",
-                    "path": "<Gamepad>/dpad/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false

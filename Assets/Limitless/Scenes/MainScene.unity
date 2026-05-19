@@ -537,9 +537,10 @@ MonoBehaviour:
   wallCheckRadius: 0.1
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
   wallSlideSpeed: 2
-  wallJumpForce: {x: 10, y: 12}
+  wallJumpForce: {x: 5, y: 15}
+  wallJumpTime: 0.05
   normalCollider:
     size: {x: 1.16, y: 2.65}
     offset: {x: 0, y: 1.325}
@@ -2513,7 +2514,7 @@ GameObject:
   - component: {fileID: 1721503973}
   - component: {fileID: 1721503974}
   m_Layer: 0
-  m_Name: Director
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

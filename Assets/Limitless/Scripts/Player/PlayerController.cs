@@ -34,12 +34,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask wallLayer; // 先ほど作った「Wall」レイヤーを指定
     [SerializeField] private float wallSlideSpeed = 2.0f; // 壁をずり落ちる最高速度
     [SerializeField] private Vector2 wallJumpForce = new Vector2(10.0f, 12.0f); // 壁ジャンプのパワー (x: 反発, y: 上昇)
+    [SerializeField] private float wallJumpTime = 0.15f; // 壁ジャンプ後の慣性
 
     [Header("Collider Settings")]
     [SerializeField] private ColliderData normalCollider;
     [SerializeField] private ColliderData crouchCollider;
     [SerializeField] private ColliderData dashCollider;
 
+    // 内部コンポーネント・変数
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private CapsuleCollider2D _collider;
@@ -56,10 +58,10 @@ public class PlayerController : MonoBehaviour
     private int remainingAirJumpCount;
     private float dashTimer;
     private float originalGravityScale; // 元の重力を保存する変数
+    private float wallJumpLockTimer;    // 追加：壁ジャンプ直後の操作ロックタイマー
 
     void Awake()
     {
-        Application.targetFrameRate = 60;
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _collider = GetComponent<CapsuleCollider2D>();
@@ -96,7 +98,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.performed)
         {
             if (isGrounded || remainingAirJumpCount > 0)
             {
@@ -130,12 +132,14 @@ public class PlayerController : MonoBehaviour
 
                 _animator.SetTrigger("Jump");
             }
+
+            if (isWallSliding) WallJump();
         }
     }
 
     public void OnCrounch(InputAction.CallbackContext context)
     {
-        if (context.started && isGrounded)
+        if (context.performed && isGrounded)
         {
             isCrouching = true;
         }
@@ -148,7 +152,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnKick(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.performed)
         {
             _animator.SetTrigger("Kick");
         }
@@ -156,7 +160,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnReload(InputAction.CallbackContext context)
     {
-        if (context.started && !_ballManager.isReloading)
+        if (context.performed && !_ballManager.isReloading)
         {
             _ballManager.RefillEmptySlots();
         }
@@ -164,6 +168,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // ジャンプ回数復活
+        if (isGrounded) remainingAirJumpCount = maxNumOfAirJumps;
+
         // 地面判定の実行
         // 指定した範囲(checkSize)内に、GroundレイヤーのColliderがあるかチェック
         isGrounded = Physics2D.OverlapBox(groundCheck.position, checkSize, 0f, groundLayer);
@@ -183,6 +190,9 @@ public class PlayerController : MonoBehaviour
             isWallSliding = false;
         }
 
+        // Playerの描画向きを更新
+        UpdateVisualDirection();
+
         // AnimatorのParameterにStatusを渡す
         _animator.SetFloat("MoveSpeed", _rigidbody.linearVelocity.magnitude);
         _animator.SetBool("IsGrounded", isGrounded);
@@ -192,10 +202,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-
-        // ジャンプ回数復活
-        if (isGrounded) remainingAirJumpCount = maxNumOfAirJumps;
+        // 壁ジャンプのロックタイマーを減算
+        if (wallJumpLockTimer > 0)
+        {
+            wallJumpLockTimer -= Time.fixedDeltaTime;
+        }
 
         if (isOnDash)
         {
@@ -203,9 +214,23 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            HandleNormalMovement();
+            // タイマーが切れている時だけ、通常の左右移動処理を行う
+            if (wallJumpLockTimer <= 0)
+            {
+                HandleNormalMovement();
+            }
+            else
+            {
+                // ロック中は、WallJumpで設定した反発速度をそのまま維持して物理に渡す
+                _rigidbody.linearVelocity = new Vector2(currentVelocityX, _rigidbody.linearVelocity.y);
+            }
         }
 
+        wallSliding();
+    }
+
+    private void UpdateVisualDirection()
+    {
         // プレイヤーの向きを変更
         if (_rigidbody.linearVelocityX > 0)
         {
@@ -261,11 +286,45 @@ public class PlayerController : MonoBehaviour
         else
         {
             // 空中にいるとき：ゆっくり目標速度に合わせる
-            float airControl = 30f;
+            float airControl = 25f;
             currentVelocityX = Mathf.MoveTowards(currentVelocityX, targetSpeed, airControl * Time.deltaTime);
         }
 
         _rigidbody.linearVelocity = new Vector2(currentVelocityX, _rigidbody.linearVelocity.y);
+    }
+
+    private void WallJump()
+    {
+        isWallSliding = false;
+
+        // 壁とは「逆の方向」を割り出す
+        float jumpDirection = -moveInput.x;
+
+        // もし入力が0なら、直前のlocalScale（向いている方向）の逆へ跳ぶ安全設計
+        if (moveInput.x == 0 && wallCheckPoint != null)
+        {
+            jumpDirection = -Mathf.Sign(transform.localScale.x);
+        }
+
+        // ロックタイマーをセット（0.15秒〜0.2秒あたりが気持ちいいです）
+        wallJumpLockTimer = wallJumpTime;
+
+        // 瞬間的な力を計算し、移動速度の基準となる currentVelocityX も上書き同期する（超重要）
+        currentVelocityX = wallJumpForce.x * jumpDirection;
+        _rigidbody.linearVelocity = new Vector2(currentVelocityX, wallJumpForce.y);
+    }
+
+    private void wallSliding()
+    {
+        // 壁スライディング中の速度制御
+        if (isWallSliding)
+        {
+            // 下方向への落下速度を wallSlideSpeed に制限（めり込み防止Continuousと相性◎）
+            if (_rigidbody.linearVelocity.y < -wallSlideSpeed)
+            {
+                _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, -wallSlideSpeed);
+            }
+        }
     }
 
     // Collider形状を切り替えるためのメソッド
