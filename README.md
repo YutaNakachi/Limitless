@@ -119,7 +119,7 @@ Assets/
 4. **👑 紫色（融合・茈）**: 【赤】と【青】がスロットに揃った時のみ生成される最上位クラス。コライダーの `isTrigger` を利用して敵や一部のブロックを「無条件で貫通（破壊）」し、直線上のすべてを消滅させる絶対判定の挙動を持つ。
 
 - Ballの飛び方の特徴は、各BallPrefabにアタッチされたRigidbody2DのParameterで調整する（**Linear Dumpling**, **Gravity Scale**, **Mass**）
-- Ballが蹴られてからDestroyされるまでの時間は、各BallPrefabにアタッチされたBallControllerの**BallLifeTime(s)**というParameterで調整する。
+- Ballが蹴られてからDestroyされるまでの時間は、各BallPrefabにアタッチされたBallControllerの**BallLifeTime**(s)で調整する。
 
 ### 4. Map / ステージ の構成
 無限生成に対応するため、地形やギミックはすべてコンポーネント単位でモジュール化します。
