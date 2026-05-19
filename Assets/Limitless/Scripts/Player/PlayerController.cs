@@ -232,7 +232,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             // 空中にいるとき：ゆっくり目標速度に合わせる
-            float airControl = 5f;
+            float airControl = 30f;
             currentVelocityX = Mathf.MoveTowards(currentVelocityX, targetSpeed, airControl * Time.deltaTime);
         }
 
