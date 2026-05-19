@@ -83,3 +83,31 @@ Assets/
 | **Free Sound Effects Pack** | Unity Asset Store | SE素材 |
 
 > ⚠️ **注意事項**: 有料アセットなどのライセンスが含まれる場合、アセットそのもののファイルをパブリックリポジトリにそのまま公開（アップロード）しないよう、`.gitignore` で適切に管理してください。
+
+---
+
+## 📐 設計仕様 (Design Specifications)
+開発の進行に伴い、各オブジェクトのコンポーネント構成や階層構造をここに追記・標準化していきます。
+
+### 1. PlayerObject の構成
+プレイヤーは、物理演算・移動ロジックを司る「親オブジェクト」と、見た目やエフェクトを制御する「子オブジェクト」に分離してカプセル化します。
+- **Player (親GameObject)**: `Rigidbody2D`（Gravity Scaleは通常1、ダッシュ時0固定）, `Collider2D`, `PlayerController.cs`
+  - 📌 *仕様ノート*: Sキー（しゃがみ）入力時、スクリプトから `BoxCollider2D` の `Size.y` と `Offset.y` を動的に縮小する。
+- **Visual (子GameObject)**: `SpriteRenderer`, `Animator`
+  - 📌 *仕様ノート*: 向きの反転は親の `transform.localScale.x` の符号（`Mathf.Sign`）を切り替えることで、子オブジェクトおよびオービット全体を同期反転させる。
+
+### 2. EnemyObject の構成
+（※ステージ実装時に詳細を追記予定）
+- **Enemy (親GameObject)**: `Rigidbody2D`, `Collider2D`, `EnemyAI.cs`, 'MobStatus.cs'
+- **Visual (子GameObject)**: 各敵キャラクターのスプライト、エフェクト生成点
+
+### 3. BallAbility（オブジェクト指向による属性拡張）
+球の特殊効果は基底クラス `BallAbility.cs` を継承し、Manager側を汚さずに新属性を追加できる設計（ポリモーフィズム）を徹底します。
+1. **無色（通常弾）**: 特殊効果なし。真っ直ぐ飛んでいき、敵に直接ダメージを与える。
+2. **赤色（爆発・赫）**: 着弾時（`OnHit`）にその場で円形の範囲爆発（OverlapCircle等）を起こし、周囲の敵やブロックを巻き込む。
+3. **青色（吸引・蒼）**: 着弾時に空間歪曲のトリガーを生成。周囲の敵オブジェクトの Rigidbody2D を着弾中心点に向けて持続的に引き寄せる（擬似ブラックホール）。
+
+### 4. Map / ステージ の構成
+無限生成に対応するため、地形やギミックはすべてコンポーネント単位でモジュール化します。
+- **Grid / Tilemap**: ステージの基本地形（足場）。効率的な描画のため `Tilemap Collider 2D` および `Composite Collider 2D` を適用。
+- **FloatingBlock (浮遊ブロック)**: 空中に配置される足場ギミック。プレイヤーが下からすり抜けて乗れるワンウェイプラットフォーム仕様などを検討。
