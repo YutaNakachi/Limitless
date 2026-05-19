@@ -28,6 +28,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 checkSize = new Vector2(0.5f, 0.1f); // 判定エリアのサイズ
     [SerializeField] private LayerMask groundLayer; // Groundレイヤーだけを判定対象にする
 
+    [Header("Wall Action Setting")]
+    [SerializeField] private Transform wallCheckPoint; // プレイヤーの側面に配置した空のGameObject
+    [SerializeField] private float wallCheckRadius = 0.2f; // 判定の円の大きさ
+    [SerializeField] private LayerMask wallLayer; // 先ほど作った「Wall」レイヤーを指定
+    [SerializeField] private float wallSlideSpeed = 2.0f; // 壁をずり落ちる最高速度
+    [SerializeField] private Vector2 wallJumpForce = new Vector2(10.0f, 12.0f); // 壁ジャンプのパワー (x: 反発, y: 上昇)
+
     [Header("Collider Settings")]
     [SerializeField] private ColliderData normalCollider;
     [SerializeField] private ColliderData crouchCollider;
@@ -40,6 +47,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isCrouching;
     private bool isOnDash;
+    private bool isTouchingWall;
+    private bool isWallSliding;
 
     private Vector2 moveInput;
     private Vector3 firstScale;
@@ -153,11 +162,37 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         // 地面判定の実行
         // 指定した範囲(checkSize)内に、GroundレイヤーのColliderがあるかチェック
         isGrounded = Physics2D.OverlapBox(groundCheck.position, checkSize, 0f, groundLayer);
+
+        // 壁の検出 (Physics2D.OverlapCircle を使用)
+        // プレイヤーの向きに合わせて wallCheckPoint の位置を調整するか、左右両方に配置してチェックします
+        isTouchingWall = Physics2D.OverlapCircle(wallCheckPoint.position, wallCheckRadius, wallLayer);
+
+        // 壁スライディングの条件チェック
+        // 「壁に触れていて」「地面に接していなくて」「壁の方向に入力が入っている」ときに発動
+        if (isTouchingWall && !isGrounded && moveInput.x != 0)
+        {
+            isWallSliding = true;
+        }
+        else
+        {
+            isWallSliding = false;
+        }
+
+        // AnimatorのParameterにStatusを渡す
+        _animator.SetFloat("MoveSpeed", _rigidbody.linearVelocity.magnitude);
+        _animator.SetBool("IsGrounded", isGrounded);
+        _animator.SetBool("IsCrouching", isCrouching);
+        _animator.SetBool("IsOnDash", isOnDash);
+    }
+
+    private void FixedUpdate()
+    {
+
 
         // ジャンプ回数復活
         if (isGrounded) remainingAirJumpCount = maxNumOfAirJumps;
@@ -180,12 +215,6 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = new Vector3(-firstScale.x, firstScale.y, firstScale.z);
         }
-
-        // AnimatorのParameterにStatusを渡す
-        _animator.SetFloat("MoveSpeed", _rigidbody.linearVelocity.magnitude);
-        _animator.SetBool("IsGrounded", isGrounded);
-        _animator.SetBool("IsCrouching", isCrouching);
-        _animator.SetBool("IsOnDash", isOnDash);
     }
 
     private void HandleDash()
@@ -250,8 +279,16 @@ public class PlayerController : MonoBehaviour
     // デバッグ用に判定エリアを画面に表示する
     private void OnDrawGizmos()
     {
-        if (groundCheck == null) return;
-        Gizmos.color = isGrounded ? Color.green : Color.red;
-        Gizmos.DrawWireCube(groundCheck.position, checkSize);
+        if (groundCheck != null)
+        {
+            Gizmos.color = isGrounded ? Color.green : Color.red;
+            Gizmos.DrawWireCube(groundCheck.position, checkSize);
+        }
+
+        if (wallCheckPoint != null)
+        {
+            Gizmos.color = isTouchingWall ? Color.green : Color.red;
+            Gizmos.DrawWireSphere(wallCheckPoint.position, wallCheckRadius);
+        }
     }
 }
