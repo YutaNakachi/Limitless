@@ -100,18 +100,16 @@ Assets/
 開発の進行に伴い、各オブジェクトのコンポーネント構成や階層構造をここに追記・標準化していきます。
 
 ### 1. PlayerObject の構成
-プレイヤーは、物理演算・移動ロジックを司る「親オブジェクト」と、見た目やエフェクトを制御する「子オブジェクト」に分離してカプセル化します。
 - **Player (親GameObject)**: `Rigidbody2D`, `CapsuleCollider2D`, 'PlayerInput', `PlayerController.cs`, 'PlayerShoot.cs', 'PlayerStatus.cs', 'BallManager.cs'
   - 📌 *仕様ノート*: しゃがみ時やダッシュ時、スクリプトから `CapsuleCollider2D` の `Size.y` と `Offset.y` を動的に縮小する。
 - **Visual (子GameObject)**:
   - GroundCheck: 'isGrounded'Check用の空GameObject
   - ShootCollider: Shoot用Collider
 
-
 ### 2. EnemyObject の構成
 （※ステージ実装時に詳細を追記予定）
 - **Enemy (親GameObject)**: `Rigidbody2D`, `Collider2D`, `EnemyAI.cs`, 'MobStatus.cs'
-- **Visual (子GameObject)**: 各敵キャラクターのスプライト、エフェクト生成点
+- **Visual (子GameObject)**: 
 
 ### 3. BallAbility（オブジェクト指向による属性拡張）
 球の特殊効果は基底クラス `BallAbility.cs` を継承し、Manager側を汚さずに新属性を追加できる設計（ポリモーフィズム）を徹底します。
@@ -122,6 +120,7 @@ Assets/
 
 - Ballの飛び方の特徴は、各BallPrefabにアタッチされたRigidbody2DのParameterで調整する（**Linear Dumpling**, **Gravity Scale**, **Mass**）
 - Ballが蹴られてからDestroyされるまでの時間は、各BallPrefabにアタッチされたBallControllerの**BallLifeTime**(s)で調整する。
+- BallPrefabにアタッチされたRigidBody2Dの'CollisionDetection'は**Continuous**にすること。これにより壁のすり抜けを防げる。
 
 ### 4. Map / ステージ の構成
 無限生成に対応するため、地形やギミックはすべてコンポーネント単位でモジュール化します。
