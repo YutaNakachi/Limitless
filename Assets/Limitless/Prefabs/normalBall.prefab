@@ -201,4 +201,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NormalBallAbility
   attackDamage: 10
-  ballLifeTime: 1.5
+  ballLifeTime: 0.5

@@ -5,15 +5,17 @@ public abstract class BallAbility : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private int attackDamage = 10; // ボールの攻撃力
-    [SerializeField] private float ballLifeTime = 2f;
+    [SerializeField] private float ballLifeTime = 2f; // ボールX方向の速度が1以下になってから消滅するまでの秒数
 
     private Rigidbody2D _rigidbody;
+    private Collider2D _collider;
 
     public bool isKicked { get; private set; } = false;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<Collider2D>();
     }
 
     /// <summary>
@@ -46,7 +48,7 @@ public abstract class BallAbility : MonoBehaviour
     public virtual void Fire(Vector2 direction, float force)
     {
         isKicked = true;
-        GetComponent<Collider2D>().isTrigger = false;
+        _collider.isTrigger = false;
         //GetComponent<ParticleSystem>().Play();
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
@@ -58,8 +60,8 @@ public abstract class BallAbility : MonoBehaviour
 
     protected virtual IEnumerator DestroyABall()
     {
-        //yield return new WaitUntil(() => _rigidbody.linearVelocity.x <= 0.1f);
-        //_rigidbody.linearVelocity = Vector3.zero;
+        yield return new WaitUntil(() => Mathf.Abs(_rigidbody.linearVelocity.x) <= 1f);
+        _collider.enabled = false;
 
         yield return new WaitForSeconds(ballLifeTime);
         Destroy(gameObject);
