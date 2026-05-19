@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ball
   - Enemy
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -19,8 +20,8 @@ TagManager:
   - PlayerShoot
   - EnemyAttack
   - Corner
-  - 
-  - 
+  - Wall
+  - Platform
   - 
   - 
   - 

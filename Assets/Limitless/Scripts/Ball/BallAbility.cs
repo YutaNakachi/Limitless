@@ -5,6 +5,7 @@ public abstract class BallAbility : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private int attackDamage = 10; // ボールの攻撃力
+    [SerializeField] private float ballLifeTime = 2f;
 
     private Rigidbody2D _rigidbody;
 
@@ -13,7 +14,6 @@ public abstract class BallAbility : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _rigidbody.gravityScale = 0;
     }
 
     /// <summary>
@@ -58,10 +58,10 @@ public abstract class BallAbility : MonoBehaviour
 
     protected virtual IEnumerator DestroyABall()
     {
-        yield return new WaitUntil(() => _rigidbody.linearVelocity.magnitude <= 0.1f);
-        _rigidbody.linearVelocity = Vector3.zero;
+        //yield return new WaitUntil(() => _rigidbody.linearVelocity.x <= 0.1f);
+        //_rigidbody.linearVelocity = Vector3.zero;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(ballLifeTime);
         Destroy(gameObject);
     }
 

@@ -15,6 +15,9 @@ public class BallManager : MonoBehaviour
     [Tooltip("回転半径")]
     [SerializeField] private float orbitRadius = 2f;
 
+    [Tooltip("回転中心高さオフセット")]
+    [SerializeField] private float centerOffsetY = -0.2f;
+
     [Tooltip("回転速度")]
     [SerializeField] private float rotateSpeed = 100f;
 
@@ -66,7 +69,7 @@ public class BallManager : MonoBehaviour
         float rad = angle * Mathf.Deg2Rad;
         Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * orbitRadius;
 
-        ballTransform.transform.position = transform.position + offset + new Vector3(0, GetComponent<CapsuleCollider2D>().size.y / 2 - 0.2f, 0);
+        ballTransform.transform.position = transform.position + offset + new Vector3(0, GetComponent<CapsuleCollider2D>().size.y / 2 + centerOffsetY, 0);
     }
 
     public GameObject GetRandomBall()
