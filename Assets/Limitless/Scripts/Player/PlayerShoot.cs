@@ -28,6 +28,8 @@ public class PlayerShoot : MonoBehaviour
 
         ballInRange.Fire(direction, shootForce);
 
+        FxManager.Instance.PlayHitStop(0.08f);          // 0.08秒間、時間を止める
+        FxManager.Instance.PlayCameraShake(0.1f, 0.15f); // 0.1秒間、強さ0.15で揺らす
         Debug.Log("ナイスキック！");
     }
 
