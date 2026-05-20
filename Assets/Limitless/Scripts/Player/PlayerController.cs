@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isGrounded || remainingAirJumpCount > 0)
             {
-                if (isOnDash && isGrounded)
+                if (isOnDash && isGrounded && !isWallSliding)
                 {
                     isOnDash = false;
                     _rigidbody.gravityScale = originalGravityScale;
@@ -114,13 +114,13 @@ public class PlayerController : MonoBehaviour
                     // 物理的な速度も即座に更新
                     _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce * dashJumpForce);
                 }
-                else if (isGrounded)
+                else if (isGrounded && !isWallSliding)
                 {
                     // 通常ジャンプ
                     currentVelocityX = _rigidbody.linearVelocityX;
                     _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce);
                 }
-                else
+                else if (!isWallSliding)
                 {
                     // 空中でのジャンプ
                     currentVelocityX = _rigidbody.linearVelocityX;
@@ -131,7 +131,11 @@ public class PlayerController : MonoBehaviour
                 _animator.SetTrigger("Jump");
             }
 
-            if (isWallSliding) WallJump();
+            if (isWallSliding)
+            {
+                WallJump();
+                _animator.SetTrigger("Jump");
+            }
         }
     }
 
@@ -185,6 +189,7 @@ public class PlayerController : MonoBehaviour
         if (isTouchingWall && !isGrounded && moveInput.x != 0)
         {
             isWallSliding = true;
+            remainingAirJumpCount = maxNumOfAirJumps;
         }
         else
         {
