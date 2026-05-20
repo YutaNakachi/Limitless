@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [Header("Dash Settings")]
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float doubleTapTimeLimit = 0.25f; // 2回押しとして認める時間（秒）
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 12f;
@@ -51,7 +52,6 @@ public class PlayerController : MonoBehaviour
     private bool isOnDash;
     private bool isTouchingWall;
     private bool isWallSliding;
-
     private Vector2 moveInput;
     private Vector3 firstScale;
     private float currentVelocityX;
@@ -59,6 +59,11 @@ public class PlayerController : MonoBehaviour
     private float dashTimer;
     private float originalGravityScale; // 元の重力を保存する変数
     private float wallJumpLockTimer;    // 追加：壁ジャンプ直後の操作ロックタイマー
+
+    // ダブルタップ判定用の変数
+    private float lastInputTimeRight;    // 右入力が最後に押された時間
+    private float lastInputTimeLeft;     // 左入力が最後に押された時間
+    private bool isAxisZeroLastFrame = true; // 前フレームで入力が0（ニュートラル）だったか
 
     void Awake()
     {
@@ -84,15 +89,8 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed && !isOnDash)
         {
-            isOnDash = true;
-            dashTimer = dashDuration;
-
-            // ダッシュ中は重力を0に
-            _rigidbody.gravityScale = 0;
-
-            // Y方向の速度を完全に殺し、真横だけの速度をセットする
             float direction = moveInput.x != 0 ? Mathf.Sign(moveInput.x) : Mathf.Sign(transform.localScale.x);
-            _rigidbody.linearVelocity = new Vector2(direction * dashSpeed, 0);
+            StartDash(direction);
         }
     }
 
@@ -168,6 +166,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // 各種タイマーの減算
+        if (wallJumpLockTimer > 0) wallJumpLockTimer -= Time.deltaTime;
+
         // ジャンプ回数復活
         if (isGrounded) remainingAirJumpCount = maxNumOfAirJumps;
 
@@ -190,6 +191,9 @@ public class PlayerController : MonoBehaviour
             isWallSliding = false;
         }
 
+        // 毎フレーム、方向キーのダブルタップを監視
+        DetectDoubleTapDash();
+
         // Playerの描画向きを更新
         UpdateVisualDirection();
 
@@ -202,12 +206,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // 壁ジャンプのロックタイマーを減算
-        if (wallJumpLockTimer > 0)
-        {
-            wallJumpLockTimer -= Time.fixedDeltaTime;
-        }
-
         if (isOnDash)
         {
             HandleDash();
@@ -227,6 +225,63 @@ public class PlayerController : MonoBehaviour
         }
 
         wallSliding();
+    }
+
+    /// <summary>
+    /// 方向キーの2回連続入力をデジタルに検知するロジック
+    /// </summary>
+    private void DetectDoubleTapDash()
+    {
+        if (isOnDash) return;
+
+        // 1. 右方向の入力
+        if (moveInput.x > 0)
+        {
+            if (isAxisZeroLastFrame) // 前のフレームでキーが離れていた（＝今新しく押された）
+            {
+                float timeSinceLastTap = Time.time - lastInputTimeRight;
+
+                if (timeSinceLastTap <= doubleTapTimeLimit)
+                {
+                    StartDash(1f); // 右ダッシュ
+                }
+
+                lastInputTimeRight = Time.time;
+                isAxisZeroLastFrame = false;
+            }
+        }
+        // 2. 左方向の入力
+        else if (moveInput.x < 0)
+        {
+            if (isAxisZeroLastFrame)
+            {
+                float timeSinceLastTap = Time.time - lastInputTimeLeft;
+
+                if (timeSinceLastTap <= doubleTapTimeLimit)
+                {
+                    StartDash(-1f); // 左ダッシュ
+                }
+
+                lastInputTimeLeft = Time.time;
+                isAxisZeroLastFrame = false;
+            }
+        }
+        // 3. 入力なし（ニュートラル）
+        else
+        {
+            isAxisZeroLastFrame = true; // キーが離されたので、次回の「1回目」を許可する
+        }
+    }
+
+    /// <summary>
+    /// ダッシュの開始処理（共通化してカプセル化）
+    /// </summary>
+    private void StartDash(float direction)
+    {
+        isOnDash = true;
+        dashTimer = dashDuration;
+        _rigidbody.gravityScale = 0;
+        _rigidbody.linearVelocity = new Vector2(direction * dashSpeed, 0);
     }
 
     private void UpdateVisualDirection()
