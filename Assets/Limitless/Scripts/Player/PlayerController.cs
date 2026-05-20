@@ -202,6 +202,7 @@ public class PlayerController : MonoBehaviour
         _animator.SetBool("IsGrounded", isGrounded);
         _animator.SetBool("IsCrouching", isCrouching);
         _animator.SetBool("IsOnDash", isOnDash);
+        _animator.SetBool("IsOnWallSliding", isWallSliding);
     }
 
     private void FixedUpdate()
