@@ -1997,6 +1997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39a8df0d860cffe4b861a70518cd2a8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FxManager
+  fxPresetData: {fileID: 11400000, guid: d636b1a7b790eb040832a794783be954, type: 2}
   cameraTransform: {fileID: 519420032}
 --- !u!4 &997152989
 Transform:

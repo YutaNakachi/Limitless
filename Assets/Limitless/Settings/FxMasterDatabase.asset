@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4955d8b8a79dc53489c6eab06b6c0242, type: 3}
+  m_Name: FxMasterDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::FxPresetData
+  presets:
+  - label: NormalBallKick
+    stopDuration: 0.04
+    timeScale: 0
+    shakeDuration: 0.06
+    shakeMagnitude: 0.08
+    objectShakeMagnitude: 0.1
+  - label: ' DashBallKick'
+    stopDuration: 0.08
+    timeScale: 0
+    shakeDuration: 0.12
+    shakeMagnitude: 0.22
+    objectShakeMagnitude: 0.15
+  - label: BallHitEnemy
+    stopDuration: 0.06
+    timeScale: 0
+    shakeDuration: 0.08
+    shakeMagnitude: 0.12
+    objectShakeMagnitude: 0.12
+  - label: EnemyFatalHit
+    stopDuration: 0.22
+    timeScale: 0
+    shakeDuration: 0.3
+    shakeMagnitude: 0.45
+    objectShakeMagnitude: 0.3
+  - label: PlayerDamaged
+    stopDuration: 0.12
+    timeScale: 0
+    shakeDuration: 0.15
+    shakeMagnitude: 0.25
+    objectShakeMagnitude: 0.15
+  - label: PlayerGameOver
+    stopDuration: 0.4
+    timeScale: 0
+    shakeDuration: 0.5
+    shakeMagnitude: 0.4
+    objectShakeMagnitude: 0.25
+  - label: RedBallKick
+    stopDuration: 0.1
+    timeScale: 0
+    shakeDuration: 0.18
+    shakeMagnitude: 0.35
+    objectShakeMagnitude: 0
+  - label: BlueBallKick
+    stopDuration: 0.1
+    timeScale: 0
+    shakeDuration: 0
+    shakeMagnitude: 0
+    objectShakeMagnitude: 0
+  - label: PurpleBallKick
+    stopDuration: 0.14
+    timeScale: 0
+    shakeDuration: 0
+    shakeMagnitude: 0
+    objectShakeMagnitude: 0

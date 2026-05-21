@@ -3,11 +3,13 @@ using UnityEngine;
 
 public class FxManager : MonoBehaviour
 {
-    // どこからでも FxManager.Instance でアクセス可能にする（シングルトン）
     public static FxManager Instance { get; private set; }
 
+    [Header("データ一元管理アセット")]
+    [SerializeField] private FxPresetData fxPresetData;
+
     [Header("Camera Reference")]
-    [SerializeField] private Transform cameraTransform; // メインカメラのTransformをアサイン
+    [SerializeField] private Transform cameraTransform;
     private Vector3 originalCameraPos;
 
     private bool isShaking = false;
@@ -15,40 +17,77 @@ public class FxManager : MonoBehaviour
 
     void Awake()
     {
-        // シングルトンの安全な初期化（インターロック）
-        if (Instance == null)
-        {
-            Instance = this;
-            // シーンを跨いでも破棄したくない場合はコメント解除
-            // DontDestroyOnLoad(gameObject); 
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (Instance == null) { Instance = this; }
+        else { Destroy(gameObject); }
     }
 
     void Start()
     {
-        if (cameraTransform == null && Camera.main != null)
-        {
-            cameraTransform = Camera.main.transform;
-        }
+        if (cameraTransform == null && Camera.main != null) cameraTransform = Camera.main.transform;
     }
 
     // ================================================================
-    // 🔥 1. ヒットストップ（Time.timeScale を操作）
+    // 🔥 拡張：対象のTransformを引数に追加（デフォルト値は null）
     // ================================================================
     /// <summary>
-    /// ゲームの時間を一瞬だけ停止、またはスローにする
+    /// プリセット名を指定して演出を再生。targetObjectを指定すると、そのキャラが微振動します。
     /// </summary>
-    /// <param name="duration">停止する時間（秒）</param>
-    /// <param name="timeScale">時間の進み方（0fで完全停止、0.1fで超スロー）</param>
+    public void Play(string presetLabel, Transform targetObject = null)
+    {
+        if (fxPresetData == null) return;
+
+        FxPresetData.FxSettings settings = fxPresetData.GetPreset(presetLabel);
+
+        // 1. ヒットストップの実行
+        if (settings.stopDuration > 0)
+        {
+            PlayHitStop(settings.stopDuration, settings.timeScale);
+        }
+
+        // 2. カメラシェイクの実行
+        if (settings.shakeDuration > 0)
+        {
+            PlayCameraShake(settings.shakeDuration, settings.shakeMagnitude);
+        }
+
+        // 🔥 3. ヒット対象自体の微振動を実行
+        if (targetObject != null && settings.objectShakeMagnitude > 0 && settings.stopDuration > 0)
+        {
+            StartCoroutine(ObjectShakeCoroutine(targetObject, settings.stopDuration, settings.objectShakeMagnitude));
+        }
+    }
+
+    // --- 対象を微振動させるコルーチン ---
+    private IEnumerator ObjectShakeCoroutine(Transform target, float duration, float magnitude)
+    {
+        Vector3 originalPos = target.localPosition; // 対象の元の位置を記憶
+        float elapsed = 0.0f;
+
+        // ヒットストップの時間（duration）と同じ時間だけ振動させる
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime; // 時間停止中も動かすためunscaled
+
+            // 左右（X軸方向）にガタガタ揺らす（格ゲーの標準仕様）
+            // 上下にも揺らしたい場合は Y もRandomにしてください
+            float offsetX = Random.Range(-1f, 1f) * magnitude;
+
+            target.localPosition = new Vector3(originalPos.x + offsetX, originalPos.y, originalPos.z);
+
+            yield return null; // 1フレーム待機
+        }
+
+        // 終了したら絶対に元の位置に寸分の狂いなく戻す（重要：位置ズレバグ防止）
+        if (target != null)
+        {
+            target.localPosition = originalPos;
+        }
+    }
+
+    // --- 既存の「PlayHitStop」「PlayCameraShake」コルーチン（省略せずそのまま残す） ---
     public void PlayHitStop(float duration, float timeScale = 0f)
     {
-        // すでにヒットストップ中なら重ねて実行しない（バグ防止）
         if (isHitStopping) return;
-
         StartCoroutine(HitStopCoroutine(duration, timeScale));
     }
 
@@ -56,58 +95,30 @@ public class FxManager : MonoBehaviour
     {
         isHitStopping = true;
         Time.timeScale = timeScale;
-
-        // Time.timeScaleが0のとき、通常の WaitForSeconds は進まなくなるため、
-        // 現実世界の絶対時間を計測する「WaitForSecondsRealtime」を使うのが超重要！
         yield return new WaitForSecondsRealtime(duration);
-
-        Time.timeScale = 1.0f; // 時間を元に戻す
+        Time.timeScale = 1.0f;
         isHitStopping = false;
     }
 
-    // ================================================================
-    // 🔥 2. 画面シェイク（カメラのローカル座標をランダムに揺らす）
-    // ================================================================
-    /// <summary>
-    /// 画面（カメラ）を激しく揺らす
-    /// </summary>
-    /// <param name="duration">揺れる時間（秒）</param>
-    /// <param name="magnitude">揺れの強さ（振幅）</param>
     public void PlayCameraShake(float duration, float magnitude)
     {
-        // 前回のシェイクが残っていれば位置をリセットして上書き
-        if (isShaking)
-        {
-            StopAllCoroutines(); // 走っているシェイクコルーチンを止める
-            cameraTransform.localPosition = originalCameraPos;
-        }
-
+        if (isShaking) { StopAllCoroutines(); cameraTransform.localPosition = originalCameraPos; }
         StartCoroutine(CameraShakeCoroutine(duration, magnitude));
     }
 
     private IEnumerator CameraShakeCoroutine(float duration, float magnitude)
     {
         isShaking = true;
-        originalCameraPos = cameraTransform.localPosition; // 元のカメラ位置を記憶
-
+        originalCameraPos = cameraTransform.localPosition;
         float elapsed = 0.0f;
-
         while (elapsed < duration)
         {
-            // ヒットストップ中（Time.timeScale=0）でもカメラを滑らかに揺らすため、
-            // Time.deltaTime ではなく Time.unscaledDeltaTime を使うのがプロの技！
             elapsed += Time.unscaledDeltaTime;
-
-            // ランダムなノイズ（-1f 〜 1f）に強さを掛け算して、新しい座標を作る
             float x = Random.Range(-1f, 1f) * magnitude;
             float y = Random.Range(-1f, 1f) * magnitude;
-
             cameraTransform.localPosition = new Vector3(originalCameraPos.x + x, originalCameraPos.y + y, originalCameraPos.z);
-
-            yield return null; // 1フレーム待機
+            yield return null;
         }
-
-        // 揺れが終わったら、必ず元の正しい位置に寸分の狂いなく戻す（重要）
         cameraTransform.localPosition = originalCameraPos;
         isShaking = false;
     }
