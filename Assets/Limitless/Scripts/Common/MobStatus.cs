@@ -3,17 +3,35 @@ using UnityEngine;
 
 public abstract class MobStatus : MonoBehaviour
 {
-    [Header("Base Status")]
-    [SerializeField] protected int maxHp = 10;
-    protected int currentHp;
+    protected enum StateEnum
+    {
+        Normal,
+        Attack,
+        Die
+    }
 
+    public bool IsMovable => _state == StateEnum.Normal;
+
+    public bool IsAttackable => _state == StateEnum.Normal;
+
+    [field: SerializeField] public float LifeMax { get; private set; } = 10;
     [SerializeField] protected float invincibilityDuration;
+
+    public float Life => _life;
+
+    protected Animator _animator;
+    protected StateEnum _state = StateEnum.Normal;
+    private float _life;
+
 
     public bool IsInvincible { get; protected set; } = true;
 
     protected virtual void Start()
     {
-        currentHp = maxHp;
+        _life = LifeMax;
+        _animator = GetComponentInChildren<Animator>();
+
+        LifeGaugeContainer.Instance.Add(this);
         StartCoroutine(StartInvincibilityRoutine());
     }
 
@@ -34,15 +52,32 @@ public abstract class MobStatus : MonoBehaviour
     public virtual void TakeDamage(int damage)
     {
         if (IsInvincible) return;
+        if (_state == StateEnum.Die) return;
 
-        currentHp -= damage;
-        Debug.Log($"{gameObject.name} に {damage} のダメージ！ 残りHP: {currentHp}");
+        _life -= damage;
+        if (_life > 0) return;
 
-        if (currentHp <= 0)
-        {
-            OnDie();
-        }
+        _state = StateEnum.Die;
+        _animator.SetTrigger("Die");
+        OnDie();
     }
 
-    protected abstract void OnDie();
+    protected virtual void OnDie()
+    {
+        LifeGaugeContainer.Instance.Remove(this);
+    }
+
+    public void GoToAttackStateIfPossible()
+    {
+        if (!IsAttackable) return;
+
+        _state = StateEnum.Attack;
+        _animator.SetTrigger("Attack");
+    }
+
+    public void GoToNormalStateIfPossible()
+    {
+        if (_state == StateEnum.Die) return;
+        _state = StateEnum.Normal;
+    }
 }

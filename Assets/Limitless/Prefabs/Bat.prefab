@@ -10,13 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4596836205783333833}
   - component: {fileID: 8943604100085795762}
-  - component: {fileID: 451396168410621417}
   - component: {fileID: 1231000405584939730}
+  - component: {fileID: 6627397060986105723}
   - component: {fileID: -2751271377424840562}
-  - component: {fileID: 4249291586719793689}
-  - component: {fileID: 5603314767182751209}
+  - component: {fileID: 7496270338980000190}
   m_Layer: 8
-  m_Name: Ghost
+  m_Name: Bat
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 6, y: 6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -86,7 +85,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -3159596763345156152, guid: efd2a0ec341c6c04899dcfa6a728e4f8, type: 3}
+  m_Sprite: {fileID: 2129977301182375049, guid: b438465a32eb63243a7889eb1f400d29, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,7 +95,29 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!70 &451396168410621417
+--- !u!95 &1231000405584939730
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6559199684679116014}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ec24e4ddfe3ded84495eefe4576cc9fe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!70 &6627397060986105723
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,30 +152,8 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.7, y: 0.87}
+  m_Size: {x: 0.15, y: 0.2}
   m_Direction: 0
---- !u!95 &1231000405584939730
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6559199684679116014}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: df6e46e47a2a9584088951edb76766ae, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!50 &-2751271377424840562
 Rigidbody2D:
   serializedVersion: 5
@@ -182,7 +181,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &4249291586719793689
+--- !u!114 &7496270338980000190
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,25 +190,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6559199684679116014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e257ef93eb62c064b9e4536330e15891, type: 3}
+  m_Script: {fileID: 11500000, guid: 70aaec8fc6b2f654eb10f1926690a971, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GhostController
-  ghostSpeed: 0.5
-  frequency: 0.5
---- !u!114 &5603314767182751209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6559199684679116014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09f0db5777710304b834ade990bf0af5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GhostStatus
-  <LifeMax>k__BackingField: 10
-  invincibilityDuration: 0
-  scoreValue: 10
-  attackPower: 10
-  deathEffectPrefab: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  chaseSpeed: 2.5
+  wallCheckDistance: 0.5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 20544
+  targetDetectionRadius: 3
+  attackRadius: 1.5
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  animator: {fileID: 0}
+  attackTriggerName: Attack
+  moveBoolName: Run
