@@ -91,6 +91,7 @@ Assets/
 | **Retro Action Music - Final Punch EX** | Unity Asset Store | BGM素材 |
 | **DoTween** | Unity Asset Store | アニメーション実装簡略化 |
 | **Free Sound Effects Pack** | Unity Asset Store | SE素材 |
+| **Enemy Galore 1 - Pixel Art** | Unity Asset Store | 敵キャラ素材 |
 
 > ⚠️ **注意事項**: 有料アセットなどのライセンスが含まれる場合、アセットそのもののファイルをパブリックリポジトリにそのまま公開（アップロード）しないよう、`.gitignore` で適切に管理してください。
 
