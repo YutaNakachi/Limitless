@@ -1,5 +1,8 @@
-using System.Collections;
+using Cysharp.Threading.Tasks; // 💡 UniTaskを有効化
+using System;
+using System.Threading;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class FxManager : MonoBehaviour
 {
@@ -12,22 +15,39 @@ public class FxManager : MonoBehaviour
     [SerializeField] private Transform cameraTransform;
     private Vector3 originalCameraPos;
 
-    private bool isShaking = false;
-    private bool isHitStopping = false;
-
     // 複数同時発生時の制御用変数
-    private float hitStopRemainingTime = 0f; // 残りのヒットストップ時間
-    private Coroutine currentHitStopCoroutine; // 現在走っているコルーチンの参照
+    private float hitStopRemainingTime = 0f;          // 残りのヒットストップ時間
+    private CancellationTokenSource _hitStopCTS;     // ヒットストップ用のキャンセル管理
+    private CancellationTokenSource _cameraShakeCTS; // カメラシェイク用のキャンセル管理
 
     void Awake()
     {
-        if (Instance == null) { Instance = this; }
-        else { Destroy(gameObject); }
+        if (Instance == null)
+        {
+            Instance = this;
+            // シーンを跨いでも破棄されないようにする場合は以下を有効に（お好みで）
+            // DontDestroyOnLoad(gameObject); 
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Start()
     {
-        if (cameraTransform == null && Camera.main != null) cameraTransform = Camera.main.transform;
+        if (cameraTransform == null && Camera.main != null)
+            cameraTransform = Camera.main.transform;
+
+        if (cameraTransform != null)
+            originalCameraPos = cameraTransform.localPosition;
+    }
+
+    private void OnDestroy()
+    {
+        // マネージャー自体が破棄されるときは、走っているタスクをすべて安全に強制終了する
+        CleanUpCTS(ref _hitStopCTS);
+        CleanUpCTS(ref _cameraShakeCTS);
     }
 
     /// <summary>
@@ -39,7 +59,7 @@ public class FxManager : MonoBehaviour
 
         FxPresetData.FxSettings settings = fxPresetData.GetPreset(presetLabel);
 
-        // 1. ヒットストップの実行（排他制御つきメソッド）
+        // 1. ヒットストップの実行
         if (settings.stopDuration > 0)
         {
             PlayHitStop(settings.stopDuration, settings.timeScale);
@@ -54,128 +74,178 @@ public class FxManager : MonoBehaviour
         // 3. ヒット対象自体の微振動を実行
         if (targetObject != null && settings.objectShakeMagnitude > 0 && settings.stopDuration > 0)
         {
-            StartCoroutine(ObjectShakeCoroutine(targetObject, settings.stopDuration, settings.objectShakeMagnitude, settings.useObjectShakeY));
+            // オブジェクトの微振動は、そのオブジェクト自身の消滅（OnDestroy）に連動させるため、
+            // 引数に対象の CancellationToken を渡すのがUniTaskの鉄則です
+            StartObjectShake(targetObject, settings.stopDuration, settings.objectShakeMagnitude, settings.useObjectShakeY, targetObject.GetCancellationTokenOnDestroy()).Forget();
         }
     }
 
     // ================================================================
-    // 🛡️ 改良版：ヒットストップ（安全タイムアウト搭載）
+    // 🛡️ 究極版：ヒットストップ（UniTaskによる絶対時間復帰システム）
     // ================================================================
     public void PlayHitStop(float duration, float timeScale = 0f)
     {
-        // 新しく要求された時間が、現在残っている時間よりも「長い」場合だけ採用する
+        // 新しく要求された時間が、現在残っている時間よりも「長い」場合だけ採用（排他制御）
         if (duration > hitStopRemainingTime)
         {
-            hitStopRemainingTime = duration; // 残り時間を最新の長い方に更新
+            hitStopRemainingTime = duration;
 
-            // すでにコルーチンが走っているなら、二重起動を防ぐために一旦止める
-            if (isHitStopping && currentHitStopCoroutine != null)
-            {
-                StopCoroutine(currentHitStopCoroutine);
-            }
+            // すでに走っているヒットストップタスクがあれば、安全に「キャンセル」して上書きする
+            CleanUpCTS(ref _hitStopCTS);
+            _hitStopCTS = new CancellationTokenSource();
 
-            // 最新のパラメータでコルーチンを新しくスタートし、参照を保持
-            currentHitStopCoroutine = StartCoroutine(HitStopCoroutine(timeScale));
+            // 非同期メソッドを非同期のまま投げっぱなし（Forget）で起動
+            PlayHitStopAsync(timeScale, _hitStopCTS.Token).Forget();
         }
     }
 
-    private IEnumerator HitStopCoroutine(float timeScale)
+    private async UniTaskVoid PlayHitStopAsync(float timeScale, CancellationToken token)
     {
-        isHitStopping = true;
         Time.timeScale = timeScale;
 
-        // ⚡ 保険：万が一の無限ループを防止する実時間タイマー（最大5秒）
-        float safetyTimeout = 5.0f;
-
-        // 残り時間が 0 になるまで、現実世界の絶対時間（Unscaled）で正確にカウントダウン
-        while (hitStopRemainingTime > 0)
+        try
         {
-            float dt = Time.unscaledDeltaTime;
-
-            // 例外的なフリーズ対策（unscaledDeltaTimeが0以下になった場合の安全弁）
-            if (dt <= 0) dt = 0.016f;
-
-            hitStopRemainingTime -= dt;
-            safetyTimeout -= dt;
-
-            // ⚠️ 5秒以上ゲームが停止状態のままなら、バグと判断して強制脱出
-            if (safetyTimeout <= 0)
+            // 残り時間が 0 になるまでループ
+            while (hitStopRemainingTime > 0)
             {
-                Debug.LogWarning("⚠️ [FxManager] ヒットストップが安全タイムアウト(5秒)により強制解除されました。");
-                break;
+                // 実時間（Time.timeScaleの影響を受けないUpdate）タイミングで1フレーム待機
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
+
+                float dt = Time.unscaledDeltaTime;
+                if (dt <= 0) dt = 0.016f; // 万が一のノイズ対策
+
+                hitStopRemainingTime -= dt;
             }
-
-            yield return null; // 1フレーム待機
         }
-
-        // 完全に時間を使い切った、または強制脱出したら元の正しい時間軸に100%戻す
-        hitStopRemainingTime = 0f;
-        Time.timeScale = 1.0f;
-        isHitStopping = false;
-        currentHitStopCoroutine = null;
+        catch (OperationCanceledException)
+        {
+            // 他のヒットストップに上書きキャンセルされた場合はここを通る
+            // 新しい次のタスクに処理を譲るため、ここではtimeScaleは戻さない
+            return;
+        }
+        finally
+        {
+            // 🔥 ここがUniTask最大の強み！
+            // 正常終了時はもちろん、エラーが起きようがシーンが切り替わろうが、「絶対に」ここを通る。
+            // 割り込みキャンセル（IsCancellationRequested = true）でない時だけ、安全に時間を元に戻す。
+            if (!token.IsCancellationRequested)
+            {
+                hitStopRemainingTime = 0f;
+                Time.timeScale = 1.0f;
+                Debug.Log("⏱️ [UniTask] ヒットストップが正常に終了、時間軸が復帰しました。");
+            }
+        }
     }
 
     // ================================================================
-    // 🛡️ 改良版：オブジェクト微振動（毎フレームのNullチェック搭載）
+    // 🛡️ 究極版：オブジェクト微振動（心中バグ完全シャットアウト）
     // ================================================================
-    private IEnumerator ObjectShakeCoroutine(Transform target, float duration, float magnitude, bool useY)
+    private async UniTaskVoid StartObjectShake(Transform target, float duration, float magnitude, bool useY, CancellationToken objectToken)
     {
-        // ⚡ 起動時の生存チェック
-        if (target == null) yield break;
+        if (target == null) return;
 
         Vector3 originalPos = target.localPosition;
         float elapsed = 0.0f;
 
-        while (elapsed < duration)
+        try
         {
-            elapsed += Time.unscaledDeltaTime;
-
-            // ⚡ 毎フレームの生存チェック
-            // 空中キックの瞬間にボールがDestroyされたり非アクティブになったら、安全にコルーチンを抜ける
-            if (target == null || !target.gameObject.activeInHierarchy)
+            while (elapsed < duration)
             {
-                yield break;
+                // 実時間で1フレーム待機。対象オブジェクトがDestroyされたら、objectTokenがそれを検知して自動でループを脱出する
+                await UniTask.Yield(PlayerLoopTiming.Update, objectToken);
+
+                // 念のためのNullダブルチェック
+                if (target == null || !target.gameObject.activeInHierarchy) return;
+
+                elapsed += Time.unscaledDeltaTime;
+
+                float offsetX = Random.Range(-1f, 1f) * magnitude;
+                float offsetY = useY ? Random.Range(-1f, 1f) * magnitude : 0f;
+
+                target.localPosition = originalPos + new Vector3(offsetX, offsetY, 0f);
             }
-
-            float offsetX = Random.Range(-1f, 1f) * magnitude;
-            float offsetY = useY ? Random.Range(-1f, 1f) * magnitude : 0f;
-
-            // 安全が保証されているので位置を代入
-            target.localPosition = new Vector3(originalPos.x + offsetX, originalPos.y + offsetY, originalPos.z);
-
-            yield return null;
         }
-
-        // ⚡ 終了時の生存チェック
-        if (target != null)
+        catch (OperationCanceledException)
         {
-            target.localPosition = originalPos;
+            // オブジェクトがDestroyされた場合は自動的にここに飛び、エラーを出さずに静かに消滅する
+            return;
+        }
+        finally
+        {
+            // 終了時にオブジェクトがまだ生きていれば、位置を元に戻す
+            if (target != null)
+            {
+                target.localPosition = originalPos;
+            }
         }
     }
 
     // ================================================================
-    // 3. カメラシェイクコルーチン
+    // 🛡️ 究極版：カメラシェイク（連続被弾時の位置ズレ防止回路）
     // ================================================================
     public void PlayCameraShake(float duration, float magnitude)
     {
-        if (isShaking) { StopAllCoroutines(); cameraTransform.localPosition = originalCameraPos; }
-        StartCoroutine(CameraShakeCoroutine(duration, magnitude));
+        if (cameraTransform == null) return;
+
+        // 連続でシェイクが呼ばれたら、前のシェイクをキャンセルしてカメラ位置を一瞬でリセット
+        if (_cameraShakeCTS != null)
+        {
+            CleanUpCTS(ref _cameraShakeCTS);
+            cameraTransform.localPosition = originalCameraPos;
+        }
+
+        _cameraShakeCTS = new CancellationTokenSource();
+        PlayCameraShakeAsync(duration, magnitude, _cameraShakeCTS.Token).Forget();
     }
 
-    private IEnumerator CameraShakeCoroutine(float duration, float magnitude)
+    private async UniTaskVoid PlayCameraShakeAsync(float duration, float magnitude, CancellationToken token)
     {
-        isShaking = true;
-        originalCameraPos = cameraTransform.localPosition;
         float elapsed = 0.0f;
-        while (elapsed < duration)
+
+        try
         {
-            elapsed += Time.unscaledDeltaTime;
-            float x = Random.Range(-1f, 1f) * magnitude;
-            float y = Random.Range(-1f, 1f) * magnitude;
-            cameraTransform.localPosition = new Vector3(originalCameraPos.x + x, originalCameraPos.y + y, originalCameraPos.z);
-            yield return null;
+            while (elapsed < duration)
+            {
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
+                elapsed += Time.unscaledDeltaTime;
+
+                float x = Random.Range(-1f, 1f) * magnitude;
+                float y = Random.Range(-1f, 1f) * magnitude;
+
+                cameraTransform.localPosition = originalCameraPos + new Vector3(x, y, 0f);
+            }
         }
-        cameraTransform.localPosition = originalCameraPos;
-        isShaking = false;
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        finally
+        {
+            // キャンセルされた場合も含め、終了時は100%オリジナルのカメラ位置にピタッと戻す
+            if (cameraTransform != null)
+            {
+                cameraTransform.localPosition = originalCameraPos;
+            }
+        }
+    }
+
+    // ================================================================
+    // 🛠️ 便利サブメソッド（トークンの安全な使い回し回路）
+    // ================================================================
+    private void CleanUpCTS(ref CancellationTokenSource cts)
+    {
+        if (cts != null)
+        {
+            try
+            {
+                cts.Cancel();
+            }
+            catch (ObjectDisposedException) { }
+            finally
+            {
+                cts.Dispose();
+                cts = null;
+            }
+        }
     }
 }
