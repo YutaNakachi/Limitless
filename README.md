@@ -139,9 +139,9 @@ Assets/
 
 | パラメータ名 | 型 | 推奨値の目安 | どのような効果があるか / 調整のコツ |
 | :--- | :--- | :--- | :--- |
-| **Preset Label** | `string` | `"LightHit"`, `"Kicked"` | 演出を呼び出すための識別名。コード側からは `FxManager.Instance.Play("識別名")` で再生します。 |
-| **Time Scale** | `float` | `0.0` 〜 `0.2` | **ヒットストップ中の時間の進み方。**<br>`0.0` で完全停止（格ゲーの強ヒット感）。`0.1`〜`0.2` にすると、わずかに時間が動く「ねっとりとした重み」を表現できます。 |
+| **Preset Label** | `string` | `"NormalBallKick"`, `"BallHitEnemy"` | 演出を呼び出すための識別名。コード側からは `FxManager.Instance.Play("識別名")` で再生します。 |
 | **Stop Duration** | `float` | `0.05` 〜 `0.3` | **ヒットストップの停止時間（秒）。**<br>小技は `0.05` 前後、大技やクリティカルヒットは `0.2`〜`0.3` に設定すると、技の説得力が劇的に変わります。 |
+| **Time Scale** | `float` | `0.0` 〜 `0.2` | **ヒットストップ中の時間の進み方。**<br>`0.0` で完全停止（格ゲーの強ヒット感）。`0.1`〜`0.2` にすると、わずかに時間が動く「ねっとりとした重み」を表現できます。 |
 | **Shake Duration** | `float` | `0.1` 〜 `0.4` | **カメラシェイク（画面揺れ）が継続する時間（秒）。**<br>基本的には `Stop Duration` と同じか、それよりほんの少し長めに設定すると綺麗に余韻が残ります。 |
 | **Shake Magnitude** | `float` | `0.05` 〜 `0.5` | **カメラシェイクの揺れの激しさ（強さ）。**<br>数値を上げすぎると画面酔いの原因になるため、通常ヒットは `0.1` 前後、大爆発や大技でも `0.4` 付近に抑えるのが手触りのコツです。 |
 | **Object Shake Magnitude** | `float` | `0.05` 〜 `0.3` | **ヒットした対象（ボールや敵）そのものを微振動させる強さ。**<br>ヒットストップ中にこれをかけることで、「衝撃がオブジェクトの内部に留まっている感（エネルギーの凝縮感）」を演出できます。 |
@@ -152,10 +152,10 @@ Assets/
 
 ```csharp
 // 1. 最もシンプルな呼び出し（画面シェイク ＆ ヒットストップのみ）
-FxManager.Instance.Play("LightHit");
+FxManager.Instance.Play("NormalBallKick");
 
 // 2. ヒット対象（敵やボール）を微振動させる場合
 // 第2引数に対象の Transform を渡すと、プリセットの設定に従ってガタガタと震えます
-FxManager.Instance.Play("Kicked", ballInRange.transform);
+FxManager.Instance.Play("BallHitEnemy", ballInRange.transform);
 ```
 ---
