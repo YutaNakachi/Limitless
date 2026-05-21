@@ -292,12 +292,15 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateVisualDirection()
     {
-        // プレイヤーの向きを変更
-        if (_rigidbody.linearVelocityX > 0)
+        float threshold = 0.1f;
+
+        // 「右に動いている」かつ「キー入力が右、またはニュートラル」のときだけ右を向く
+        if (_rigidbody.linearVelocityX > threshold && moveInput.x >= 0)
         {
             transform.localScale = firstScale;
         }
-        else if (_rigidbody.linearVelocityX < 0)
+        // 「左に動いている」かつ「キー入力が左、またはニュートラル」のときだけ左を向く
+        else if (_rigidbody.linearVelocityX < -threshold && moveInput.x <= 0)
         {
             transform.localScale = new Vector3(-firstScale.x, firstScale.y, firstScale.z);
         }

@@ -16,54 +16,63 @@ MonoBehaviour:
   - label: NormalBallKick
     stopDuration: 0.04
     timeScale: 0
-    shakeDuration: 0.06
-    shakeMagnitude: 0.08
-    objectShakeMagnitude: 0.1
+    shakeDuration: 0.04
+    shakeMagnitude: 0.05
+    objectShakeMagnitude: 0.12
+    useObjectShakeY: 1
   - label: ' DashBallKick'
     stopDuration: 0.08
     timeScale: 0
     shakeDuration: 0.12
     shakeMagnitude: 0.22
     objectShakeMagnitude: 0.15
+    useObjectShakeY: 1
   - label: BallHitEnemy
     stopDuration: 0.06
     timeScale: 0
     shakeDuration: 0.08
     shakeMagnitude: 0.12
     objectShakeMagnitude: 0.12
+    useObjectShakeY: 1
   - label: EnemyFatalHit
     stopDuration: 0.22
     timeScale: 0
     shakeDuration: 0.3
     shakeMagnitude: 0.45
     objectShakeMagnitude: 0.3
+    useObjectShakeY: 1
   - label: PlayerDamaged
     stopDuration: 0.12
     timeScale: 0
     shakeDuration: 0.15
     shakeMagnitude: 0.25
     objectShakeMagnitude: 0.15
+    useObjectShakeY: 1
   - label: PlayerGameOver
     stopDuration: 0.4
     timeScale: 0
     shakeDuration: 0.5
     shakeMagnitude: 0.4
     objectShakeMagnitude: 0.25
+    useObjectShakeY: 1
   - label: RedBallKick
     stopDuration: 0.1
     timeScale: 0
     shakeDuration: 0.18
     shakeMagnitude: 0.35
     objectShakeMagnitude: 0
+    useObjectShakeY: 0
   - label: BlueBallKick
     stopDuration: 0.1
     timeScale: 0
     shakeDuration: 0
     shakeMagnitude: 0
     objectShakeMagnitude: 0
+    useObjectShakeY: 0
   - label: PurpleBallKick
     stopDuration: 0.14
     timeScale: 0
     shakeDuration: 0
     shakeMagnitude: 0
     objectShakeMagnitude: 0
+    useObjectShakeY: 0

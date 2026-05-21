@@ -50,34 +50,34 @@ public class FxManager : MonoBehaviour
             PlayCameraShake(settings.shakeDuration, settings.shakeMagnitude);
         }
 
-        // 🔥 3. ヒット対象自体の微振動を実行
+        // 3. ヒット対象自体の微振動を実行
         if (targetObject != null && settings.objectShakeMagnitude > 0 && settings.stopDuration > 0)
         {
-            StartCoroutine(ObjectShakeCoroutine(targetObject, settings.stopDuration, settings.objectShakeMagnitude));
+            StartCoroutine(ObjectShakeCoroutine(targetObject, settings.stopDuration, settings.objectShakeMagnitude, settings.useObjectShakeY));
         }
     }
 
     // --- 対象を微振動させるコルーチン ---
-    private IEnumerator ObjectShakeCoroutine(Transform target, float duration, float magnitude)
+    private IEnumerator ObjectShakeCoroutine(Transform target, float duration, float magnitude, bool useY)
     {
-        Vector3 originalPos = target.localPosition; // 対象の元の位置を記憶
+        Vector3 originalPos = target.localPosition;
         float elapsed = 0.0f;
 
-        // ヒットストップの時間（duration）と同じ時間だけ振動させる
         while (elapsed < duration)
         {
-            elapsed += Time.unscaledDeltaTime; // 時間停止中も動かすためunscaled
+            elapsed += Time.unscaledDeltaTime;
 
-            // 左右（X軸方向）にガタガタ揺らす（格ゲーの標準仕様）
-            // 上下にも揺らしたい場合は Y もRandomにしてください
+            // X方向は常に揺らす
             float offsetX = Random.Range(-1f, 1f) * magnitude;
 
-            target.localPosition = new Vector3(originalPos.x + offsetX, originalPos.y, originalPos.z);
+            // useY が true の時だけランダム値を計算し、false の時は 0f（振動なし）にする
+            float offsetY = useY ? Random.Range(-1f, 1f) * magnitude : 0f;
 
-            yield return null; // 1フレーム待機
+            target.localPosition = new Vector3(originalPos.x + offsetX, originalPos.y + offsetY, originalPos.z);
+
+            yield return null;
         }
 
-        // 終了したら絶対に元の位置に寸分の狂いなく戻す（重要：位置ズレバグ防止）
         if (target != null)
         {
             target.localPosition = originalPos;

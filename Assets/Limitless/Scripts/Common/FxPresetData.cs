@@ -15,9 +15,9 @@ public class FxPresetData : ScriptableObject
         public float shakeDuration;
         public float shakeMagnitude;
 
-        // 🔥 追加：ヒット対象自体の振動の強さ（0なら振動なし）
         [Header("Object Shake")]
         public float objectShakeMagnitude;
+        public bool useObjectShakeY;
     }
 
     public FxSettings[] presets;

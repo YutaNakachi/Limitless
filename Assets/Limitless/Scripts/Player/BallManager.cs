@@ -46,7 +46,10 @@ public class BallManager : MonoBehaviour
         }
 
         // Mathf.Sign は 正なら 1、負なら -1 を返す
-        currentAngle -= Mathf.Sign(transform.localScale.x) * rotateSpeed * Time.deltaTime;
+        // Playerの向いている方向によってBallの回転方向を反転させたい場合は、こちらをコメントアウトを解除
+        //currentAngle -= Mathf.Sign(transform.localScale.x) * rotateSpeed * Time.deltaTime;
+
+        currentAngle -= rotateSpeed * Time.deltaTime;
 
         UpdateBallPositions();
     }
