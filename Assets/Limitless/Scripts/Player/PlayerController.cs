@@ -37,6 +37,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 wallJumpForce = new Vector2(10.0f, 12.0f); // 壁ジャンプのパワー (x: 反発, y: 上昇)
     [SerializeField] private float wallJumpTime = 0.15f; // 壁ジャンプ後の慣性
 
+    [Header("One Way Platform Settings")]
+    [SerializeField] private float downDoubleTapTimeLimit = 0.25f; // 下2回押しとして認める時間（秒）
+
     [Header("Collider Settings")]
     [SerializeField] private ColliderData normalCollider;
     [SerializeField] private ColliderData crouchCollider;
@@ -60,10 +63,15 @@ public class PlayerController : MonoBehaviour
     private float originalGravityScale; // 元の重力を保存する変数
     private float wallJumpLockTimer;    // 追加：壁ジャンプ直後の操作ロックタイマー
 
-    // ダブルタップ判定用の変数
+    // ダブルタップ判定用変数
     private float lastInputTimeRight;    // 右入力が最後に押された時間
     private float lastInputTimeLeft;     // 左入力が最後に押された時間
     private bool isAxisZeroLastFrame = true; // 前フレームで入力が0（ニュートラル）だったか
+
+    // OneWayPlatformをすり抜け判定用変数
+    private float lastInputTimeDown; // 下入力が最後に押された時間
+    private bool isYAxisZeroLastFrame = true; // 連打判定のために「一度レバーをニュートラルに戻したか」
+    private OneWayPlatform currentPlatform;
 
     void Awake()
     {
@@ -196,6 +204,9 @@ public class PlayerController : MonoBehaviour
             isWallSliding = false;
         }
 
+        // 毎フレーム、下方向のダブルタップを監視
+        DetectDownDoubleTap();
+
         // 毎フレーム、方向キーのダブルタップを監視
         DetectDoubleTapDash();
 
@@ -276,6 +287,41 @@ public class PlayerController : MonoBehaviour
         else
         {
             isAxisZeroLastFrame = true; // キーが離されたので、次回の「1回目」を許可する
+        }
+    }
+
+    private void DetectDownDoubleTap()
+    {
+        // 1. 下方向への入力を検知した瞬間（New Input System の場合、下はマイナス値）
+        if (moveInput.y < -0.5f)
+        {
+            if (isYAxisZeroLastFrame)
+            {
+                float timeSinceLastTap = Time.time - lastInputTimeDown;
+
+                // 🛑 デバッグ用：1回目の下入力を検知したか
+                Debug.Log($"1回目の下検知！ 前回のタップからの時間: {timeSinceLastTap}秒");
+
+                if (timeSinceLastTap <= downDoubleTapTimeLimit)
+                {
+                    Debug.Log($"🔥 下ダブルタップ成立！！！ 現在の床の参照: {currentPlatform}");
+
+                    // 💡 もし今すり抜け床の上に乗っているなら、床を抜く！
+                    if (currentPlatform != null)
+                    {
+                        currentPlatform.PassThrough(_collider);
+                        currentPlatform = null; // 実行したら即座に参照を外して安全を確保
+                    }
+                }
+
+                lastInputTimeDown = Time.time;
+                isYAxisZeroLastFrame = false;
+            }
+        }
+        // 2. レバーが中央、または上方向
+        else
+        {
+            isYAxisZeroLastFrame = true; // 次の「1回目」を受け付ける状態に戻す
         }
     }
 
@@ -388,6 +434,24 @@ public class PlayerController : MonoBehaviour
             {
                 _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, -wallSlideSpeed);
             }
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // 接地した相手がOneWayPlatformなら記憶する
+        if (collision.gameObject.CompareTag("OneWayPlatform"))
+        {
+            currentPlatform = collision.gameObject.GetComponent<OneWayPlatform>();
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // 床から離れたら記憶を消す
+        if (collision.gameObject.CompareTag("OneWayPlatform"))
+        {
+            currentPlatform = null;
         }
     }
 

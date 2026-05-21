@@ -283,7 +283,7 @@ Transform:
   m_GameObject: {fileID: 618391907}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 1.3, z: 0}
+  m_LocalPosition: {x: 1.7, y: 1.3, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -489,7 +489,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!4 &771603169
@@ -542,6 +542,7 @@ MonoBehaviour:
   wallSlideSpeed: 2
   wallJumpForce: {x: 5, y: 15}
   wallJumpTime: 0.05
+  downDoubleTapTimeLimit: 0.25
   normalCollider:
     size: {x: 1.16, y: 2.65}
     offset: {x: 0, y: 1.325}
@@ -1003,9 +1004,11 @@ GameObject:
   - component: {fileID: 902913622}
   - component: {fileID: 902913621}
   - component: {fileID: 902913620}
+  - component: {fileID: 902913625}
+  - component: {fileID: 902913626}
   m_Layer: 13
-  m_Name: Platform
-  m_TagString: Untagged
+  m_Name: OneWayPlatform
+  m_TagString: OneWayPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1056,7 +1059,7 @@ CompositeCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
@@ -1306,6 +1309,37 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!251 &902913625
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902913618}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
+--- !u!114 &902913626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902913618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a10d1808437a747b115f33f10b2a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OneWayPlatform
 --- !u!1 &988151163
 GameObject:
   m_ObjectHideFlags: 0

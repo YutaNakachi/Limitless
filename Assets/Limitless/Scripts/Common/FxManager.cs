@@ -15,6 +15,10 @@ public class FxManager : MonoBehaviour
     private bool isShaking = false;
     private bool isHitStopping = false;
 
+    // 複数同時発生時の制御用変数
+    private float hitStopRemainingTime = 0f; // 残りのヒットストップ時間
+    private Coroutine currentHitStopCoroutine; // 現在走っているコルーチンの参照
+
     void Awake()
     {
         if (Instance == null) { Instance = this; }
@@ -26,9 +30,6 @@ public class FxManager : MonoBehaviour
         if (cameraTransform == null && Camera.main != null) cameraTransform = Camera.main.transform;
     }
 
-    // ================================================================
-    // 🔥 拡張：対象のTransformを引数に追加（デフォルト値は null）
-    // ================================================================
     /// <summary>
     /// プリセット名を指定して演出を再生。targetObjectを指定すると、そのキャラが微振動します。
     /// </summary>
@@ -38,7 +39,7 @@ public class FxManager : MonoBehaviour
 
         FxPresetData.FxSettings settings = fxPresetData.GetPreset(presetLabel);
 
-        // 1. ヒットストップの実行
+        // 1. ヒットストップの実行（排他制御つきメソッド）
         if (settings.stopDuration > 0)
         {
             PlayHitStop(settings.stopDuration, settings.timeScale);
@@ -57,9 +58,71 @@ public class FxManager : MonoBehaviour
         }
     }
 
-    // --- 対象を微振動させるコルーチン ---
+    // ================================================================
+    // 🛡️ 改良版：ヒットストップ（安全タイムアウト搭載）
+    // ================================================================
+    public void PlayHitStop(float duration, float timeScale = 0f)
+    {
+        // 新しく要求された時間が、現在残っている時間よりも「長い」場合だけ採用する
+        if (duration > hitStopRemainingTime)
+        {
+            hitStopRemainingTime = duration; // 残り時間を最新の長い方に更新
+
+            // すでにコルーチンが走っているなら、二重起動を防ぐために一旦止める
+            if (isHitStopping && currentHitStopCoroutine != null)
+            {
+                StopCoroutine(currentHitStopCoroutine);
+            }
+
+            // 最新のパラメータでコルーチンを新しくスタートし、参照を保持
+            currentHitStopCoroutine = StartCoroutine(HitStopCoroutine(timeScale));
+        }
+    }
+
+    private IEnumerator HitStopCoroutine(float timeScale)
+    {
+        isHitStopping = true;
+        Time.timeScale = timeScale;
+
+        // ⚡ 保険：万が一の無限ループを防止する実時間タイマー（最大5秒）
+        float safetyTimeout = 5.0f;
+
+        // 残り時間が 0 になるまで、現実世界の絶対時間（Unscaled）で正確にカウントダウン
+        while (hitStopRemainingTime > 0)
+        {
+            float dt = Time.unscaledDeltaTime;
+
+            // 例外的なフリーズ対策（unscaledDeltaTimeが0以下になった場合の安全弁）
+            if (dt <= 0) dt = 0.016f;
+
+            hitStopRemainingTime -= dt;
+            safetyTimeout -= dt;
+
+            // ⚠️ 5秒以上ゲームが停止状態のままなら、バグと判断して強制脱出
+            if (safetyTimeout <= 0)
+            {
+                Debug.LogWarning("⚠️ [FxManager] ヒットストップが安全タイムアウト(5秒)により強制解除されました。");
+                break;
+            }
+
+            yield return null; // 1フレーム待機
+        }
+
+        // 完全に時間を使い切った、または強制脱出したら元の正しい時間軸に100%戻す
+        hitStopRemainingTime = 0f;
+        Time.timeScale = 1.0f;
+        isHitStopping = false;
+        currentHitStopCoroutine = null;
+    }
+
+    // ================================================================
+    // 🛡️ 改良版：オブジェクト微振動（毎フレームのNullチェック搭載）
+    // ================================================================
     private IEnumerator ObjectShakeCoroutine(Transform target, float duration, float magnitude, bool useY)
     {
+        // ⚡ 起動時の生存チェック
+        if (target == null) yield break;
+
         Vector3 originalPos = target.localPosition;
         float elapsed = 0.0f;
 
@@ -67,39 +130,32 @@ public class FxManager : MonoBehaviour
         {
             elapsed += Time.unscaledDeltaTime;
 
-            // X方向は常に揺らす
-            float offsetX = Random.Range(-1f, 1f) * magnitude;
+            // ⚡ 毎フレームの生存チェック
+            // 空中キックの瞬間にボールがDestroyされたり非アクティブになったら、安全にコルーチンを抜ける
+            if (target == null || !target.gameObject.activeInHierarchy)
+            {
+                yield break;
+            }
 
-            // useY が true の時だけランダム値を計算し、false の時は 0f（振動なし）にする
+            float offsetX = Random.Range(-1f, 1f) * magnitude;
             float offsetY = useY ? Random.Range(-1f, 1f) * magnitude : 0f;
 
+            // 安全が保証されているので位置を代入
             target.localPosition = new Vector3(originalPos.x + offsetX, originalPos.y + offsetY, originalPos.z);
 
             yield return null;
         }
 
+        // ⚡ 終了時の生存チェック
         if (target != null)
         {
             target.localPosition = originalPos;
         }
     }
 
-    // --- 既存の「PlayHitStop」「PlayCameraShake」コルーチン（省略せずそのまま残す） ---
-    public void PlayHitStop(float duration, float timeScale = 0f)
-    {
-        if (isHitStopping) return;
-        StartCoroutine(HitStopCoroutine(duration, timeScale));
-    }
-
-    private IEnumerator HitStopCoroutine(float duration, float timeScale)
-    {
-        isHitStopping = true;
-        Time.timeScale = timeScale;
-        yield return new WaitForSecondsRealtime(duration);
-        Time.timeScale = 1.0f;
-        isHitStopping = false;
-    }
-
+    // ================================================================
+    // 3. カメラシェイクコルーチン
+    // ================================================================
     public void PlayCameraShake(float duration, float magnitude)
     {
         if (isShaking) { StopAllCoroutines(); cameraTransform.localPosition = originalCameraPos; }

@@ -53,15 +53,15 @@ public abstract class BallAbility : MonoBehaviour
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
 
-        StartCoroutine(DestroyABall());
-
         OnFire();
+
+        StartCoroutine(DestroyABall());
     }
 
     protected virtual IEnumerator DestroyABall()
     {
         yield return new WaitUntil(() => Mathf.Abs(_rigidbody.linearVelocity.x) <= 1f);
-        _collider.enabled = false;
+        GetComponent<CollisionDetector>().enabled = false;
 
         yield return new WaitForSeconds(ballLifeTime);
         Destroy(gameObject);
