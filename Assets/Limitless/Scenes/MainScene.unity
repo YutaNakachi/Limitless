@@ -787,8 +787,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerKick
   shootCollider: {fileID: 618391910}
+  maxShootAngle: 90
   shootForce: 70
-  angle: 20
+  directionInput: {fileID: -1680190386980627800, guid: 6832fb3853e9d6440978664f405bd209, type: 3}
 --- !u!114 &771603176
 MonoBehaviour:
   m_ObjectHideFlags: 0
