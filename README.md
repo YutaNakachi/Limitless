@@ -36,7 +36,7 @@
 ガチャの引き（運）によっても発動が左右される最高峰の球であり、シングルプレイでの一発逆転はもちろん、対戦モード（オービット・バトル）においては「相手の回りに赤と青が揃った瞬間に、融合される前に決着をつけなければ」という極限の緊張感を生み出す。
 
 ### 3. 視覚的演出（VFX）
-- **軌跡演出**: 蹴り出された球は、ロケットのようなモコモコとした白い煙（Particle）と、鮮やかな光の残像（Trail）を引き連れて滑らかに飛行。
+- **軌跡演出**: 蹴り出された球は、ロケットのようなモコモコとした白い煙（Particle）を引き連れて滑らかに飛行。
 - **身体的爽快感**: 回避時や撃破時の絶妙な「ヒットストップ（一瞬のストップ演出）」による極上の手触り。
 
 ---
@@ -64,19 +64,33 @@
 ---
 
 ## 🛠️ 開発環境 / プロジェクト構成
-- **Engine**: Unity 6.3 LTS 移行（2D URP推奨 / Post-Processing (Bloom) 使用）
-- **Language**: C# (オブジェクト指向思想に基づく設計。`BallAbility` 基底クラスによる拡張構造を想定)
 
-### 📂 ディレクトリ構成（設計標準化案）
+### 1. 開発環境
+* **Engine**: Unity 6 (2D URP / Post-Processing (Bloom) 使用)
+* **Language**: C# 
+  * コンポーネント指向およびポリモーフィズムに基づく厳格な設計
+  * `MobStatus` 基底クラスによるキャラクター状態の共通化
+  * `BallAbility` 基底クラスによるボール特殊能力の拡張構造
+
+### 2. 📂 ディレクトリ構成（Project Structure）
+
+画像の実態に則した、`Limitless` フォルダ配下の最新構成です。
+
 ```text
-Assets/
-└── _Project/
-    ├── Prefabs/           # Player, Enemy, 各種Ball（Red/Blue/None）
-    ├── Scenes/            # Title, Survival, Co-op, Battle
-    └── Scripts/           # C#スクリプト
-        ├── Actors/        # プレイヤー（2段ジャンプ・2回押しダッシュ）、敵AI
-        ├── Ball/          # BallController、BallAbility（抽象）、各種カラー実装
-        └── Managers/      # BallManager（6スロット配列上書き）、GameManager
+Limitless/
+├── Animations/         # キャラクター（Player/Enemy）のアニメーション、各種Controller
+├── Materials/          # URP用マテリアル、トレイルやエフェクト用ブレンド設定
+├── Prefabs/            # Player, Enemy(コウモリ等), Ball（各種カラー/能力違いのプレハブ）
+├── Resources/          # 動的ロード用の各種アセット、オーディオ、またはエフェクトPrefab
+├── Scenes/             # Title, MainGame, Battle などのシーンファイル
+├── Scripts/            # 💻 C#スクリプト（役割別の配置）
+│   ├── Actors/         # 動体ロジック（PlayerStatus, EnemyStatus, BatAI 等）
+│   ├── Combat/         # 攻撃・シュート（MobAttack, PlayerShoot 等）
+│   ├── Ball/           # ボール制御（BallController, BallAbility 基底クラス等）
+│   ├── UI/             # 画面表示（LifeGaugeContainer, LifeGauge 等）
+│   └── Managers/       # 管理システム（FxManager, GameManager 等）
+├── Settings/           # URP Assets, Input System (新入力システムの設定データ)
+└── Tilemaps/           # ステージ構成用のタイルマップ、グリッド、パレットデータ
 ```
 ---
 
