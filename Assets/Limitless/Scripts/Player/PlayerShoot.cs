@@ -6,11 +6,26 @@ public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] private Collider2D shootCollider;
 
-    [Header("ーー シュート設定 ーー")]
+    [Header("ーー シュート設定（基本） ーー")]
     [SerializeField] private float shootForce = 15f;
-    [SerializeField, Range(0f, 90f)] private float maxShootAngle = 45f;
     [SerializeField, Range(0f, 45f)] private float neutralShootAngle = 5f;
     [SerializeField] private float kickCooldownTime = 0.2f;
+
+    // 🔥 【進化】地上での上下制限をそれぞれ独立
+    [Header("ーー シュート設定（地上での角度制限） ーー")]
+    [SerializeField, Range(0f, 90f), Tooltip("地上で【上】に狙える最大角度（90°で真上）")]
+    private float groundMaxUpAngle = 45f;
+
+    [SerializeField, Range(0f, 90f), Tooltip("地上で【下】に狙える最大角度（90°で真下）")]
+    private float groundMaxDownAngle = 15f; // 地上は少し浅めにする等の調整が可能
+
+    // 🔥 【進化】空中での上下制限をそれぞれ独立
+    [Header("ーー シュート設定（空中での角度制限） ーー")]
+    [SerializeField, Range(0f, 90f), Tooltip("空中で【上】に狙える最大角度（90°で真上）")]
+    private float airMaxUpAngle = 45f;
+
+    [SerializeField, Range(0f, 90f), Tooltip("空中で【下】に狙える最大角度（90°で真下）")]
+    private float airMaxDownAngle = 90f; // 空中なら真下（90°）まで叩き込める！
 
     [Header("ーー 入力バッファ設定 ーー")]
     [SerializeField] private float inputBufferTime = 0.1f;
@@ -23,6 +38,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private float gizmoLineLength = 2.0f; // デバッグ線の長さ
 
     private MobStatus _status;
+    private PlayerController _playerController; // 接地状態（isGrounded）を借りるために参照を追加
 
     private Vector2 _lastValidInputDirection = Vector2.zero;
     private float _lastInputTime = -999f;
@@ -31,6 +47,21 @@ public class PlayerShoot : MonoBehaviour
     private void Awake()
     {
         _status = GetComponent<MobStatus>();
+        _playerController = GetComponent<PlayerController>(); // 参照を自動取得
+    }
+
+    /// <summary>
+    /// 現在のプレイヤーが地上にいるかどうかを安全に判定するプロパティ
+    /// </summary>
+    private bool IsPlayerGrounded()
+    {
+        if (_playerController != null)
+        {
+            return System.Convert.ToBoolean(_playerController.GetType()
+                .GetField("isGrounded", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.GetValue(_playerController) ?? true);
+        }
+        return true;
     }
 
     private void Update()
@@ -57,6 +88,10 @@ public class PlayerShoot : MonoBehaviour
         bool isDirectionTargeted = (directionInput.action.ReadValue<Vector2>().sqrMagnitude > 0.05f) ||
                                    (Time.time - _lastInputTime <= inputBufferTime);
 
+        // 🔥 現在の状態に応じて上下それぞれの限界角度を動的に切り替える
+        float maxUpAngle = IsPlayerGrounded() ? groundMaxUpAngle : airMaxUpAngle;
+        float maxDownAngle = IsPlayerGrounded() ? groundMaxDownAngle : airMaxDownAngle;
+
         if (isDirectionTargeted)
         {
             Vector2 finalInput = _lastValidInputDirection;
@@ -64,12 +99,16 @@ public class PlayerShoot : MonoBehaviour
 
             if (faceDirection > 0)
             {
-                currentAngleDeg = Mathf.Clamp(currentAngleDeg, -maxShootAngle, maxShootAngle);
+                // 右向き時：上方向はプラス（0 〜 maxUpAngle）、下方向はマイナス（-maxDownAngle 〜 0）
+                currentAngleDeg = Mathf.Clamp(currentAngleDeg, -maxDownAngle, maxUpAngle);
             }
             else
             {
+                // 左向き時：Atan2の返す角度を0〜360°に補正して判定しやすくする
                 if (currentAngleDeg < 0) currentAngleDeg += 360f;
-                currentAngleDeg = Mathf.Clamp(currentAngleDeg, 180f - maxShootAngle, 180f + maxShootAngle);
+
+                // 左向き時の基準は180°。上方向はマイナス（180 - maxUpAngle）、下方向はプラス（180 + maxDownAngle）
+                currentAngleDeg = Mathf.Clamp(currentAngleDeg, 180f - maxUpAngle, 180f + maxDownAngle);
             }
 
             return new Vector3(Mathf.Cos(currentAngleDeg * Mathf.Deg2Rad), Mathf.Sin(currentAngleDeg * Mathf.Deg2Rad), 0f);
@@ -92,7 +131,7 @@ public class PlayerShoot : MonoBehaviour
 
         BallAbility ballInRange = collider.GetComponent<BallAbility>();
 
-        // 🔄 Updateで常に予測している最新の方向をそのまま採用して発射！
+        // Updateで常に予測している最新の方向をそのまま採用して発射！
         Vector3 shootDirection = _currentPredictedDirection;
 
         ballInRange.Fire(shootDirection, shootForce);
@@ -119,36 +158,37 @@ public class PlayerShoot : MonoBehaviour
     // ================================================================
     private void OnDrawGizmos()
     {
-        // スイッチがオフ、またはアプリケーションが動いていない時は描画しない
         if (!showDebugGizmos || !Application.isPlaying) return;
 
-        // レバーを入れている（または猶予時間中）なら「赤」、完全ニュートラルなら「緑」に色を変える
         bool isTargeted = (directionInput.action.ReadValue<Vector2>().sqrMagnitude > 0.05f) ||
                           (Time.time - _lastInputTime <= inputBufferTime);
 
         Gizmos.color = isTargeted ? Color.red : Color.green;
 
-        // プレイヤーの中心位置
-        Vector3 startPos = GetComponentInChildren<CollisionDetector>().transform.position;
-        // 予測される方向へ線を伸ばした先の座標
+        CollisionDetector detector = GetComponentInChildren<CollisionDetector>();
+        if (detector == null) return;
+        Vector3 startPos = detector.transform.position;
+
         Vector3 endPos = startPos + _currentPredictedDirection * gizmoLineLength;
 
         // 1. メインの予測線を引く
         Gizmos.DrawLine(startPos, endPos);
-
-        // 2. 先端に小さな球体を描画して、矢印の頭のように見せる
         Gizmos.DrawSphere(endPos, 0.15f);
 
-        // 3. 【おまけ】狙える最大上下角度（限界突破ライン）を薄い黄色でうっすら表示
+        // 2. 【進化】非対称な限界角度を取得して可動限界ガイド線を引く
+        float maxUpAngle = IsPlayerGrounded() ? groundMaxUpAngle : airMaxUpAngle;
+        float maxDownAngle = IsPlayerGrounded() ? groundMaxDownAngle : airMaxDownAngle;
         float faceDir = Mathf.Sign(transform.localScale.x);
-        Gizmos.color = new Color(1f, 1f, 0f, 0.3f); // 透明度30%の黄色
 
-        // 上限ライン
-        Vector3 maxUpDir = Quaternion.Euler(0, 0, faceDir > 0 ? maxShootAngle : -maxShootAngle) * (faceDir > 0 ? Vector3.right : Vector3.left);
+        // 現在地上の設定なら「薄い黄色」、空中なら「薄い水色」
+        Gizmos.color = IsPlayerGrounded() ? new Color(1f, 1f, 0f, 0.3f) : new Color(0f, 1f, 1f, 0.3f);
+
+        // 上限ライン（MaxUpAngleを適用）
+        Vector3 maxUpDir = Quaternion.Euler(0, 0, faceDir > 0 ? maxUpAngle : -maxUpAngle) * (faceDir > 0 ? Vector3.right : Vector3.left);
         Gizmos.DrawLine(startPos, startPos + maxUpDir * gizmoLineLength);
 
-        // 下限ライン
-        Vector3 maxDownDir = Quaternion.Euler(0, 0, faceDir > 0 ? -maxShootAngle : maxShootAngle) * (faceDir > 0 ? Vector3.right : Vector3.left);
+        // 下限ライン（MaxDownAngleを適用）
+        Vector3 maxDownDir = Quaternion.Euler(0, 0, faceDir > 0 ? -maxDownAngle : maxDownAngle) * (faceDir > 0 ? Vector3.right : Vector3.left);
         Gizmos.DrawLine(startPos, startPos + maxDownDir * gizmoLineLength);
     }
 }

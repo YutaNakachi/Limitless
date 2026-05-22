@@ -526,9 +526,10 @@ MonoBehaviour:
   dashSpeed: 10
   dashDuration: 0.25
   doubleTapTimeLimit: 0.25
-  jumpForce: 10
+  maxNumOfAirDashes: 1
+  jumpForce: 11
   maxNumOfAirJumps: 1
-  dashJumpForce: 1.04
+  dashJumpForce: 1.1
   groundCheck: {fileID: 817381981}
   checkSize: {x: 0.05, y: 0.05}
   groundLayer:
@@ -788,10 +789,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerKick
   shootCollider: {fileID: 618391910}
   shootForce: 300
-  maxShootAngle: 90
   neutralShootAngle: 5
   kickCooldownTime: 0.15
-  inputBufferTime: 0.3
+  groundMaxUpAngle: 87
+  groundMaxDownAngle: 20
+  airMaxUpAngle: 87
+  airMaxDownAngle: 87
+  inputBufferTime: 0.8
   directionInput: {fileID: -1680190386980627800, guid: 6832fb3853e9d6440978664f405bd209, type: 3}
   showDebugGizmos: 1
   gizmoLineLength: 2
@@ -809,6 +813,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
   <LifeMax>k__BackingField: 10
   invincibilityDuration: 0
+  shootCollider: {fileID: 618391910}
 --- !u!114 &771603177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -833,7 +838,7 @@ MonoBehaviour:
     <Rate>k__BackingField: 2
   maxBalls: 6
   orbitRadius: 0.8
-  centerOffsetY: -0.7
+  centerOffsetY: 0.5
   rotateSpeed: 100
   reloadTime: 1
 --- !u!95 &771603178

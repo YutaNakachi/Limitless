@@ -72,7 +72,7 @@ public class BallManager : MonoBehaviour
         float rad = angle * Mathf.Deg2Rad;
         Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * orbitRadius;
 
-        ballTransform.transform.position = transform.position + offset + new Vector3(0, GetComponent<CapsuleCollider2D>().size.y / 2 + centerOffsetY, 0);
+        ballTransform.transform.position = transform.position + offset + new Vector3(0, centerOffsetY, 0);
     }
 
     public GameObject GetRandomBall()
