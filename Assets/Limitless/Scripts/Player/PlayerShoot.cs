@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private float shootForce = 15f;
     [SerializeField, Range(0f, 90f)] private float maxShootAngle = 45f;
     [SerializeField, Range(0f, 45f)] private float neutralShootAngle = 5f;
+    [SerializeField] private float kickCooldownTime = 0.2f;
 
     [Header("ーー 入力バッファ設定 ーー")]
     [SerializeField] private float inputBufferTime = 0.1f;
@@ -20,11 +22,18 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private bool showDebugGizmos = true; // ギズモの表示・非表示スイッチ
     [SerializeField] private float gizmoLineLength = 2.0f; // デバッグ線の長さ
 
+    private MobStatus _status;
+
     private Vector2 _lastValidInputDirection = Vector2.zero;
     private float _lastInputTime = -999f;
     private Vector3 _currentPredictedDirection = Vector3.right; // 🧠 現在予測されるシュート方向（Gizmo用）
 
-    void Update()
+    private void Awake()
+    {
+        _status = GetComponent<MobStatus>();
+    }
+
+    private void Update()
     {
         // 1. 毎フレーム、レバーの入力を監視して記憶する
         Vector2 currentInput = directionInput.action.ReadValue<Vector2>();
@@ -96,6 +105,13 @@ public class PlayerShoot : MonoBehaviour
     public void OnShootFinished()
     {
         shootCollider.enabled = false;
+        StartCoroutine(CooldownCoroutine());
+    }
+
+    private IEnumerator CooldownCoroutine()
+    {
+        yield return new WaitForSeconds(kickCooldownTime);
+        _status.GoToNormalStateIfPossible();
     }
 
     // ================================================================

@@ -67,7 +67,7 @@ public abstract class MobStatus : MonoBehaviour
         LifeGaugeContainer.Instance.Remove(this);
     }
 
-    public void GoToAttackStateIfPossible()
+    public virtual void GoToAttackStateIfPossible()
     {
         if (!IsAttackable) return;
 
@@ -75,7 +75,7 @@ public abstract class MobStatus : MonoBehaviour
         _animator.SetTrigger("Attack");
     }
 
-    public void GoToNormalStateIfPossible()
+    public virtual void GoToNormalStateIfPossible()
     {
         if (_state == StateEnum.Die) return;
         _state = StateEnum.Normal;

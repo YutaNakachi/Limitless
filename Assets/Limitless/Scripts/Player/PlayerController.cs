@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private CapsuleCollider2D _collider;
     private BallManager _ballManager;
+    private MobStatus _status;
     private bool isGrounded;
     private bool isCrouching;
     private bool isOnDash;
@@ -79,6 +80,7 @@ public class PlayerController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _collider = GetComponent<CapsuleCollider2D>();
         _ballManager = GetComponent<BallManager>();
+        _status = GetComponent<MobStatus>();
     }
 
     void Start()
@@ -164,7 +166,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            _animator.SetTrigger("Kick");
+            _status.GoToAttackStateIfPossible();
         }
     }
 

@@ -119,33 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &169932155 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6559199684679116014, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
-  m_PrefabInstance: {fileID: 991562538}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &169932160 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1231000405584939730, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
-  m_PrefabInstance: {fileID: 991562538}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &169932167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169932155}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 516581ff65eb4c9418ce5c5ba9569440, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
-  <LifeMax>k__BackingField: 10
-  invincibilityDuration: 0
-  scoreValue: 10
-  attackPower: 10
-  deathEffectPrefab: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,6 +790,7 @@ MonoBehaviour:
   shootForce: 100
   maxShootAngle: 90
   neutralShootAngle: 5
+  kickCooldownTime: 0.15
   inputBufferTime: 0.3
   directionInput: {fileID: -1680190386980627800, guid: 6832fb3853e9d6440978664f405bd209, type: 3}
   showDebugGizmos: 1
@@ -860,7 +834,7 @@ MonoBehaviour:
   maxBalls: 6
   orbitRadius: 0.8
   centerOffsetY: -0.7
-  rotateSpeed: 150
+  rotateSpeed: 100
   reloadTime: 1
 --- !u!95 &771603178
 Animator:
@@ -2225,11 +2199,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4596836205783333833, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.03
+      value: -6.46
       objectReference: {fileID: 0}
     - target: {fileID: 4596836205783333833, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.35
+      value: 3.22
       objectReference: {fileID: 0}
     - target: {fileID: 4596836205783333833, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2267,29 +2241,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bat
       objectReference: {fileID: 0}
-    - target: {fileID: 7496270338980000190, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 169932160}
-    - target: {fileID: 7496270338980000190, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
-      propertyPath: chaseSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7496270338980000190, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
-      propertyPath: attackRadius
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7496270338980000190, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
-      propertyPath: targetDetectionRadius
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6559199684679116014, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 169932167}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
 --- !u!1 &997152987
 GameObject:

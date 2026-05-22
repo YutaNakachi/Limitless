@@ -4,14 +4,14 @@ using UnityEngine;
 [RequireComponent(typeof(MobStatus))]
 public class MobAttack : MonoBehaviour
 {
+    [SerializeField] private int attackPower = 2;
     [SerializeField] private float attackCooldown = 0.5f;
-    [SerializeField] private Collider attackCollider;
+    [SerializeField] private Collider2D attackCollider;
     [SerializeField] private AudioSource swingSound;
 
     private MobStatus _status;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
         _status = GetComponent<MobStatus>();
     }
@@ -21,11 +21,6 @@ public class MobAttack : MonoBehaviour
         if (!_status.IsAttackable) return;
 
         _status.GoToAttackStateIfPossible();
-    }
-
-    public void OnAttackRangeEnter(Collider collider)
-    {
-        AttackIfPossible();
     }
 
     public void OnAttackStart()
@@ -39,12 +34,12 @@ public class MobAttack : MonoBehaviour
         }
     }
 
-    public void OnHitAttack(Collider collider)
+    public void OnHitAttack(Collider2D collider)
     {
         MobStatus targetMob = collider.GetComponent<MobStatus>();
         if (targetMob == null) return;
 
-        targetMob.TakeDamage(1);
+        targetMob.TakeDamage(attackPower);
     }
 
     public void OnAttackFinished()
