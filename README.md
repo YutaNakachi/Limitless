@@ -36,7 +36,7 @@
 ガチャの引き（運）によっても発動が左右される最高峰の球であり、シングルプレイでの一発逆転はもちろん、対戦モード（オービット・バトル）においては「相手の回りに赤と青が揃った瞬間に、融合される前に決着をつけなければ」という極限の緊張感を生み出す。
 
 ### 3. 視覚的演出（VFX）
-- **軌跡演出**: 蹴り出された球は、ロケットのようなモコモコとした白い煙（Particle）と、鮮やかな光の残像（Trail）を引き連れて滑らかに飛行。
+- **軌跡演出**: 蹴り出された球は、ロケットのようなモコモコとした白い煙（Particle）を引き連れて滑らかに飛行。
 - **身体的爽快感**: 回避時や撃破時の絶妙な「ヒットストップ（一瞬のストップ演出）」による極上の手触り。
 
 ---
@@ -64,19 +64,33 @@
 ---
 
 ## 🛠️ 開発環境 / プロジェクト構成
-- **Engine**: Unity 6.3 LTS 移行（2D URP推奨 / Post-Processing (Bloom) 使用）
-- **Language**: C# (オブジェクト指向思想に基づく設計。`BallAbility` 基底クラスによる拡張構造を想定)
 
-### 📂 ディレクトリ構成（設計標準化案）
+### 1. 開発環境
+* **Engine**: Unity 6 (2D URP / Post-Processing (Bloom) 使用)
+* **Language**: C# 
+  * コンポーネント指向およびポリモーフィズムに基づく厳格な設計
+  * `MobStatus` 基底クラスによるキャラクター状態の共通化
+  * `BallAbility` 基底クラスによるボール特殊能力の拡張構造
+
+### 2. 📂 ディレクトリ構成（Project Structure）
+
+画像の実態に則した、`Limitless` フォルダ配下の最新構成です。
+
 ```text
-Assets/
-└── _Project/
-    ├── Prefabs/           # Player, Enemy, 各種Ball（Red/Blue/None）
-    ├── Scenes/            # Title, Survival, Co-op, Battle
-    └── Scripts/           # C#スクリプト
-        ├── Actors/        # プレイヤー（2段ジャンプ・2回押しダッシュ）、敵AI
-        ├── Ball/          # BallController、BallAbility（抽象）、各種カラー実装
-        └── Managers/      # BallManager（6スロット配列上書き）、GameManager
+Limitless/
+├── Animations/         # キャラクター（Player/Enemy）のアニメーション、各種Controller
+├── Materials/          # URP用マテリアル、トレイルやエフェクト用ブレンド設定
+├── Prefabs/            # Player, Enemy(コウモリ等), Ball（各種カラー/能力違いのプレハブ）
+├── Resources/          # 動的ロード用の各種アセット、オーディオ、またはエフェクトPrefab
+├── Scenes/             # Title, MainGame, Battle などのシーンファイル
+├── Scripts/            # 💻 C#スクリプト（役割別の配置）
+│   ├── Actors/         # 動体ロジック（PlayerStatus, EnemyStatus, BatAI 等）
+│   ├── Combat/         # 攻撃・シュート（MobAttack, PlayerShoot 等）
+│   ├── Ball/           # ボール制御（BallController, BallAbility 基底クラス等）
+│   ├── UI/             # 画面表示（LifeGaugeContainer, LifeGauge 等）
+│   └── Managers/       # 管理システム（FxManager, GameManager 等）
+├── Settings/           # URP Assets, Input System (新入力システムの設定データ)
+└── Tilemaps/           # ステージ構成用のタイルマップ、グリッド、パレットデータ
 ```
 ---
 
@@ -159,4 +173,110 @@ FxManager.Instance.Play("NormalBallKick");
 // 第2引数に対象の Transform を渡すと、プリセットの設定に従ってガタガタと震えます
 FxManager.Instance.Play("BallHitEnemy", ballInRange.transform);
 ```
+
+#### 🎮 Game Project - Core Architecture & System Specifications
+
+本プロジェクトは、Unity（2D）における**コンポーネント指向（役割の完全分離）**と**イベント駆動（Animation Eventや状態変化の検知）**をベースに設計された対戦・アクションゲームのシステム基盤です。
+
+プレイヤー、エネミー、UI、およびギミック（ボール）が互いに不整合を起こさないよう、厳格なインターロック（二重動作防止）とポリモーフィズム（多態性）が取り入れられています。
+
+---
+
+### 6．🛠️ Status管理主要クラス連携
+
+#### 1. 全主要クラスの役割・責任マップ
+
+| クラス名 | 継承・依存関係 | 主な役割・責任 |
+| :--- | :--- | :--- |
+| **`MobStatus`** | `MonoBehaviour` | すべての動体の「状態（Normal/Attack/Die）」および「ライフ・無敵時間」を統括する絶対的な管理者。 |
+| **`PlayerStatus`** | `MobStatus` | プレイヤー固有の状態管理。キックアニメーションのトリガーや、死亡時のゲームオーバー（`Debug.Log`）への接続を担当。 |
+| **`EnemyStatus`** | `MobStatus` | エネミー共通の死亡ライフサイクルを管理。死亡アニメーション再生後、3秒のディレイを経て自身をメモリから消去（`Destroy`）する。 |
+| **`BatAI`** | `MonoBehaviour` | コウモリの意思決定AI。周辺索敵、高さ補正（Y軸Offset）付きの追跡・突進を制御。状態遷移は必ず `MobStatus` に依存する。 |
+| **`MobAttack`** | `MonoBehaviour` | 主にエネミー側の物理的な攻撃判定（Collider）のON/OFF、ランダムピッチでのSE再生、およびヒット時のダメージ伝達を担当。 |
+| **`PlayerShoot`** | `MonoBehaviour` | プレイヤーのキック・シュートシステム。レバー入力バッファ（先行入力）、弾道角度のクランプ、およびデバッグ用Gizmo描画を統括。 |
+| **`LifeGaugeContainer`** | `MonoBehaviour` | 画面上の全HPゲージを集中管理するシングルトン。世界中のMobの生成・死亡に連動してUIを自動で生成・破棄する。 |
+| **`LifeGauge`** | `MonoBehaviour` | 各Mobの頭上に1対1で追従するUI個体。ワールド座標からスクリーン座標、さらにUIローカル座標への変換とHPバーの更新を行う。 |
+
+---
+
+#### 2. システム連携の全体構造（データ・イベントフロー）
+
+各コンポーネントは直接お互いの内部数値を弄るのではなく、「アニメーションイベント」や「ステートの変化」をトリガーにして安全に連携します。
+
+##### ① エネミー（コウモリ）のアクション＆攻撃ループ
+```text
+・BatAI (AIの意思)
+　└ 1. 範囲内にプレイヤーを捕捉（Y軸Offsetを加味）
+　▼
+・MobStatus / EnemyStatus
+　├ 2. 状態を「Attack」にし移動をロック
+　├ 3. Animator ➔ 攻撃アニメーション再生（Animation Event発生）
+　▼
+・MobAttack
+　├ 4. 攻撃ColliderをON / SE再生
+　├ 5. プレイヤーの MobStatus.TakeDamage() を実行
+　├ 6. 攻撃終了イベント検知 ➔ クールダウンコルーチン開始
+　▼
+・MobStatus.GoToNormalStateIfPossible()
+　└ 7. 状態が「Normal」へ復帰
+　▼
+・BatAI (FixedUpdate)
+　└ 8. インターロック解除を検知し、AI内部の突進・ためフラグを完全自動リセット
+```
+
+##### ② プレイヤーのキック・シュート＆エフェクト連鎖
+```text
+・PlayerInput (新入力システム)
+　▼
+・PlayerShoot (Update)
+　├ 1. レバー方向を常時監視＋入力バッファ（0.1秒）で記憶
+　├ └ 狙える角度を maxShootAngle 内にクランプ
+　├ └ シーン画面に予測線をリアルタイムGizmo描画（赤/緑）
+　▼
+・PlayerStatus.GoToAttackStateIfPossible()
+　└ 2. 状態を「Attack」にし、"Kick" トリガー点火
+　▼ （Animation Event: OnShoot）
+・PlayerShoot.OnShoot()
+　└ 3. キャッシュされた最新の予測方向ベクトルを抽出
+　▼
+・BallAbility.Fire(方向, 威力)
+　├─► FxManager ➔ 4. ヒットストップ、カメラシェイクなどの全体演出をトリガー
+　└─► Particle System (Prefab) ➔ 5. ボールの子要素として即座に生成
+　　　　├ Scaling Mode = Hierarchy（ボールのサイズ変化にエフェクトが自動同期）
+　　　　└ Simulation Space = World（噴射口は追従し、煙は世界に「置き去り」）
+```
+
+##### ③ UI（HPゲージ）の自動追従とライフサイクル
+```text
+・任意の MobStatus.Start()
+　└ 1. 自身が生まれたことを通知
+　▼
+・LifeGaugeContainer.Instance.Add(this)
+　└ 2. UIキャンバス内に LifeGauge プレハブを生成
+　▼
+・LifeGauge.Initialize()
+　▼ （毎フレームの Update ループ）
+・LifeGauge.Refresh()
+　├ 3. MobStatus.Life / LifeMax を計算し、HPバーの fillAmount を更新
+　└ 4. WorldToScreenPoint ➔ ScreenPointToLocalPointInRectangle を経て、頭上（+80px）へ正確に追従
+　▼ （Mobが死亡時: TakeDamage ➔ OnDie）
+・EnemyStatus / PlayerStatus
+　└ 5. 死亡トリガー検知
+　▼
+・LifeGaugeContainer.Instance.Remove(this)
+　└ 6. 対応する LifeGauge オブジェクトをメモリから消去（Destroy）
+```
+
+#### ⚡ 設計上の強み（バグを未然に防ぐ仕組み）
+
+* **スライディングバグ・二重動作の防止（厳格なインターロック）**
+  ノックバックやスタン、あるいは攻撃終了時のクールダウンによって `MobStatus` の状態が強制的に書き換わった際、AI側（`BatAI`）や攻撃側（`MobAttack`, `PlayerShoot`）の `FixedUpdate` がそれを自動検知し、**内部の全アクションフラグ（ため・突進・攻撃など）を強制リセットしてNormalに引き戻す回路**が組まれています。これにより、キャラクターが硬直を無視して滑りながら攻撃し続けたりするバグをシステムレベルで根絶しています。
+
+* **ポリモーフィズムによる共通化と高い量産性**
+  HP管理、ダメージ処理、初期無敵時間、状態定義といった「生命体としての共通ロジック」はすべて親クラス `MobStatus` に集約。それを継承した `PlayerStatus` と `EnemyStatus` は、**死亡時や攻撃時の固有の分岐処理（ゲームオーバーを呼ぶか、3秒後に消えるか等）を書くだけで済む**ため、コードの重複が一切ありません。今後、新しいエネミーを追加する際も、AIロジックのみを新規実装するだけでHP追従や死亡消滅などの全システムが最初から自動で適用されます。
+
+* **手触りの良さ（Juice）とデバッグ性の両立**
+  * **入力バッファ**: `PlayerShoot` には0.1秒の先行入力猶予があり、レバーを離した直後のキックでも意図した方向へ正確にシュートが放てます。
+  * **可視化Gizmo**: ニュートラル（緑）と入力中（赤）で色が変わり、クランプ限界線が黄色でシースルー表示されるため、エディタ上で弾道予測が一目でデバッグ可能です。
+
 ---
