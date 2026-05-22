@@ -787,7 +787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerKick
   shootCollider: {fileID: 618391910}
-  shootForce: 100
+  shootForce: 300
   maxShootAngle: 90
   neutralShootAngle: 5
   kickCooldownTime: 0.15
@@ -2240,6 +2240,10 @@ PrefabInstance:
     - target: {fileID: 6559199684679116014, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
       propertyPath: m_Name
       value: Bat
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559199684679116014, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -144,9 +144,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 3
-  m_LinearDamping: 3
+  m_LinearDamping: 6
   m_AngularDamping: 0.05
-  m_GravityScale: 0.7
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -200,5 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6322bb95b8d6e24280b13db12c2ae21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NormalBallAbility
-  attackDamage: 10
+  attackDamage: 2
   ballLifeTime: 0.5
+  smokeEffectPrefab: {fileID: 3288035947860902249, guid: 6663032c2debf3f47aa581817466411f, type: 3}
+  effectDestroyTime: 1

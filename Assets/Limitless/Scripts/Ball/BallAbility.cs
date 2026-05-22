@@ -60,7 +60,7 @@ public abstract class BallAbility : MonoBehaviour
 
     protected virtual IEnumerator DestroyABall()
     {
-        yield return new WaitUntil(() => Mathf.Abs(_rigidbody.linearVelocity.x) <= 1f);
+        yield return new WaitUntil(() => _rigidbody.linearVelocity.magnitude <= 2f);
         GetComponent<CollisionDetector>().enabled = false;
 
         yield return new WaitForSeconds(ballLifeTime);
