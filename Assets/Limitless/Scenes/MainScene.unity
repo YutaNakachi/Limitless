@@ -507,7 +507,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 5
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -553,7 +553,7 @@ MonoBehaviour:
   dashSpeed: 10
   dashDuration: 0.25
   doubleTapTimeLimit: 0.25
-  jumpForce: 17
+  jumpForce: 10
   maxNumOfAirJumps: 1
   dashJumpForce: 1.04
   groundCheck: {fileID: 817381981}
@@ -567,7 +567,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   wallSlideSpeed: 2
-  wallJumpForce: {x: 5, y: 15}
+  wallJumpForce: {x: 3, y: 12}
   wallJumpTime: 0.05
   downDoubleTapTimeLimit: 0.25
   normalCollider:
@@ -814,10 +814,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerKick
   shootCollider: {fileID: 618391910}
+  shootForce: 100
   maxShootAngle: 90
   neutralShootAngle: 5
-  shootForce: 100
+  inputBufferTime: 0.3
   directionInput: {fileID: -1680190386980627800, guid: 6832fb3853e9d6440978664f405bd209, type: 3}
+  showDebugGizmos: 1
+  gizmoLineLength: 2
 --- !u!114 &771603176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1280,34 +1283,34 @@ CompositeCollider2D:
   - m_Collider: {fileID: 902913622}
     m_ColliderPaths:
     - - X: 0
-        Y: 6250000
+        Y: -3750000
       - X: 625000
-        Y: 5625000
+        Y: -4375000
       - X: 9375000
-        Y: 5625000
+        Y: -4375000
       - X: 10000000
-        Y: 6250000
+        Y: -3750000
       - X: 10000000
-        Y: 10000000
+        Y: 0
       - X: -10000000
-        Y: 10000000
+        Y: 0
       - X: -10000000
-        Y: 6250000
+        Y: -3750000
       - X: -9375000
-        Y: 5625000
+        Y: -4375000
       - X: 0
-        Y: 5625000
+        Y: -4375000
   m_CompositePaths:
     m_Paths:
-    - - {x: -0.000029300001, y: 0.5625}
-      - {x: 0.000061700004, y: 0.6249382}
-      - {x: 0.0625108, y: 0.5625}
-      - {x: 0.9375076, y: 0.5625076}
-      - {x: 1, y: 0.6250108}
-      - {x: 0.99997073, y: 1}
-      - {x: -1, y: 0.99997073}
-      - {x: -0.99999243, y: 0.62499243}
-      - {x: -0.9374892, y: 0.5625}
+    - - {x: -0.000029300001, y: -0.4375}
+      - {x: 0.000061700004, y: -0.3750618}
+      - {x: 0.0625108, y: -0.4375}
+      - {x: 0.9375076, y: -0.4374924}
+      - {x: 1, y: -0.3749892}
+      - {x: 0.99997073, y: 0}
+      - {x: -1, y: -0.000029300001}
+      - {x: -0.99999243, y: -0.3750076}
+      - {x: -0.9374892, y: -0.4375}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
@@ -1442,20 +1445,20 @@ Tilemap:
   m_GameObject: {fileID: 902913618}
   m_Enabled: 1
   m_Tiles:
-  - first: {x: -1, y: 0, z: 0}
+  - first: {x: -1, y: -1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 0
+      m_TileIndex: 1
       m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 0, y: 0, z: 0}
+  - first: {x: 0, y: -1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 1
+      m_TileIndex: 0
       m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
@@ -1465,9 +1468,9 @@ Tilemap:
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 5e811ca7908548b4191dc7d456946c83, type: 2}
-  - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: c31cb4b558dc9084a903d72229f3d25d, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 5e811ca7908548b4191dc7d456946c83, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1
     m_Data: {fileID: -6278356596846833739, guid: fc584d329b77b9545b9c9c8bb829e553, type: 3}
