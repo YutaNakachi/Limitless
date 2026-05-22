@@ -18,7 +18,7 @@ MonoBehaviour:
     timeScale: 0
     shakeDuration: 0.04
     shakeMagnitude: 0.05
-    objectShakeMagnitude: 0.12
+    objectShakeMagnitude: 0.1
     useObjectShakeY: 1
   - label: ' DashBallKick'
     stopDuration: 0.08
