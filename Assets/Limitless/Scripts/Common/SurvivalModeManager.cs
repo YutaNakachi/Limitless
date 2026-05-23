@@ -212,7 +212,7 @@ public class SurvivalModeManager : MonoBehaviour
                                   $"MAX COMBO   : {_maxComboCount} Combo";
         }
 
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
 
     private void OnDestroy()

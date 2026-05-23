@@ -4,7 +4,6 @@ public class BatAI : MonoBehaviour
 {
     [Header("ーー 通常移動設定 ーー")]
     [SerializeField] private float chaseSpeed = 3.5f;   // 追跡時の移動速度
-    [SerializeField] private float wallCheckDistance = 0.5f; // 壁センサーの長さ
     [SerializeField] private LayerMask groundLayer;          // 地面や壁のレイヤー
 
     [Header("ーー 索敵・攻撃範囲設定 ーー")]
@@ -239,17 +238,35 @@ public class BatAI : MonoBehaviour
     {
         if (currentVelocity.sqrMagnitude > 0.01f)
         {
+            Vector2 moveStep = currentVelocity * Time.deltaTime;
+            float checkDistance = moveStep.magnitude + 0.02f; // わずかなスキン値
             Vector2 moveDir = currentVelocity.normalized;
-            RaycastHit2D hit = Physics2D.Linecast(
+
+            // 🔥 Linecast から CircleCast に変更！
+            // 引数: (中心の現在地, 丸の半径, 進む方向, 進む距離, 検知するレイヤー)
+            // ※半径「0.3f」の部分は、Batの実際のサイズ（コライダーの大きさ）に合わせて調整してください
+            float batRadius = 0.3f;
+            RaycastHit2D hit = Physics2D.CircleCast(
                 transform.position,
-                (Vector2)transform.position + moveDir * wallCheckDistance,
+                batRadius,
+                moveDir,
+                checkDistance,
                 groundLayer
             );
 
-            if (hit.collider != null) return Vector2.zero;
+            if (hit.collider != null)
+            {
+                // 壁の法線を使ってスライド移動を計算
+                Vector2 projection = Vector2.Dot(currentVelocity, hit.normal) * hit.normal;
+                Vector2 slideVelocity = currentVelocity - projection;
+
+                // 方向だけを壁と平行にし、元のスピードを維持する（微振動防止）
+                return slideVelocity.normalized * currentVelocity.magnitude;
+            }
         }
         return currentVelocity;
     }
+
 
     private void UpdateFacingDirection(float horizontalMovement)
     {
@@ -276,16 +293,5 @@ public class BatAI : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + transform.right * wallCheckDistance);
-        Gizmos.DrawLine(transform.position, transform.position - transform.right * wallCheckDistance);
-
-        // 💡 【新設】エディタ上でOffsetされた「本当の狙い目」を小さな青い球で可視化
-        if (_targetPlayer != null)
-        {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawSphere(GetTargetPositionWithOffset(), 0.2f);
-        }
     }
 }
