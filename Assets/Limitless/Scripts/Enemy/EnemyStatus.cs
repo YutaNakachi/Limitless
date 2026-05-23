@@ -3,16 +3,15 @@ using UnityEngine;
 
 public class EnemyStatus : MobStatus
 {
-    // Enemy共通の死亡時処理
     protected override void OnDie()
     {
-        base.OnDie();
+        base.OnDie(); // 親のOnDeathEvent等がここで走るためマネージャーへ通知が届きます
         StartCoroutine(DestroyCoroutine());
     }
 
     private IEnumerator DestroyCoroutine()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }
 }

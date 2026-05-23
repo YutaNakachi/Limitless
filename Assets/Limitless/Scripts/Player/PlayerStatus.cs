@@ -21,6 +21,7 @@ public class PlayerStatus : MobStatus
 
     protected override void OnDie()
     {
+        base.OnDie();
         Debug.Log("GameOver");
     }
 }

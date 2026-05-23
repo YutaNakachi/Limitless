@@ -118,12 +118,12 @@ TextureImporter:
       name: Gojo_1_Hit_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 24
-        width: 153
-        height: 249
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 9
+        y: 25
+        width: 151
+        height: 247
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -140,12 +140,12 @@ TextureImporter:
       name: Gojo_1_Hit_1
       rect:
         serializedVersion: 2
-        x: 187
-        y: 23
-        width: 164
-        height: 261
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 188
+        y: 24
+        width: 162
+        height: 259
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -162,12 +162,12 @@ TextureImporter:
       name: Gojo_1_Hit_2
       rect:
         serializedVersion: 2
-        x: 378
-        y: 30
-        width: 169
-        height: 223
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 379
+        y: 31
+        width: 167
+        height: 221
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -184,12 +184,12 @@ TextureImporter:
       name: Gojo_1_Hit_3
       rect:
         serializedVersion: 2
-        x: 603
-        y: 26
-        width: 256
-        height: 160
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 604
+        y: 27
+        width: 254
+        height: 158
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -206,12 +206,12 @@ TextureImporter:
       name: Gojo_1_Hit_4
       rect:
         serializedVersion: 2
-        x: 929
-        y: 29
-        width: 297
-        height: 73
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 930
+        y: 30
+        width: 295
+        height: 71
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -228,12 +228,12 @@ TextureImporter:
       name: Gojo_1_Hit_5
       rect:
         serializedVersion: 2
-        x: 1283
-        y: 29
-        width: 178
-        height: 167
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1284
+        y: 30
+        width: 176
+        height: 165
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -250,7 +250,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 72ec615830553d74f88773cd56d5d7cd
     internalID: 0
     vertices: []
     indices: 
@@ -258,7 +258,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Gojo_1_Hit_0: -2222651409925949728
       Gojo_1_Hit_1: 8917022323930206268
