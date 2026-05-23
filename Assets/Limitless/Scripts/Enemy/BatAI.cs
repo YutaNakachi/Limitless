@@ -65,6 +65,14 @@ public class BatAI : MonoBehaviour
             Debug.Log("🔄 [EnemyAI] 攻撃・ため・突進フラグを完全リセットしました。");
         }
 
+        // 🔥 【新設】ノックバック中（または死亡時）は、AI側の速度制御を完全にストップして物理に任せる
+        if (_status.IsDead || (!_status.IsMovable && !_status.IsAttackable))
+        {
+            // アニメーションだけは停止状態のベクトルを渡しておく
+            UpdateAnimationParams(Vector2.zero);
+            return; // 👈 ここで即リターンして、下のブレーキ（Vector2.zero）を通さない！
+        }
+
         // 🔄 2. ため時間（予備動作）中の優先ルート
         if (_isPreDelaying)
         {

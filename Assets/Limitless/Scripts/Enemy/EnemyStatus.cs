@@ -11,7 +11,7 @@ public class EnemyStatus : MobStatus
 
     private IEnumerator DestroyCoroutine()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
 }
