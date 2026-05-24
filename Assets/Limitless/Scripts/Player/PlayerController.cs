@@ -255,27 +255,21 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // 🔥 【大改造】ノックバック中の場合は、吹き飛び物理（AddForceやVelocity）を最優先して以下の入力を全カット！
-        if (_status.IsDead || _status.Life <= 0 || _status.IsMovable == false && _status.IsAttackable == false)
-        {
-            // つまり、死んでいるか、ノックバック中（Movable=false かつ Attackable=false）の時
-            // 重力だけは元のスケールに戻しておき、物理演算（吹き飛び）に身を委ねる
-            if (_rigidbody.gravityScale == 0f) _rigidbody.gravityScale = originalGravityScale;
-            return; // 👈 ここで抜けることで、速度の上書きを防ぎ、綺麗に吹っ飛びます！
-        }
-
-        // 🥊 キック中（Attackステート）の物理制御インターロック（元の処理）
+        // キック中（Attackステート）の物理制御インターロック
         if (!_status.IsMovable)
         {
             isWallSliding = false;
+
             if (!isGrounded)
             {
+                // A. 空中キック：重力を完全にゼロにし、その場に完全ロック（ピタッと滞空）
                 _rigidbody.gravityScale = 0f;
                 _rigidbody.linearVelocity = Vector2.zero;
                 currentVelocityX = 0f;
             }
             else
             {
+                // B. 地上キック：横移動の慣性だけを強制ストップ
                 _rigidbody.linearVelocity = new Vector2(0f, _rigidbody.linearVelocity.y);
                 currentVelocityX = 0f;
             }

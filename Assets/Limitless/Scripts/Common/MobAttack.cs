@@ -39,7 +39,7 @@ public class MobAttack : MonoBehaviour
         MobStatus targetMob = collider.GetComponent<MobStatus>();
         if (targetMob == null) return;
 
-        targetMob.TakeDamage(attackPower, transform.position);
+        targetMob.TakeDamage(attackPower);
     }
 
     public void OnAttackFinished()

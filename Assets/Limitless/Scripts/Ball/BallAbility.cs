@@ -32,7 +32,7 @@ public abstract class BallAbility : MonoBehaviour
         if (target != null)
         {
             // 敵であればダメージを与える
-            target.TakeDamage(attackDamage, transform.position);
+            target.TakeDamage(attackDamage);
 
             Debug.Log($"{collider.gameObject.name} にダメージ！");
         }
