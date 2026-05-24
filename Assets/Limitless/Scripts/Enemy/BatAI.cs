@@ -54,8 +54,18 @@ public class BatAI : MonoBehaviour
         return (Vector2)_targetPlayer.position + new Vector2(0f, offsetDirectionY);
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
+        // 🔥 【大修正】「死亡中」または「ノックバック中」の時だけ即リターンして物理に任せる！
+        // ※ IsMovable(false) かつ IsAttackable(false) の状態は、ノックバックだけでなく「自身の攻撃中」も含まれてしまうため、
+        // 「自身の攻撃フラグ（_isAttacking, _isPreDelaying, _isCharging）」がどれも立っていない時、という条件を足すことで【ノックバック中のみ】に限定します。
+        bool isMyOwnAttack = _isAttacking || _isPreDelaying || _isCharging;
+        if (_status.IsDead || (!_status.IsMovable && !isMyOwnAttack))
+        {
+            // ノックバック中・死亡中はAIの移動制御を完全にバイパス
+            return;
+        }
+
         // 🔄 1. インターロック解除：MobStatusがNormalに戻ったら、AIの全フラグをリセット
         if (_status.IsAttackable && _isAttacking)
         {
@@ -202,9 +212,13 @@ public class BatAI : MonoBehaviour
     {
         _chargeTimer += Time.fixedDeltaTime;
 
-        // 🚧 壁衝突センサー
+        // 🚧 壁衝突センサー（スライドを加味した速度を受け取る）
         Vector2 nextVelocity = _chargeDirection * chargeSpeed;
-        if (CheckWallCollision(nextVelocity) == Vector2.zero)
+        Vector2 finalVelocity = CheckWallCollision(nextVelocity);
+
+        // 🔥 【修正】センサーが元の速度と違う（＝壁に正面衝突した、またはスライドした）なら突進を止める
+        // もし「壁に当たっても滑りながら突進を続けさせたい」なら、この if 文ごと消し去ってOKです！
+        if (finalVelocity.sqrMagnitude < nextVelocity.sqrMagnitude - 0.1f)
         {
             StopChargingPhysics();
             return;
@@ -217,8 +231,8 @@ public class BatAI : MonoBehaviour
             return;
         }
 
-        _rigidbody.linearVelocity = nextVelocity;
-        UpdateAnimationParams(nextVelocity);
+        _rigidbody.linearVelocity = finalVelocity; // 計算された安全な速度を代入
+        UpdateAnimationParams(finalVelocity);
     }
 
     private void StopChargingPhysics()
@@ -238,13 +252,9 @@ public class BatAI : MonoBehaviour
     {
         if (currentVelocity.sqrMagnitude > 0.01f)
         {
-            Vector2 moveStep = currentVelocity * Time.deltaTime;
-            float checkDistance = moveStep.magnitude + 0.02f; // わずかなスキン値
+            float checkDistance = currentVelocity.magnitude * 0.1f + 0.05f;
             Vector2 moveDir = currentVelocity.normalized;
 
-            // 🔥 Linecast から CircleCast に変更！
-            // 引数: (中心の現在地, 丸の半径, 進む方向, 進む距離, 検知するレイヤー)
-            // ※半径「0.3f」の部分は、Batの実際のサイズ（コライダーの大きさ）に合わせて調整してください
             float batRadius = 0.3f;
             RaycastHit2D hit = Physics2D.CircleCast(
                 transform.position,
@@ -254,13 +264,22 @@ public class BatAI : MonoBehaviour
                 groundLayer
             );
 
+            Debug.DrawRay(transform.position, moveDir * checkDistance, Color.red);
+
             if (hit.collider != null)
             {
-                // 壁の法線を使ってスライド移動を計算
+                // 🔥 【超重要】壁の向いている方向（hit.normal）と、自分が進みたい方向（moveDir）の内積を計算
+                // 内積が 0 以上 ➔ 壁と同じ方向、または壁から離れる方向に動こうとしている
+                // つまり、地面に触れている状態で「上」に飛び立とうとしている時は、衝突計算をスキップしてそのまま通す！
+                if (Vector2.Dot(moveDir, hit.normal) >= 0f)
+                {
+                    return currentVelocity;
+                }
+
+                // 壁に突っ込んでいるとき（内積がマイナス）のみ、以下のスライド移動を計算する
                 Vector2 projection = Vector2.Dot(currentVelocity, hit.normal) * hit.normal;
                 Vector2 slideVelocity = currentVelocity - projection;
 
-                // 方向だけを壁と平行にし、元のスピードを維持する（微振動防止）
                 return slideVelocity.normalized * currentVelocity.magnitude;
             }
         }

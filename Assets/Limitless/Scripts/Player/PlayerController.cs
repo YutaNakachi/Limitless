@@ -255,8 +255,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!_status.IsMovable && !_status.IsAttackable) return;
+
+
         // キック中（Attackステート）の物理制御インターロック
-        if (!_status.IsMovable)
+        if (!_status.IsMovable && !_status.IsDead)
         {
             isWallSliding = false;
 

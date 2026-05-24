@@ -4,9 +4,4 @@ public class GhostStatus : EnemyStatus
     {
         base.OnDie();
     }
-
-    protected override void OnInvincibilityEnd()
-    {
-        // 無敵が終わったら見た目を変える演出など
-    }
 }

@@ -197,7 +197,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   chaseSpeed: 0.5
-  wallCheckDistance: 0.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 20544
@@ -226,6 +225,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
   <LifeMax>k__BackingField: 10
   invincibilityDuration: 0
+  knockbackDuration: 0.5
+  knockbackForce: 6
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 28736
 --- !u!114 &4231401432402438096
 MonoBehaviour:
   m_ObjectHideFlags: 0
