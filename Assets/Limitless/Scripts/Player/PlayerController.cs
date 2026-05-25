@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -40,6 +41,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("One Way Platform Settings")]
     [SerializeField] private float downDoubleTapTimeLimit = 0.25f; // 下2回押しとして認める時間（秒）
+
+    [Header("Intro Settings")]
+    [SerializeField] private float introDuration = 1.5f;
 
     [Header("Collider Settings")]
     [SerializeField] private ColliderData normalCollider;
@@ -93,12 +97,17 @@ public class PlayerController : MonoBehaviour
         // 🔥 アニメーションを再生し、同時にステートを「Intro（行動不可）」にする
         _animator.SetTrigger("Intro");
         _status.SetIntroState();
+
+        StartCoroutine(IntroRoutine());
     }
 
-    public void OnIntroAnimationEnd()
+    private IEnumerator IntroRoutine()
     {
+        // 💡 イントロアニメーションの長さ（秒）だけ待つ
+        yield return new WaitForSeconds(introDuration);
+
+        // 通常状態に戻して、動けるようにする！
         _status.GoToNormalStateIfPossible();
-        Debug.Log("🏁 イントロ終了！ 操作可能になりました。");
     }
 
     public void OnMove(InputAction.CallbackContext context)

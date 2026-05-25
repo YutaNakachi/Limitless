@@ -30,12 +30,13 @@ public abstract class BallAbility : MonoBehaviour
 
         // 相手が「EnemyStatus」を持っているか確認
         EnemyStatus target = collider.GetComponent<EnemyStatus>();
-        if (target.IsInvincible) return;
-
-        PlayHitEffect(collider);
 
         if (target != null)
         {
+            if (target.IsInvincible) return;
+
+            PlayHitEffect(collider);
+
             // 敵であればダメージを与える
             target.TakeDamage(attackDamage, transform.position);
 

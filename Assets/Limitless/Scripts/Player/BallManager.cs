@@ -24,6 +24,9 @@ public class BallManager : MonoBehaviour
     [Tooltip("リロードクールタイム")]
     [SerializeField] private float reloadTime = 2.0f;
 
+    [Tooltip("ボールの生成間隔")]
+    [SerializeField] private float ballActivateDuration = 0.2f;
+
 
     //private List<BallController> activeBalls = new List<BallController>();
     private BallAbility[] activeBalls;
@@ -113,7 +116,7 @@ public class BallManager : MonoBehaviour
                 // 枠が空（null）、または中身がすでに蹴られている場合
                 if (activeBalls[i] == null || activeBalls[i].isKicked)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(ballActivateDuration);
 
                     // 飛んでいった古いボールが残っている場合は念のため参照を切る
                     activeBalls[i] = null;

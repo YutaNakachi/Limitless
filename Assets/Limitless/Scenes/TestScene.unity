@@ -2798,6 +2798,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: reloadTime
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: ballActivateDuration
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: balls.Array.data[1].<Rate>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: balls.Array.data[2].<Rate>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2883445398658177238, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2837,6 +2853,10 @@ PrefabInstance:
     - target: {fileID: 2883445398658177238, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5092463745701814035, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: introDuration
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6711382325980383970, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: m_Name
