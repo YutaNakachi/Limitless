@@ -202,5 +202,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NormalBallAbility
   attackDamage: 2
   ballLifeTime: 0.5
+  hitEffectPrefab: {fileID: 3042519775331041172, guid: fe5980c82f46c254e9a2410b097baceb, type: 3}
   smokeEffectPrefab: {fileID: 3288035947860902249, guid: 6663032c2debf3f47aa581817466411f, type: 3}
-  effectDestroyTime: 1
+  effectDestroyTime: 5

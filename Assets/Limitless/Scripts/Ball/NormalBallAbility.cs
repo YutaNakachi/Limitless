@@ -11,7 +11,7 @@ public class NormalBallAbility : BallAbility
         // 1. 画面揺れやヒットストップ演出
         FxManager.Instance.Play("NormalBallKick", transform);
 
-        // 2. 🔥 【大正解：ボールの子要素として生成する】
+        // 2. 🔥 【ボールの子要素として生成する】
         if (smokeEffectPrefab != null)
         {
             // ボールと同じ位置に生成

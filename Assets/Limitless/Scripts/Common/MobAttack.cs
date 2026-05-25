@@ -7,6 +7,7 @@ public class MobAttack : MonoBehaviour
     [SerializeField] private int attackPower = 2;
     [SerializeField] private float attackCooldown = 0.5f;
     [SerializeField] private Collider2D attackCollider;
+    [SerializeField] private GameObject hitEffectPrefab;
     [SerializeField] private AudioSource swingSound;
 
     private MobStatus _status;
@@ -38,6 +39,14 @@ public class MobAttack : MonoBehaviour
     {
         MobStatus targetMob = collider.GetComponent<MobStatus>();
         if (targetMob == null) return;
+        if (targetMob.IsInvincible) return;
+
+        Vector2 myCenter = transform.position;
+        Vector3 exactHitPoint = collider.ClosestPoint(myCenter);
+        if (hitEffectPrefab != null)
+        {
+            Instantiate(hitEffectPrefab, exactHitPoint, Quaternion.identity);
+        }
 
         targetMob.TakeDamage(attackPower, transform.position);
     }

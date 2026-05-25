@@ -6,6 +6,7 @@ public abstract class BallAbility : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int attackDamage = 10; // ボールの攻撃力
     [SerializeField] private float ballLifeTime = 2f; // ボールX方向の速度が1以下になってから消滅するまでの秒数
+    [SerializeField] private GameObject hitEffectPrefab;
 
     private Rigidbody2D _rigidbody;
     private Collider2D _collider;
@@ -28,6 +29,9 @@ public abstract class BallAbility : MonoBehaviour
 
         // 相手が「EnemyStatus」を持っているか確認
         EnemyStatus target = collider.GetComponent<EnemyStatus>();
+        if (target.IsInvincible) return;
+
+        PlayHitEffect(collider);
 
         if (target != null)
         {
@@ -35,10 +39,6 @@ public abstract class BallAbility : MonoBehaviour
             target.TakeDamage(attackDamage, transform.position);
 
             Debug.Log($"{collider.gameObject.name} にダメージ！");
-        }
-        else
-        {
-            // 敵以外（プレイヤー自身や壁など）に当たった時の処理が必要なら
         }
     }
 
@@ -49,7 +49,6 @@ public abstract class BallAbility : MonoBehaviour
     {
         isKicked = true;
         _collider.isTrigger = false;
-        //GetComponent<ParticleSystem>().Play();
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
 
@@ -65,6 +64,17 @@ public abstract class BallAbility : MonoBehaviour
 
         yield return new WaitForSeconds(ballLifeTime);
         Destroy(gameObject);
+    }
+
+    // 各Ball固有のHit Effectなど演出を仕込む、OnHit()で呼び出す
+    protected virtual void PlayHitEffect(Collider2D collider)
+    {
+        Vector2 myCenter = transform.position;
+        Vector3 exactHitPoint = collider.ClosestPoint(myCenter);
+        if (hitEffectPrefab != null)
+        {
+            Instantiate(hitEffectPrefab, exactHitPoint, Quaternion.identity);
+        }
     }
 
     // 各Ball固有の動きや演出ををここに記述して、Fire()で呼び出す
