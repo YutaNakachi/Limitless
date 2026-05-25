@@ -107,6 +107,8 @@ Limitless/
 | **DoTween** | Unity Asset Store | アニメーション実装簡略化 |
 | **Free Sound Effects Pack** | Unity Asset Store | SE素材 |
 | **Enemy Galore 1 - Pixel Art** | Unity Asset Store | 敵キャラ素材 |
+| **VFX - Impact and Hit - Light Version** | Unity Asset Store | Hit Effect素材 |
+| **Bold VFX Pack DEMO** | Unity Asset Store | Effect素材 |
 
 > ⚠️ **注意事項**: 有料アセットなどのライセンスが含まれる場合、アセットそのもののファイルをパブリックリポジトリにそのまま公開（アップロード）しないよう、`.gitignore` で適切に管理してください。
 
