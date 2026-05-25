@@ -224,6 +224,8 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
+            if (_ballManager.isReloading) return;
+
             _status.GoToAttackStateIfPossible();
         }
     }
