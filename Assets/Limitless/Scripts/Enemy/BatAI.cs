@@ -57,14 +57,7 @@ public class BatAI : MonoBehaviour
     private void FixedUpdate()
     {
         // 🔥 【大修正】「死亡中」または「ノックバック中」の時だけ即リターンして物理に任せる！
-        // ※ IsMovable(false) かつ IsAttackable(false) の状態は、ノックバックだけでなく「自身の攻撃中」も含まれてしまうため、
-        // 「自身の攻撃フラグ（_isAttacking, _isPreDelaying, _isCharging）」がどれも立っていない時、という条件を足すことで【ノックバック中のみ】に限定します。
-        bool isMyOwnAttack = _isAttacking || _isPreDelaying || _isCharging;
-        if (_status.IsDead || (!_status.IsMovable && !isMyOwnAttack))
-        {
-            // ノックバック中・死亡中はAIの移動制御を完全にバイパス
-            return;
-        }
+        if (_status.IsDead || _status.IsKnockbacking) return;
 
         // 🔄 1. インターロック解除：MobStatusがNormalに戻ったら、AIの全フラグをリセット
         if (_status.IsAttackable && _isAttacking)

@@ -41,7 +41,7 @@ MonoBehaviour:
     shakeMagnitude: 0.45
     objectShakeMagnitude: 0.3
     useObjectShakeY: 1
-  - label: PlayerDamaged
+  - label: Damaged
     stopDuration: 0.12
     timeScale: 0
     shakeDuration: 0.15

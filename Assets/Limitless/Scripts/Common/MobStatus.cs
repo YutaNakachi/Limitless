@@ -14,6 +14,7 @@ public abstract class MobStatus : MonoBehaviour
     // 👈 仕様：ノックバック中（Knockback）も移動や攻撃を制限する
     public bool IsMovable => _state == StateEnum.Normal;
     public bool IsAttackable => _state == StateEnum.Normal;
+    public bool IsKnockbacking => _state == StateEnum.Knockback;
     public bool IsDead => _state == StateEnum.Die;
 
     public System.Action<int> OnTakeDamageEvent;
@@ -64,6 +65,9 @@ public abstract class MobStatus : MonoBehaviour
         if (IsDead) return;
 
         _life -= damage;
+        _animator.SetTrigger("Hit");
+        FxManager.Instance.Play("Damaged", transform);
+
         OnTakeDamageEvent?.Invoke(damage);
 
         if (_life > 0)
@@ -92,7 +96,7 @@ public abstract class MobStatus : MonoBehaviour
     /// </summary>
     private void TriggerKnockback(Vector2 attackerPosition)
     {
-        if (_rigidbody == null) return; // スクリプトの変数名に合わせて _rb または _rigidbody にしてください
+        if (_rigidbody == null) return;
 
         // すでにノックバック中なら、ダメージは受けるが連続でノックバックはしない
         if (_state == StateEnum.Knockback) return;
@@ -106,10 +110,7 @@ public abstract class MobStatus : MonoBehaviour
         Vector2 knockbackDir = ((Vector2)transform.position - attackerPosition).normalized;
 
         // 🔥 2. AddForce の Impulse モードで瞬間的に「ドンッ！」とのけぞらせる
-        // ※ 速度直接代入からAddForceに変えると、インスペクターの「knockbackForce」のベストな数値が変わる可能性があります。
-        // 動かしてみて吹き飛びが弱い場合は、数値を少し大きく（例: 10 〜 15 あたりに）調整してください。
         _rigidbody.AddForce(knockbackDir * knockbackForce, ForceMode2D.Impulse);
-        _animator.SetTrigger("Hit");
 
         StartCoroutine(KnockbackRoutine());
     }
