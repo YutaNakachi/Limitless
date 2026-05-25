@@ -7,6 +7,7 @@ public abstract class BallAbility : MonoBehaviour
     [SerializeField] private int attackDamage = 10; // ボールの攻撃力
     [SerializeField] private float ballLifeTime = 2f; // ボールX方向の速度が1以下になってから消滅するまでの秒数
     [SerializeField] private GameObject hitEffectPrefab;
+    [SerializeField] private GameObject kickEffectPrefab;
 
     private Rigidbody2D _rigidbody;
     private Collider2D _collider;
@@ -40,6 +41,7 @@ public abstract class BallAbility : MonoBehaviour
 
             Debug.Log($"{collider.gameObject.name} にダメージ！");
         }
+
     }
 
     // プレイヤーにキックされた時に呼び出される
@@ -51,6 +53,8 @@ public abstract class BallAbility : MonoBehaviour
         _collider.isTrigger = false;
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
+
+        PlayKickEffect();
 
         OnFire();
 
@@ -66,7 +70,8 @@ public abstract class BallAbility : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // 各Ball固有のHit Effectなど演出を仕込む、OnHit()で呼び出す
+
+    // 各Ball固有のHit Effectを仕込む、OnHit()で呼び出す
     protected virtual void PlayHitEffect(Collider2D collider)
     {
         Vector2 myCenter = transform.position;
@@ -74,6 +79,15 @@ public abstract class BallAbility : MonoBehaviour
         if (hitEffectPrefab != null)
         {
             Instantiate(hitEffectPrefab, exactHitPoint, Quaternion.identity);
+        }
+    }
+
+    //各Ball固有のKick Effectを仕込む、Fire()で呼び出す
+    protected virtual void PlayKickEffect()
+    {
+        if (kickEffectPrefab != null)
+        {
+            Instantiate(kickEffectPrefab, transform.position, Quaternion.identity);
         }
     }
 
