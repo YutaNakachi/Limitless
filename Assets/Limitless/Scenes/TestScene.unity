@@ -1589,10 +1589,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4231401432402438096, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
-      propertyPath: hitEffectPrefab
-      value: 
-      objectReference: {fileID: 8782009059513614302, guid: 39bdaecc11a7a8e44b2f733e889561c6, type: 3}
     - target: {fileID: 4596836205783333833, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6
@@ -1636,6 +1632,10 @@ PrefabInstance:
     - target: {fileID: 6559199684679116014, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
       propertyPath: m_Name
       value: Bat
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559199684679116014, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -323,6 +323,7 @@ MonoBehaviour:
   attackPower: 2
   attackCooldown: 2
   attackCollider: {fileID: 6327572697189596826}
+  hitEffectPrefab: {fileID: 8782009059513614302, guid: 39bdaecc11a7a8e44b2f733e889561c6, type: 3}
   swingSound: {fileID: 0}
 --- !u!1 &8253864125585559089
 GameObject:

@@ -89,7 +89,16 @@ public class PlayerController : MonoBehaviour
     {
         firstScale = transform.localScale;
         originalGravityScale = _rigidbody.gravityScale;
+
+        // 🔥 アニメーションを再生し、同時にステートを「Intro（行動不可）」にする
         _animator.SetTrigger("Intro");
+        _status.SetIntroState();
+    }
+
+    public void OnIntroAnimationEnd()
+    {
+        _status.GoToNormalStateIfPossible();
+        Debug.Log("🏁 イントロ終了！ 操作可能になりました。");
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -100,6 +109,7 @@ public class PlayerController : MonoBehaviour
     public void OnDash(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
+        if (_status.IsDead || _status.IsInIntroMotion) return;
 
         // 🔥 【進化】地上キック中、または空中キック中にダッシュが押されたら強制キャンセル
         // ※ただし、空中キックキャンセルの場合も「空中ダッシュ可能か」を事前にチェックする
@@ -126,6 +136,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (_status.IsDead || _status.IsInIntroMotion) return;
+
         if (context.performed)
         {
             // 🔥 【進化】キック中（!IsMovable）のときの特殊ジャンプ割り込み判定
@@ -184,6 +196,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnCrounch(InputAction.CallbackContext context)
     {
+        if (_status.IsDead || _status.IsInIntroMotion) return;
+
         if (!_status.IsMovable) return;
 
         if (context.performed && isGrounded)
@@ -207,6 +221,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnReload(InputAction.CallbackContext context)
     {
+        if (_status.IsDead || _status.IsInIntroMotion) return;
+
         if (context.performed && !_ballManager.isReloading)
         {
             _ballManager.RefillEmptySlots();
@@ -255,7 +271,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_status.IsDead || _status.IsKnockbacking) return;
+        if (_status.IsDead || _status.IsKnockbacking || _status.IsInIntroMotion) return;
 
 
         // キック中（Attackステート）の物理制御インターロック
@@ -307,6 +323,7 @@ public class PlayerController : MonoBehaviour
     private void DetectDoubleTapDash()
     {
         if (isOnDash) return;
+        if (_status.IsDead || _status.IsInIntroMotion) return;
 
         // 🔥 通常状態、または「キック中（地上・空中問わず）」であればダブルタップダッシュを許可
         bool canDashInput = _status.IsMovable || !_status.IsMovable;

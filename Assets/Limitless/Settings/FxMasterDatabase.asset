@@ -27,12 +27,19 @@ MonoBehaviour:
     shakeMagnitude: 0.22
     objectShakeMagnitude: 0.15
     useObjectShakeY: 1
-  - label: BallHitEnemy
-    stopDuration: 0.06
+  - label: Damaged
+    stopDuration: 0.12
     timeScale: 0
-    shakeDuration: 0.08
-    shakeMagnitude: 0.12
-    objectShakeMagnitude: 0.12
+    shakeDuration: 0.15
+    shakeMagnitude: 0.25
+    objectShakeMagnitude: 0.15
+    useObjectShakeY: 1
+  - label: CriticalDamaged
+    stopDuration: 0.12
+    timeScale: 0
+    shakeDuration: 0.15
+    shakeMagnitude: 0.25
+    objectShakeMagnitude: 0.15
     useObjectShakeY: 1
   - label: EnemyFatalHit
     stopDuration: 0.22
@@ -40,13 +47,6 @@ MonoBehaviour:
     shakeDuration: 0.3
     shakeMagnitude: 0.45
     objectShakeMagnitude: 0.3
-    useObjectShakeY: 1
-  - label: Damaged
-    stopDuration: 0.12
-    timeScale: 0
-    shakeDuration: 0.15
-    shakeMagnitude: 0.25
-    objectShakeMagnitude: 0.15
     useObjectShakeY: 1
   - label: PlayerGameOver
     stopDuration: 0.4

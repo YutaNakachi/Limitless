@@ -8,6 +8,7 @@ public abstract class MobStatus : MonoBehaviour
         Normal,
         Attack,
         Knockback, // 👈 仕様：ノックバック状態を追加（行動制限用）
+        Intro,
         Die
     }
 
@@ -15,6 +16,7 @@ public abstract class MobStatus : MonoBehaviour
     public bool IsMovable => _state == StateEnum.Normal;
     public bool IsAttackable => _state == StateEnum.Normal;
     public bool IsKnockbacking => _state == StateEnum.Knockback;
+    public bool IsInIntroMotion => _state == StateEnum.Intro;
     public bool IsDead => _state == StateEnum.Die;
 
     public System.Action<int> OnTakeDamageEvent;
@@ -48,6 +50,11 @@ public abstract class MobStatus : MonoBehaviour
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         LifeGaugeContainer.Instance.Add(this);
+    }
+
+    public void SetIntroState()
+    {
+        _state = StateEnum.Intro;
     }
 
     public void SetMaxLife(float newMaxLife)

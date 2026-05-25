@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ResetStateOnExit : StateMachineBehaviour
 {
-    // 💡 このステート（Kickモーション）から抜けた時に、Unityが自動で確実に呼び出してくれる
+    // 💡 このステートから抜けた時に、Unityが自動で確実に呼び出してくれる
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // アニメーションが付いているオブジェクト（または親）から MobStatus を取得
