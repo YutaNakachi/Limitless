@@ -64,6 +64,7 @@ public class PlayerStatus : MobStatus
     protected override void OnDie()
     {
         base.OnDie();
+        _animator.SetTrigger("Death");
         Debug.Log("GameOver");
     }
 }

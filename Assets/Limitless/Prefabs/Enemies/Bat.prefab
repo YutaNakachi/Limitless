@@ -301,13 +301,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 516581ff65eb4c9418ce5c5ba9569440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
-  <LifeMax>k__BackingField: 10
+  <LifeMax>k__BackingField: 1
   invincibilityDuration: 0
   knockbackDuration: 1
   knockbackForce: 3
+  deathKnockbackForce: 25
+  rotationSpeed: 720
   groundLayer:
     serializedVersion: 2
-    m_Bits: 28736
+    m_Bits: 20544
+  smokeEffectPrefab: {fileID: 3288035947860902249, guid: 3c074d68764ef82419e684ed5da28855, type: 3}
+  smokeEffectDestroyTime: 2
+  deathExplosionEffectPrefabs:
+  - {fileID: 8367907410985086596, guid: e83ecdae6f9815a4b81d2df26147c745, type: 3}
+  - {fileID: 4062496106243499295, guid: a6ca2959f317a284aa6c493346df1272, type: 3}
+  - {fileID: 6520436353736122353, guid: f435dfc74c7390a4a8479fc41b065443, type: 3}
+  - {fileID: 2584144885890085385, guid: 0966b12303db315418f42da64b0e65ab, type: 3}
+  - {fileID: 6111780402021197910, guid: 5f1c796ea84f8e0439f3e6aed2396e2e, type: 3}
+  - {fileID: 6157270102771017079, guid: fc9f1163235900049890d28fc8d61eca, type: 3}
+  - {fileID: 5033180708955247871, guid: 8463f4d4b6c664249b1811e3e9b9fde9, type: 3}
+  - {fileID: 3784945155588612436, guid: 410aeadb961ba9a468bd8440e42697f6, type: 3}
+  - {fileID: 4163018424492857928, guid: 2fb08d6b403150d49aed4588a8e5ba7e, type: 3}
+  - {fileID: 8063331690356840624, guid: 744bb92863ec1ce4db5aa2ffb752c731, type: 3}
+  - {fileID: 8814787579770015478, guid: a7ea1ab35a5789f4991d82d74df8433c, type: 3}
+  - {fileID: 7403103098228120956, guid: fe0ab0b43aa933247baef76e6e342c73, type: 3}
+  - {fileID: 5094046088325549080, guid: 1c705dabf1af34a4ab5588b3cfeab5e6, type: 3}
+  - {fileID: 8771702518043509366, guid: 3f5e0739ad44e0442a9870947bdd6e6b, type: 3}
+  - {fileID: 575319445162951685, guid: 0f85d2dff37a7f74f9f1eca07bef739b, type: 3}
+  - {fileID: 5875405173272680704, guid: c467ce252a7a77949a38afcd34aa5a5a, type: 3}
+  - {fileID: 2390776011460354647, guid: 2e5fb7745cdb8b54aa9d7dc24d66d20b, type: 3}
+  - {fileID: 7452553202921276299, guid: 6c87aff915f653c4798c1bfdec358a94, type: 3}
+  - {fileID: 188448375238001462, guid: 494dd801b397a7d40983e75f3e18576b, type: 3}
+  - {fileID: 8970668011737306692, guid: 583f77d8d98e4a34490f6a9d0f340508, type: 3}
 --- !u!114 &4231401432402438096
 MonoBehaviour:
   m_ObjectHideFlags: 0

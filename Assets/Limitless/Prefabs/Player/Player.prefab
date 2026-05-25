@@ -535,6 +535,7 @@ MonoBehaviour:
   wallJumpForce: {x: 3, y: 12}
   wallJumpTime: 0.05
   downDoubleTapTimeLimit: 0.25
+  introDuration: 3
   normalCollider:
     size: {x: 1.16, y: 2.65}
     offset: {x: 0, y: 1.325}
@@ -609,15 +610,16 @@ MonoBehaviour:
     <Rate>k__BackingField: 96
   - <Type>k__BackingField: 1
     <BallPrefab>k__BackingField: {fileID: 1782844606876501862, guid: 7f1da97624b32ae47bddaeae664a7589, type: 3}
-    <Rate>k__BackingField: 2
+    <Rate>k__BackingField: 0
   - <Type>k__BackingField: 2
     <BallPrefab>k__BackingField: {fileID: 7878110154866715779, guid: 938ea9809d292af4b89ffb8276b3b5d1, type: 3}
-    <Rate>k__BackingField: 2
+    <Rate>k__BackingField: 0
   maxBalls: 6
   orbitRadius: 0.8
   centerOffsetY: 0.5
   rotateSpeed: 100
-  reloadTime: 1
+  reloadTime: 0.6
+  ballActivateDuration: 0.4
 --- !u!1 &7365204998374088547
 GameObject:
   m_ObjectHideFlags: 0

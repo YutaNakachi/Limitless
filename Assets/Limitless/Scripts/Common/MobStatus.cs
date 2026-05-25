@@ -29,7 +29,6 @@ public abstract class MobStatus : MonoBehaviour
     [Header("ーー ノックバック調整パラメーター ーー")]
     [SerializeField] private float knockbackDuration = 0.2f;
     [SerializeField] private float knockbackForce = 12f;
-    [SerializeField] private LayerMask groundLayer;
 
     public float Life => _life;
 
@@ -86,7 +85,6 @@ public abstract class MobStatus : MonoBehaviour
 
         // 死亡処理
         _state = StateEnum.Die;
-        _animator.SetTrigger("Death");
         if (_rigidbody != null) _rigidbody.linearVelocity = Vector2.zero;
 
         OnDeathEvent?.Invoke(this.gameObject);

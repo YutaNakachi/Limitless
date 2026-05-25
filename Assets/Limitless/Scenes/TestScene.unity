@@ -899,7 +899,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 65407
+    m_Bits: 8
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -1632,10 +1632,6 @@ PrefabInstance:
     - target: {fileID: 6559199684679116014, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
       propertyPath: m_Name
       value: Bat
-      objectReference: {fileID: 0}
-    - target: {fileID: 6559199684679116014, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2798,22 +2794,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: reloadTime
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: ballActivateDuration
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: balls.Array.data[1].<Rate>k__BackingField
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: balls.Array.data[2].<Rate>k__BackingField
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2883445398658177238, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2853,10 +2833,6 @@ PrefabInstance:
     - target: {fileID: 2883445398658177238, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5092463745701814035, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: introDuration
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6711382325980383970, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: m_Name
