@@ -899,7 +899,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 65407
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -1589,6 +1589,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2751271377424840562, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
+      propertyPath: m_LinearDamping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4596836205783333833, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6
@@ -1628,6 +1632,10 @@ PrefabInstance:
     - target: {fileID: 4596836205783333833, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279904993489649559, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
+      propertyPath: knockbackForce
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6559199684679116014, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
       propertyPath: m_Name

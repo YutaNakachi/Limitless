@@ -123,7 +123,6 @@ public class BatAI : MonoBehaviour
                 finalMovement = directionToPlayer * chaseSpeed;
 
                 UpdateFacingDirection(directionToPlayer.x);
-                finalMovement = CheckWallCollision(finalMovement);
             }
         }
         // プレイヤーが範囲外の場合
@@ -213,16 +212,7 @@ public class BatAI : MonoBehaviour
         _chargeTimer += Time.fixedDeltaTime;
 
         // 🚧 壁衝突センサー（スライドを加味した速度を受け取る）
-        Vector2 nextVelocity = _chargeDirection * chargeSpeed;
-        Vector2 finalVelocity = CheckWallCollision(nextVelocity);
-
-        // 🔥 【修正】センサーが元の速度と違う（＝壁に正面衝突した、またはスライドした）なら突進を止める
-        // もし「壁に当たっても滑りながら突進を続けさせたい」なら、この if 文ごと消し去ってOKです！
-        if (finalVelocity.sqrMagnitude < nextVelocity.sqrMagnitude - 0.1f)
-        {
-            StopChargingPhysics();
-            return;
-        }
+        Vector2 finalVelocity = _chargeDirection * chargeSpeed;
 
         // ⏳ タイムアウトチェック
         if (_chargeTimer >= maxChargeDuration)
@@ -231,7 +221,7 @@ public class BatAI : MonoBehaviour
             return;
         }
 
-        _rigidbody.linearVelocity = finalVelocity; // 計算された安全な速度を代入
+        _rigidbody.linearVelocity = finalVelocity;
         UpdateAnimationParams(finalVelocity);
     }
 
@@ -247,45 +237,6 @@ public class BatAI : MonoBehaviour
         Collider2D playerCollider = Physics2D.OverlapCircle(transform.position, targetDetectionRadius, playerLayer);
         _targetPlayer = playerCollider != null ? playerCollider.transform : null;
     }
-
-    private Vector2 CheckWallCollision(Vector2 currentVelocity)
-    {
-        if (currentVelocity.sqrMagnitude > 0.01f)
-        {
-            float checkDistance = currentVelocity.magnitude * 0.1f + 0.05f;
-            Vector2 moveDir = currentVelocity.normalized;
-
-            float batRadius = 0.3f;
-            RaycastHit2D hit = Physics2D.CircleCast(
-                transform.position,
-                batRadius,
-                moveDir,
-                checkDistance,
-                groundLayer
-            );
-
-            Debug.DrawRay(transform.position, moveDir * checkDistance, Color.red);
-
-            if (hit.collider != null)
-            {
-                // 🔥 【超重要】壁の向いている方向（hit.normal）と、自分が進みたい方向（moveDir）の内積を計算
-                // 内積が 0 以上 ➔ 壁と同じ方向、または壁から離れる方向に動こうとしている
-                // つまり、地面に触れている状態で「上」に飛び立とうとしている時は、衝突計算をスキップしてそのまま通す！
-                if (Vector2.Dot(moveDir, hit.normal) >= 0f)
-                {
-                    return currentVelocity;
-                }
-
-                // 壁に突っ込んでいるとき（内積がマイナス）のみ、以下のスライド移動を計算する
-                Vector2 projection = Vector2.Dot(currentVelocity, hit.normal) * hit.normal;
-                Vector2 slideVelocity = currentVelocity - projection;
-
-                return slideVelocity.normalized * currentVelocity.magnitude;
-            }
-        }
-        return currentVelocity;
-    }
-
 
     private void UpdateFacingDirection(float horizontalMovement)
     {

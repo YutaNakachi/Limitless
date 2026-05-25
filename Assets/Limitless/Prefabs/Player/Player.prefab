@@ -584,9 +584,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
   <LifeMax>k__BackingField: 10
-  invincibilityDuration: 1
-  knockbackDuration: 0.5
-  knockbackForce: 6
+  invincibilityDuration: 2
+  knockbackDuration: 0.2
+  knockbackForce: 10
   groundLayer:
     serializedVersion: 2
     m_Bits: 28736

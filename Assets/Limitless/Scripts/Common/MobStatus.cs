@@ -92,38 +92,24 @@ public abstract class MobStatus : MonoBehaviour
     /// </summary>
     private void TriggerKnockback(Vector2 attackerPosition)
     {
-        if (_rigidbody == null) return;
+        if (_rigidbody == null) return; // スクリプトの変数名に合わせて _rb または _rigidbody にしてください
 
-        // 👈 仕様：すでにノックバック中なら、ダメージは受けるが連続でノックバック（上書き）はしない
+        // すでにノックバック中なら、ダメージは受けるが連続でノックバックはしない
         if (_state == StateEnum.Knockback) return;
 
         _state = StateEnum.Knockback;
 
+        // 🔥 1. 衝突前の慣性を完全にリセット（これがないと突進の力と相殺して吹き飛びません）
+        _rigidbody.linearVelocity = Vector2.zero;
+
         // 攻撃者とは逆の方向（ベクトル）を計算
         Vector2 knockbackDir = ((Vector2)transform.position - attackerPosition).normalized;
-        Vector2 targetVelocity = knockbackDir * knockbackForce;
 
-        // 🔥 【大修正】ノックバックの速度に対しても、壁センサーを働かせる！
-        float checkDistance = targetVelocity.magnitude * 0.1f + 0.05f;
-        float radius = 0.3f; // キャラクターの物理サイズ（インスペクターのコライダーに合わせて調整）
-
-        RaycastHit2D hit = Physics2D.CircleCast(
-            transform.position,
-            radius,
-            knockbackDir,
-            checkDistance,
-            groundLayer
-        );
-
-        // もし吹き飛ぶ方向に壁を検知したら、壁に沿って滑る速度（あるいは停止）に補正する
-        if (hit.collider != null)
-        {
-            Vector2 projection = Vector2.Dot(targetVelocity, hit.normal) * hit.normal;
-            targetVelocity = targetVelocity - projection; // 壁に沿う速度に減速
-        }
-
-        // 安全に補正された速度で吹き飛ばす
-        _rigidbody.linearVelocity = targetVelocity;
+        // 🔥 2. AddForce の Impulse モードで瞬間的に「ドンッ！」とのけぞらせる
+        // ※ 速度直接代入からAddForceに変えると、インスペクターの「knockbackForce」のベストな数値が変わる可能性があります。
+        // 動かしてみて吹き飛びが弱い場合は、数値を少し大きく（例: 10 〜 15 あたりに）調整してください。
+        _rigidbody.AddForce(knockbackDir * knockbackForce, ForceMode2D.Impulse);
+        _animator.SetTrigger("Hit");
 
         StartCoroutine(KnockbackRoutine());
     }
@@ -134,7 +120,9 @@ public abstract class MobStatus : MonoBehaviour
 
         if (_state != StateEnum.Die)
         {
-            if (_rigidbody != null) _rigidbody.linearVelocity = Vector2.zero; // 吹き飛び停止
+            // ノックバック時間が終了したら、物理的な吹き飛びの勢いをピタッと止める
+            if (_rigidbody != null) _rigidbody.linearVelocity = Vector2.zero;
+
             _state = StateEnum.Normal; // 通常状態へ安全に復帰
         }
     }
