@@ -1927,6 +1927,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1060628930}
   m_CullTransparentMesh: 1
+--- !u!61 &1203409424 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 7126906893625790347, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+  m_PrefabInstance: {fileID: 1829928707}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1372642347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2967,6 +2972,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 9141779818832629252, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: shootCollider
+      value: 
+      objectReference: {fileID: 1203409424}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
