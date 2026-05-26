@@ -51,7 +51,6 @@ public class PlayerStatus : MobStatus
     {
         if (!IsAttackable) return;
         _state = StateEnum.Attack;
-        _animator.SetTrigger("Kick");
     }
 
     public override void GoToNormalStateIfPossible()

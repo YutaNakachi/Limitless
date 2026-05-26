@@ -5,20 +5,26 @@ public abstract class BallAbility : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private int attackDamage = 10; // 通常時のボールの攻撃力
-    [SerializeField] private int smashAttackDamage = 20; // 💥 スマッシュ時のボールの攻撃力（追加）
+    [SerializeField] private int smashAttackDamage = 20; // 💥 スマッシュ時のボールの攻撃力
     [SerializeField] private float ballLifeTime = 2f; // ボールX方向の速度が1以下になってから消滅するまでの秒数
+
+    // 💡 【追加】ヒット回数の設定（インスペクターで調整可能）
+    [Header("Hit Count Settings")]
+    [SerializeField] private int maxHitCount = 1;       // 通常キック時の最大ヒット回数（初期値: 1）
+    [SerializeField] private int smashMaxHitCount = 5;  // 💥 スマッシュキック時の最大ヒット回数（初期値: 5）
 
     [Header("Effects")]
     [SerializeField] private GameObject hitEffectPrefab;
     [SerializeField] private GameObject kickEffectPrefab;
-    [SerializeField] private GameObject smashKickEffectPrefab; // 💥 スマッシュ用の派手なエフェクト（追加）
+    [SerializeField] private GameObject smashKickEffectPrefab; // 💥 スマッシュ用の派手なエフェクト
     [SerializeField] private GameObject spawnEffectPrefab;
 
     private Rigidbody2D _rigidbody;
     private Collider2D _collider;
 
-    private int _currentDamage; // 💡 実際に適用される今回のダメージ
-    protected bool _isSmashFired = false; // 💡 スマッシュで発射されたかどうかの内部フラグ
+    private int _currentDamage; // 実際に適用される今回のダメージ
+    private int _remainingHitCount; // 💡 今回のボールの残りヒット回数（内部処理用）
+    protected bool _isSmashFired = false; // スマッシュで発射されたかどうかの内部フラグ
 
     public bool isKicked { get; private set; } = false;
 
@@ -30,7 +36,7 @@ public abstract class BallAbility : MonoBehaviour
         // 初期の攻撃力を設定
         _currentDamage = attackDamage;
 
-        // 💡 自分が生成された（Startが走った）瞬間に、自分の位置にエフェクトを生成する！
+        // 自分が生成された（Startが走った）瞬間に、自分の位置にエフェクトを生成する！
         if (spawnEffectPrefab != null)
         {
             GameObject spawnEffect = Instantiate(spawnEffectPrefab, transform.position, Quaternion.identity);
@@ -45,6 +51,7 @@ public abstract class BallAbility : MonoBehaviour
     public virtual void OnHit(Collider2D collider)
     {
         if (!isKicked) return;
+        if (_remainingHitCount <= 0) return; // 💡 すでに耐久値がゼロなら処理しない
 
         // 相手が「EnemyStatus」を持っているか確認
         EnemyStatus target = collider.GetComponent<EnemyStatus>();
@@ -55,28 +62,43 @@ public abstract class BallAbility : MonoBehaviour
 
             PlayHitEffect(collider);
 
-            // 敵であればダメージを与える（💡 決定されたダメージを適用）
+            // 敵であればダメージを与える
             target.TakeDamage(_currentDamage, transform.position);
 
             Debug.Log($"{collider.gameObject.name} に {_currentDamage} ダメージ！");
+
+            // 💡 【追加】敵に当たったのでヒット回数を減らす
+            _remainingHitCount--;
+
+            // 💡 残り回数が0になったら、その場で即座にボールを消滅させる
+            if (_remainingHitCount <= 0)
+            {
+                Debug.Log("💥 ボールの最大ヒット回数に達したため消滅します");
+
+                // 多重衝突を防ぐために、当たり判定とコライダーのスクリプトを即無効化
+                if (GetComponent<CollisionDetector>() != null) GetComponent<CollisionDetector>().enabled = false;
+                _collider.enabled = false;
+
+                Destroy(gameObject);
+            }
         }
     }
 
     // プレイヤーにキックされた時に呼び出される
-    // 💡 引数に isSmash を追加
     public virtual void Fire(Vector2 direction, float force, bool isSmash)
     {
         isKicked = true;
         _isSmashFired = isSmash;
         _collider.isTrigger = false;
 
-        // 💡 スマッシュか否かで攻撃力（ダメージ）を切り替える
+        // 💡 スマッシュか否かで攻撃力と「ヒット回数」を切り替える
         _currentDamage = isSmash ? smashAttackDamage : attackDamage;
+        _remainingHitCount = isSmash ? smashMaxHitCount : maxHitCount;
 
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
 
-        // 💡 エフェクトの再生処理にフラグを渡すように変更
+        // エフェクトの再生処理にフラグを渡すように変更
         PlayKickEffect();
 
         OnFire();
@@ -87,10 +109,15 @@ public abstract class BallAbility : MonoBehaviour
     protected virtual IEnumerator DestroyABall()
     {
         yield return new WaitUntil(() => _rigidbody.linearVelocity.magnitude <= 2f);
-        GetComponent<CollisionDetector>().enabled = false;
+
+        // 💡 既にOnHit側で消滅している（Destroyされている）場合のNullエラー防止
+        if (this == null) yield break;
+
+        if (GetComponent<CollisionDetector>() != null) GetComponent<CollisionDetector>().enabled = false;
 
         yield return new WaitForSeconds(ballLifeTime);
-        Destroy(gameObject);
+
+        if (this != null) Destroy(gameObject);
     }
 
     // 各Ball固有のHit Effectを仕込む、OnHit()で呼び出す
@@ -107,7 +134,7 @@ public abstract class BallAbility : MonoBehaviour
     // 各Ball固有のKick Effectを仕込む、Fire()で呼び出す
     protected virtual void PlayKickEffect()
     {
-        // 💡 スマッシュフラグに応じて生成するプレハブを切り替える
+        // スマッシュフラグに応じて生成するプレハブを切り替える
         if (_isSmashFired && smashKickEffectPrefab != null)
         {
             Instantiate(smashKickEffectPrefab, transform.position, Quaternion.identity);

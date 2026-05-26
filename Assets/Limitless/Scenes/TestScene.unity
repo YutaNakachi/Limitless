@@ -2834,19 +2834,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5092463745701814035, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: smashStepSpeed
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 6711382325980383970, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8851516159261154114, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: shootCollider
+      value: 
+      objectReference: {fileID: 4267747892248187445}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+--- !u!61 &4267747892248187445 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 7126906893625790347, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+  m_PrefabInstance: {fileID: 4267747892248187444}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6805449978364454810
 PrefabInstance:
   m_ObjectHideFlags: 0

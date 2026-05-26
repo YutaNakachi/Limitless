@@ -2972,7 +2972,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 9141779818832629252, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+    - target: {fileID: 8851516159261154114, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: shootCollider
       value: 
       objectReference: {fileID: 1203409424}

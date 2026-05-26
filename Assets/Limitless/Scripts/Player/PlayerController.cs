@@ -260,7 +260,9 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            if (_ballManager.isReloading) return;
+            if (_status.IsDead || _status.IsKnockbacking || _status.IsInIntroMotion) return;
+
+            //if (_ballManager.isReloading) return;
 
             // 💡 すぐにキックを実行せず、「スマッシュ待ちフラグ」を立てる
             _isWaitingForSmash = true;
