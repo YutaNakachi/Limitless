@@ -1,4 +1,6 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,7 +21,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float doubleTapTimeLimit = 0.25f; // 2回押しとして認める時間（秒）
-    [SerializeField] private int maxNumOfAirDashes = 1;         // 🔥 【追加】空中ダッシュの最大許容回数
+    [SerializeField] private int maxNumOfAirDashes = 1;         // 🔥 空中ダッシュの最大許容回数
+    [SerializeField] private int dashInvincibleFrames = 4; // 💡 ダッシュによる無敵時間フレーム数
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 12f;
@@ -80,6 +83,9 @@ public class PlayerController : MonoBehaviour
     private bool isYAxisZeroLastFrame = true; // 連打判定のために「一度レバーをニュートラルに戻したか」
     private OneWayPlatform currentPlatform;
 
+    // 途中でシーンが切り替わったりオブジェクトが消滅した時のための安全装置
+    private CancellationTokenSource _dashInvincibleCancelToken;
+
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -93,6 +99,7 @@ public class PlayerController : MonoBehaviour
     {
         firstScale = transform.localScale;
         originalGravityScale = _rigidbody.gravityScale;
+        _dashInvincibleCancelToken = new CancellationTokenSource();
 
         // 🔥 アニメーションを再生し、同時にステートを「Intro（行動不可）」にする
         _animator.SetTrigger("Intro");
@@ -419,28 +426,18 @@ public class PlayerController : MonoBehaviour
     private void StartDash(float direction)
     {
         isOnDash = true;
+
+        TriggerDashInvincibleAsync().Forget();
+
         dashTimer = dashDuration;
         _rigidbody.gravityScale = 0;
         _rigidbody.linearVelocity = new Vector2(direction * dashSpeed, 0);
+
 
         // 🔥 【追加】空中ダッシュだった場合は残弾数を減らす
         if (!isGrounded)
         {
             remainingAirDashCount--;
-        }
-    }
-
-    private void UpdateVisualDirection()
-    {
-        float threshold = 0.1f;
-
-        if (_rigidbody.linearVelocityX > threshold && moveInput.x >= 0)
-        {
-            transform.localScale = firstScale;
-        }
-        else if (_rigidbody.linearVelocityX < -threshold && moveInput.x <= 0)
-        {
-            transform.localScale = new Vector3(-firstScale.x, firstScale.y, firstScale.z);
         }
     }
 
@@ -485,6 +482,29 @@ public class PlayerController : MonoBehaviour
         _rigidbody.linearVelocity = new Vector2(currentVelocityX, _rigidbody.linearVelocity.y);
     }
 
+    /// <summary>
+    /// 🔥 UniTaskによるフレーム単位の無敵制御
+    /// </summary>
+    private async UniTaskVoid TriggerDashInvincibleAsync()
+    {
+        if (_status == null) return;
+
+        // 1. 無敵状態をONにする
+        _status.SetInvicible();
+        Debug.Log($"🛡️ ダッシュ無敵 ON ({dashInvincibleFrames}フレーム)");
+
+        // 2. 💡 指定されたフレーム数だけ「物理更新（FixedUpdate）のタイミング」で待機する
+        // 2Dアクションの判定はFixedUpdate基準が多いため、FixedUpdateタイミングで待つのが一番正確です
+        await UniTask.DelayFrame(dashInvincibleFrames, PlayerLoopTiming.FixedUpdate, _dashInvincibleCancelToken.Token);
+
+        // 3. 無敵状態をOFFにする
+        if (_status != null)
+        {
+            _status.CancelInvicible();
+            Debug.Log("❌ ダッシュ無敵 OFF");
+        }
+    }
+
     private void WallJump()
     {
         isWallSliding = false;
@@ -527,11 +547,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void UpdateVisualDirection()
+    {
+        float threshold = 0.1f;
+
+        if (_rigidbody.linearVelocityX > threshold && moveInput.x >= 0)
+        {
+            transform.localScale = firstScale;
+        }
+        else if (_rigidbody.linearVelocityX < -threshold && moveInput.x <= 0)
+        {
+            transform.localScale = new Vector3(-firstScale.x, firstScale.y, firstScale.z);
+        }
+    }
+
     private void UpdateCollider(ColliderData data)
     {
         _collider.size = data.size;
         _collider.offset = data.offset;
         _collider.direction = data.direction;
+    }
+
+    private void OnDestroy()
+    {
+        // オブジェクト破棄時にタスクを安全にキャンセルする
+        _dashInvincibleCancelToken?.Cancel();
+        _dashInvincibleCancelToken?.Dispose();
     }
 
     private void OnDrawGizmos()

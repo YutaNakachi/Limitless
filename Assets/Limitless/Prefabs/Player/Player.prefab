@@ -518,6 +518,7 @@ MonoBehaviour:
   dashDuration: 0.25
   doubleTapTimeLimit: 0.25
   maxNumOfAirDashes: 1
+  dashInvincibleFrames: 12
   jumpForce: 11
   maxNumOfAirJumps: 1
   dashJumpForce: 1.1
@@ -588,9 +589,6 @@ MonoBehaviour:
   invincibilityDuration: 2
   knockbackDuration: 0.2
   knockbackForce: 10
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 28736
   shootCollider: {fileID: 7713598519936902220}
 --- !u!114 &2537649582537771541
 MonoBehaviour:

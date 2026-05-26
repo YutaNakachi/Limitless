@@ -62,6 +62,16 @@ public abstract class MobStatus : MonoBehaviour
         _life = newMaxLife;
     }
 
+    public void SetInvicible()
+    {
+        IsInvincible = true;
+    }
+
+    public void CancelInvicible()
+    {
+        IsInvincible = false;
+    }
+
     /// <summary>
     /// 👈 仕様：どこから攻撃されたかの座標（attackerPosition）を受け取る
     /// </summary>
