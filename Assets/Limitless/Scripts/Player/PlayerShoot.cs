@@ -11,6 +11,9 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField, Range(0f, 45f)] private float neutralShootAngle = 5f;
     [SerializeField] private float kickCooldownTime = 0.2f;
 
+    [Header("ーー スマッシュキック設定 ーー")]
+    [SerializeField] private float smashShootForceMultiplier = 1.5f; // 通常シュートの1.5倍の威力
+
     // 🔥 【進化】地上での上下制限をそれぞれ独立
     [Header("ーー シュート設定（地上での角度制限） ーー")]
     [SerializeField, Range(0f, 90f), Tooltip("地上で【上】に狙える最大角度（90°で真上）")]
@@ -45,6 +48,7 @@ public class PlayerShoot : MonoBehaviour
     private Vector3 _currentPredictedDirection = Vector3.right; // 🧠 現在予測されるシュート方向（Gizmo用）
 
     private bool _hasShotThisAction = false;
+    private bool _isSmashKickActive = false; // 今回のキックがスマッシュかどうかを記憶
 
     private void Awake()
     {
@@ -64,6 +68,14 @@ public class PlayerShoot : MonoBehaviour
                 ?.GetValue(_playerController) ?? true);
         }
         return true;
+    }
+
+    /// <summary>
+    /// 💡 PlayerControllerからスマッシュフラグを受け取るための公開メソッド
+    /// </summary>
+    public void SetSmashFlag(bool isSmash)
+    {
+        _isSmashKickActive = isSmash;
     }
 
     private void Update()
@@ -130,7 +142,7 @@ public class PlayerShoot : MonoBehaviour
 
     public void OnShoot(Collider2D collider)
     {
-        // 💡 すでにこのアクション内で何かを蹴っていたら、2個目以降は絶対に処理しない
+        // すでにこのアクション内で何かを蹴っていたら、2個目以降は絶対に処理しない
         if (_hasShotThisAction) return;
 
         if (!collider.CompareTag("Ball")) return;
@@ -140,14 +152,26 @@ public class PlayerShoot : MonoBehaviour
         // Updateで常に予測している最新の方向をそのまま採用して発射！
         Vector3 shootDirection = _currentPredictedDirection;
 
-        ballInRange.Fire(shootDirection, shootForce);
+        // 💡 スマッシュなら弾速（Force）をアップさせる（必要なければそのまま shootForce でOKです）
+        float finalForce = _isSmashKickActive ? shootForce * smashShootForceMultiplier : shootForce;
 
-        // 💡 1個蹴ったので、フラグを立ててロックする！
+        // 💡 ボールのFireメソッドに、現在のスマッシュ状態を渡す！
+        ballInRange.Fire(shootDirection, finalForce, _isSmashKickActive);
+
+        // 1個蹴ったので、フラグを立ててロックする！
         _hasShotThisAction = true;
 
         // ログ出力用
         bool isBuffered = (directionInput.action.ReadValue<Vector2>().sqrMagnitude <= 0.05f) && (Time.time - _lastInputTime <= inputBufferTime);
-        Debug.Log(isBuffered ? "🎯 方向記憶シュート！" : "🍃 通常シュート！");
+
+        if (_isSmashKickActive)
+        {
+            Debug.Log("💥 スマッシュシュート！！（Ball側で威力・演出処理）");
+        }
+        else
+        {
+            Debug.Log(isBuffered ? "🎯 方向記憶シュート！" : "🍃 通常シュート！");
+        }
     }
 
     public void OnShootFinished()

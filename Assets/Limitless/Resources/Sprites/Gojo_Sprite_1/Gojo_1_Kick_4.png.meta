@@ -60,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 270
+  spritePixelsToUnits: 280
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -109,7 +109,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gojo_4_Kick_0
+      name: Gojo_1_Kick_4_0
       rect:
         serializedVersion: 2
         x: 138
@@ -122,32 +122,76 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 56a7c8743b866a760800000000000000
-      internalID: 7468772151249369701
+      spriteID: dd1f5b09d691fe84b8f9e581b45e52b3
+      internalID: -1051676984
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gojo_4_Kick_1
+      name: Gojo_1_Kick_4_1
       rect:
         serializedVersion: 2
         x: 626
         y: 441
         width: 722
         height: 586
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c1c5f0eacb91d945b66ac9b61e93de7
+      internalID: -1338456924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Kick_4_2
+      rect:
+        serializedVersion: 2
+        x: 1442
+        y: 457
+        width: 676
+        height: 597
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 961460b6b4b46ee40800000000000000
-      internalID: 5685314366892032361
+      spriteID: ad1a5ce2f8f9424479826b7cc91f2c3c
+      internalID: 1485717898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gojo_1_Kick_4_3
+      rect:
+        serializedVersion: 2
+        x: 2157
+        y: 83
+        width: 496
+        height: 703
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0f184e4f54d80c4e9755c8f50f991bc
+      internalID: -1581827611
       vertices: []
       indices: 
       edges: []
@@ -168,10 +212,10 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Gojo_4_Kick_0: 7468772151249369701
-      Gojo_4_Kick_1: 5685314366892032361
-      Gojo_4_Kick_2: -3512390243792332296
-      Gojo_4_Kick_3: -7359694590574092011
+      Gojo_1_Kick_4_0: -1051676984
+      Gojo_1_Kick_4_1: -1338456924
+      Gojo_1_Kick_4_2: 1485717898
+      Gojo_1_Kick_4_3: -1581827611
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

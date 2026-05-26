@@ -9,7 +9,15 @@ public class NormalBallAbility : BallAbility
     protected override void OnFire()
     {
         // 1. 画面揺れやヒットストップ演出
-        FxManager.Instance.Play("NormalBallKick", transform);
+
+        if (_isSmashFired)
+        {
+            FxManager.Instance.Play("SmashBallKick", transform);
+        }
+        else
+        {
+            FxManager.Instance.Play("NormalBallKick", transform);
+        }
 
         // 2. 🔥 【ボールの子要素として生成する】
         if (smokeEffectPrefab != null)

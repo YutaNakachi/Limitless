@@ -59,7 +59,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.7, y: 1.3, z: 0}
-  m_LocalScale: {x: 1, y: 1.2, z: 1}
+  m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2883445398658177238}
@@ -531,6 +531,9 @@ MonoBehaviour:
   jumpForce: 11
   maxNumOfAirJumps: 1
   dashJumpForce: 1.1
+  smashInputThreshold: 0.65
+  smashWindowTime: 0.25
+  smashWaitFrames: 4
   coyoteDuration: 0.12
   jumpBufferDuration: 0.1
   groundCheck: {fileID: 8501373023322671280}
@@ -572,12 +575,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be868b108b84e3343b9c391174baa0d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerKick
-  shootCollider: {fileID: 0}
-  shootForce: 300
+  shootCollider: {fileID: 7126906893625790347}
+  shootForce: 250
   neutralShootAngle: 5
   kickCooldownTime: 0.1
+  smashShootForceMultiplier: 1.5
   groundMaxUpAngle: 90
-  groundMaxDownAngle: 20
+  groundMaxDownAngle: 45
   airMaxUpAngle: 90
   airMaxDownAngle: 90
   inputBufferTime: 0.8

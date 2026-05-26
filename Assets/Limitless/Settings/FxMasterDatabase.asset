@@ -21,7 +21,7 @@ MonoBehaviour:
     objectShakeMagnitude: 0.1
     useObjectShakeY: 1
   - label: SmashBallKick
-    stopDuration: 0.08
+    stopDuration: 0.15
     timeScale: 0
     shakeDuration: 0.12
     shakeMagnitude: 0.22

@@ -29,6 +29,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int maxNumOfAirJumps = 1;
     [SerializeField] private float dashJumpForce = 1.1f;
 
+    // 💡 クラスのメンバ変数宣言部分に追加
+    [Header("Smash Kick Settings")]
+    [SerializeField] private float smashInputThreshold = 0.6f; // 1フレームでどれだけスティックが動いたら「弾いた」とするか（0.5〜0.8）
+    [SerializeField] private float smashWindowTime = 0.1f;     // 弾いてからボタンを受け付ける猶予時間（秒）
+    [SerializeField] private int smashWaitFrames = 3; // 💡 ボタンを押してからスティックの弾きを待つフレーム数（2〜3フレームが体感できない限界）
+
     // 💡 【追加】コヨーテタイムと先行入力の設定
     [Header("Coyote & Buffer Settings")]
     [SerializeField] private float coyoteDuration = 0.12f;     // 崖から落ちて空中ジャンプにならない猶予時間（約7フレーム）
@@ -64,6 +70,7 @@ public class PlayerController : MonoBehaviour
     private CapsuleCollider2D _collider;
     private BallManager _ballManager;
     private MobStatus _status;
+    private PlayerShoot _playerShoot;
     private bool isGrounded;
     private bool isCrouching;
     private bool isOnDash;
@@ -77,6 +84,10 @@ public class PlayerController : MonoBehaviour
     private float dashTimer;
     private float originalGravityScale;
     private float wallJumpLockTimer;
+    private Vector2 _lastStickInput;
+    private float _smashTimer;
+    private int _smashWaitFrameCount = 0;
+    private bool _isWaitingForSmash = false;
 
     // 💡 【追加】コヨーテ＆バッファ用カウンター
     private float _coyoteTimer;       // 地面を離れてからの猶予タイマー
@@ -99,6 +110,7 @@ public class PlayerController : MonoBehaviour
         _collider = GetComponent<CapsuleCollider2D>();
         _ballManager = GetComponent<BallManager>();
         _status = GetComponent<MobStatus>();
+        _playerShoot = GetComponent<PlayerShoot>();
     }
 
     void Start()
@@ -244,13 +256,15 @@ public class PlayerController : MonoBehaviour
             isCrouching = false;
         }
     }
-
     public void OnKick(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
             if (_ballManager.isReloading) return;
-            _status.GoToAttackStateIfPossible();
+
+            // 💡 すぐにキックを実行せず、「スマッシュ待ちフラグ」を立てる
+            _isWaitingForSmash = true;
+            _smashWaitFrameCount = smashWaitFrames;
         }
     }
 
@@ -309,6 +323,10 @@ public class PlayerController : MonoBehaviour
 
         if (_status.IsMovable) DetectDownDoubleTap();
         DetectDoubleTapDash();
+        DetectStickFlick();
+        // 💡 同時押しの救済ロジック
+        HandleKickExecution();
+
         if (_status.IsMovable) UpdateVisualDirection();
 
         _animator.SetFloat("MoveSpeed", _rigidbody.linearVelocity.magnitude);
@@ -441,6 +459,74 @@ public class PlayerController : MonoBehaviour
         {
             isYAxisZeroLastFrame = true;
         }
+    }
+
+    /// <summary>
+    /// 💡 スティックがニュートラル付近から外側に急激に弾かれたかを判定する
+    /// </summary>
+    private void DetectStickFlick()
+    {
+        if (_smashTimer > 0) _smashTimer -= Time.deltaTime;
+
+        // 前フレームからの移動ベクトルを計算（moveInput を監視）
+        Vector2 delta = moveInput - _lastStickInput;
+
+        // スティックが中心付近から外側に急激に動かされ、かつある程度深く倒されている場合
+        if (delta.magnitude > smashInputThreshold && moveInput.magnitude > 0.5f)
+        {
+            _smashTimer = smashWindowTime; // スマッシュ受付タイマー起動！
+            Debug.Log("スマッシュ検知！");
+        }
+
+        // 現在の入力を次のフレームのために保存
+        _lastStickInput = moveInput;
+    }
+
+    private void HandleKickExecution()
+    {
+        if (!_isWaitingForSmash) return;
+
+        // ⏳ 待ち時間中にスマッシュが検知された（_smashTimer > 0）かチェック
+        if (_smashTimer > 0f)
+        {
+            ExecuteKick(isSmash: true);
+            return;
+        }
+
+        // フレーム数をカウントダウン
+        _smashWaitFrameCount--;
+
+        // 猶予フレームを過ぎてもスティックが弾かれなかったら、通常キックとして実行
+        if (_smashWaitFrameCount <= 0)
+        {
+            ExecuteKick(isSmash: false);
+        }
+    }
+
+    /// <summary>
+    /// 💡 実際にステートを切り替えてキックを発動する共通メソッド
+    /// </summary>
+    private void ExecuteKick(bool isSmash)
+    {
+        _isWaitingForSmash = false; // フラグを戻す
+
+        if (isSmash)
+        {
+            _smashTimer = 0f;
+            Debug.Log("💥 ーー 同時押し救済でスマッシュ成立！ ーー 💥");
+            _animator.SetTrigger("SmashKick");
+        }
+        else
+        {
+            _animator.SetTrigger("Kick");
+        }
+
+        if (_playerShoot != null)
+        {
+            _playerShoot.SetSmashFlag(isSmash);
+        }
+
+        _status.GoToAttackStateIfPossible();
     }
 
     private void StartDash(float direction)
