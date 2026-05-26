@@ -522,6 +522,8 @@ MonoBehaviour:
   jumpForce: 11
   maxNumOfAirJumps: 1
   dashJumpForce: 1.1
+  coyoteDuration: 0.12
+  jumpBufferDuration: 0.1
   groundCheck: {fileID: 8501373023322671280}
   checkSize: {x: 0.05, y: 0.05}
   groundLayer:
@@ -616,7 +618,7 @@ MonoBehaviour:
   orbitRadius: 0.8
   centerOffsetY: 0.5
   rotateSpeed: 100
-  reloadTime: 0.6
+  reloadWaitingTime: 0.6
   ballActivateDuration: 0.4
 --- !u!1 &7365204998374088547
 GameObject:

@@ -22,7 +22,7 @@ public class BallManager : MonoBehaviour
     [SerializeField] private float rotateSpeed = 100f;
 
     [Tooltip("リロードクールタイム")]
-    [SerializeField] private float reloadTime = 2.0f;
+    [SerializeField] private float reloadWaitingTime = 0.6f;
 
     [Tooltip("ボールの生成間隔")]
     [SerializeField] private float ballActivateDuration = 0.2f;
@@ -160,7 +160,7 @@ public class BallManager : MonoBehaviour
         Debug.Log("弾切れ！リロード中・・・");
 
         // 指定秒数待機（リロード時間）
-        yield return new WaitForSeconds(reloadTime);
+        yield return new WaitForSeconds(reloadWaitingTime);
 
         // 再生成
         StartCoroutine(ReloadBalls());

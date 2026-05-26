@@ -20,30 +20,35 @@ public class PlayerController : MonoBehaviour
     [Header("Dash Settings")]
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.2f;
-    [SerializeField] private float doubleTapTimeLimit = 0.25f; // 2回押しとして認める時間（秒）
-    [SerializeField] private int maxNumOfAirDashes = 1;         // 🔥 空中ダッシュの最大許容回数
-    [SerializeField] private int dashInvincibleFrames = 4; // 💡 ダッシュによる無敵時間フレーム数
+    [SerializeField] private float doubleTapTimeLimit = 0.25f;
+    [SerializeField] private int maxNumOfAirDashes = 1;
+    [SerializeField] private int dashInvincibleFrames = 4;
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 12f;
     [SerializeField] private int maxNumOfAirJumps = 1;
     [SerializeField] private float dashJumpForce = 1.1f;
 
+    // 💡 【追加】コヨーテタイムと先行入力の設定
+    [Header("Coyote & Buffer Settings")]
+    [SerializeField] private float coyoteDuration = 0.12f;     // 崖から落ちて空中ジャンプにならない猶予時間（約7フレーム）
+    [SerializeField] private float jumpBufferDuration = 0.1f;   // 着地前の先行入力を受け付ける時間（約6フレーム）
+
     [Header("Ground Check Settings")]
-    [SerializeField] private Transform groundCheck; // 足元に配置する空のGameObject
-    [SerializeField] private Vector2 checkSize = new Vector2(0.5f, 0.1f); // 判定エリアのサイズ
-    [SerializeField] private LayerMask groundLayer; // Groundレイヤーだけを判定対象にする
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private Vector2 checkSize = new Vector2(0.5f, 0.1f);
+    [SerializeField] private LayerMask groundLayer;
 
     [Header("Wall Action Setting")]
-    [SerializeField] private Transform wallCheckPoint; // プレイヤーの側面に配置した空のGameObject
-    [SerializeField] private float wallCheckRadius = 0.2f; // 判定の円の大きさ
-    [SerializeField] private LayerMask wallLayer; // 先ほど作った「Wall」レイヤーを指定
-    [SerializeField] private float wallSlideSpeed = 2.0f; // 壁をずり落ちる最高速度
-    [SerializeField] private Vector2 wallJumpForce = new Vector2(10.0f, 12.0f); // 壁ジャンプのパワー (x: 反発, y: 上昇)
-    [SerializeField] private float wallJumpTime = 0.15f; // 壁ジャンプ後の慣性
+    [SerializeField] private Transform wallCheckPoint;
+    [SerializeField] private float wallCheckRadius = 0.2f;
+    [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private float wallSlideSpeed = 2.0f;
+    [SerializeField] private Vector2 wallJumpForce = new Vector2(10.0f, 12.0f);
+    [SerializeField] private float wallJumpTime = 0.15f;
 
     [Header("One Way Platform Settings")]
-    [SerializeField] private float downDoubleTapTimeLimit = 0.25f; // 下2回押しとして認める時間（秒）
+    [SerializeField] private float downDoubleTapTimeLimit = 0.25f;
 
     [Header("Intro Settings")]
     [SerializeField] private float introDuration = 1.5f;
@@ -68,22 +73,23 @@ public class PlayerController : MonoBehaviour
     private Vector3 firstScale;
     private float currentVelocityX;
     private int remainingAirJumpCount;
-    private int remainingAirDashCount; // 🔥 【追加】空中ダッシュの残り回数
+    private int remainingAirDashCount;
     private float dashTimer;
-    private float originalGravityScale; // 元の重力を保存する変数
-    private float wallJumpLockTimer;    // 追加：壁ジャンプ直後の操作ロックタイマー
+    private float originalGravityScale;
+    private float wallJumpLockTimer;
 
-    // ダブルタップ判定用変数
-    private float lastInputTimeRight;    // 右入力が最後に押された時間
-    private float lastInputTimeLeft;     // 左入力が最後に押された時間
-    private bool isAxisZeroLastFrame = true; // 前フレームで入力が0（ニュートラル）だったか
+    // 💡 【追加】コヨーテ＆バッファ用カウンター
+    private float _coyoteTimer;       // 地面を離れてからの猶予タイマー
+    private float _jumpBufferTimer;   // ジャンプボタンを押してからの先行入力タイマー
 
-    // OneWayPlatformをすり抜け判定用変数
-    private float lastInputTimeDown; // 下入力が最後に押された時間
-    private bool isYAxisZeroLastFrame = true; // 連打判定のために「一度レバーをニュートラルに戻したか」
+    private float lastInputTimeRight;
+    private float lastInputTimeLeft;
+    private bool isAxisZeroLastFrame = true;
+
+    private float lastInputTimeDown;
+    private bool isYAxisZeroLastFrame = true;
     private OneWayPlatform currentPlatform;
 
-    // 途中でシーンが切り替わったりオブジェクトが消滅した時のための安全装置
     private CancellationTokenSource _dashInvincibleCancelToken;
 
     void Awake()
@@ -101,7 +107,6 @@ public class PlayerController : MonoBehaviour
         originalGravityScale = _rigidbody.gravityScale;
         _dashInvincibleCancelToken = new CancellationTokenSource();
 
-        // 🔥 アニメーションを再生し、同時にステートを「Intro（行動不可）」にする
         _animator.SetTrigger("Intro");
         _status.SetIntroState();
 
@@ -110,10 +115,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator IntroRoutine()
     {
-        // 💡 イントロアニメーションの長さ（秒）だけ待つ
         yield return new WaitForSeconds(introDuration);
-
-        // 通常状態に戻して、動けるようにする！
         _status.GoToNormalStateIfPossible();
     }
 
@@ -127,8 +129,6 @@ public class PlayerController : MonoBehaviour
         if (!context.performed) return;
         if (_status.IsDead || _status.IsInIntroMotion) return;
 
-        // 🔥 【進化】地上キック中、または空中キック中にダッシュが押されたら強制キャンセル
-        // ※ただし、空中キックキャンセルの場合も「空中ダッシュ可能か」を事前にチェックする
         if (!_status.IsMovable)
         {
             if (isGrounded || remainingAirDashCount > 0)
@@ -138,10 +138,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // ステートがNormal（移動可能）な場合のみダッシュを開始
         if (_status.IsMovable && !isOnDash)
         {
-            // 🔥 地上か、あるいは空中ダッシュの残り回数がある場合のみ発動
             if (isGrounded || remainingAirDashCount > 0)
             {
                 float direction = moveInput.x != 0 ? Mathf.Sign(moveInput.x) : Mathf.Sign(transform.localScale.x);
@@ -150,61 +148,82 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // 💡 ジャンプボタンが押された時の処理をリファクタリング
     public void OnJump(InputAction.CallbackContext context)
     {
         if (_status.IsDead || _status.IsInIntroMotion) return;
 
         if (context.performed)
         {
-            // 🔥 【進化】キック中（!IsMovable）のときの特殊ジャンプ割り込み判定
+            // 💡 先行入力タイマーをリセットして受付開始
+            _jumpBufferTimer = jumpBufferDuration;
+
+            // 💡 実際のジャンプ処理を試みる（先行入力が入ったので即実行を試みる）
+            TryExecuteJump();
+        }
+    }
+
+    /// <summary>
+    /// 💡 【新規追加】ジャンプの条件をチェックして実行する中心ロジック
+    /// Update側（先行入力）とOnJump側（直押し）の両方から呼ばれます
+    /// </summary>
+    private void TryExecuteJump()
+    {
+        // 先行入力が有効、かつ壁スライド中ではない通常ジャンプの判定
+        if (_jumpBufferTimer > 0f)
+        {
+            // 🔥 キック中の割り込み判定（コヨーテタイム中も地上扱いとしてジャンプキャンセルを許可）
             if (!_status.IsMovable)
             {
-                // 地上キック中、または（空中キック中かつ2段ジャンプ可能）ならキャンセル許可
-                if (isGrounded || remainingAirJumpCount > 0)
+                if (_coyoteTimer > 0f || remainingAirJumpCount > 0)
                 {
                     _status.GoToNormalStateIfPossible();
-                    Debug.Log(isGrounded ? "⚡ 地上キックをジャンプキャンセル！" : "✨ 空中キックを2段ジャンプキャンセル！");
+                    Debug.Log(_coyoteTimer > 0f ? "⚡ 地上キックをコヨーテジャンプキャンセル！" : "✨ 空中キックを2段ジャンプキャンセル！");
                 }
             }
 
-            // ステートがNormal（移動可能）である場合のみジャンプ処理を通す
             if (_status.IsMovable)
             {
-                if (isGrounded || remainingAirJumpCount > 0)
-                {
-                    if (isOnDash && isGrounded && !isWallSliding)
-                    {
-                        isOnDash = false;
-                        _rigidbody.gravityScale = originalGravityScale;
-
-                        // ダッシュの勢いを計算
-                        float jumpDashVelocityX = _rigidbody.linearVelocityX * dashJumpForce;
-                        currentVelocityX = jumpDashVelocityX;
-
-                        // 物理的な速度も即座に更新
-                        _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce * dashJumpForce);
-                    }
-                    else if (isGrounded && !isWallSliding)
-                    {
-                        // 通常ジャンプ
-                        currentVelocityX = _rigidbody.linearVelocityX;
-                        _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce);
-                    }
-                    else if (!isWallSliding)
-                    {
-                        // 空中でのジャンプ（2段ジャンプなど）
-                        currentVelocityX = _rigidbody.linearVelocityX;
-                        _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce);
-                        remainingAirJumpCount--;
-                    }
-
-                    _animator.SetTrigger("Jump");
-                }
-
+                // 💡 壁スライド中なら壁ジャンプを最優先
                 if (isWallSliding)
                 {
                     WallJump();
                     _animator.SetTrigger("Jump");
+                    _jumpBufferTimer = 0f; // バッファ消費
+                    return;
+                }
+
+                // 💡 通常ジャンプ（地上にいる、またはコヨーテタイムの猶予内）
+                if (_coyoteTimer > 0f)
+                {
+                    if (isOnDash && !isWallSliding)
+                    {
+                        isOnDash = false;
+                        _rigidbody.gravityScale = originalGravityScale;
+
+                        float jumpDashVelocityX = _rigidbody.linearVelocityX * dashJumpForce;
+                        currentVelocityX = jumpDashVelocityX;
+                        _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce * dashJumpForce);
+                    }
+                    else if (!isWallSliding)
+                    {
+                        currentVelocityX = _rigidbody.linearVelocityX;
+                        _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce);
+                    }
+
+                    _animator.SetTrigger("Jump");
+                    _coyoteTimer = 0f;       // 💡 ジャンプしたのでコヨーテ終了
+                    _jumpBufferTimer = 0f;   // 💡 バッファ消費
+                }
+                // 💡 空中ジャンプ（コヨーテタイムが切れた後の空中）
+                else if (remainingAirJumpCount > 0 && !isWallSliding)
+                {
+                    currentVelocityX = _rigidbody.linearVelocityX;
+                    _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce);
+                    remainingAirJumpCount--;
+
+                    _animator.SetTrigger("Jump");
+                    _jumpBufferTimer = 0f;   // 💡 バッファ消費
                 }
             }
         }
@@ -213,7 +232,6 @@ public class PlayerController : MonoBehaviour
     public void OnCrounch(InputAction.CallbackContext context)
     {
         if (_status.IsDead || _status.IsInIntroMotion) return;
-
         if (!_status.IsMovable) return;
 
         if (context.performed && isGrounded)
@@ -232,7 +250,6 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
             if (_ballManager.isReloading) return;
-
             _status.GoToAttackStateIfPossible();
         }
     }
@@ -251,33 +268,47 @@ public class PlayerController : MonoBehaviour
     {
         if (wallJumpLockTimer > 0) wallJumpLockTimer -= Time.deltaTime;
 
-        // 🔥 地上にいるときはジャンプ回数とダッシュ回数をリセット
+        // 💡 接地判定を最初に更新
+        isGrounded = Physics2D.OverlapBox(groundCheck.position, checkSize, 0f, groundLayer);
+        isTouchingWall = Physics2D.OverlapCircle(wallCheckPoint.position, wallCheckRadius, wallLayer);
+
+        // 💡 コヨーテタイムと先行入力のタイマー更新
         if (isGrounded)
         {
+            _coyoteTimer = coyoteDuration; // 地面についていれば常に満タン
             remainingAirJumpCount = maxNumOfAirJumps;
             remainingAirDashCount = maxNumOfAirDashes;
         }
+        else
+        {
+            _coyoteTimer -= Time.deltaTime; // 空中ならタイマーを減らす
+        }
 
-        isGrounded = Physics2D.OverlapBox(groundCheck.position, checkSize, 0f, groundLayer);
-        isTouchingWall = Physics2D.OverlapCircle(wallCheckPoint.position, wallCheckRadius, wallLayer);
+        if (_jumpBufferTimer > 0f)
+        {
+            _jumpBufferTimer -= Time.deltaTime; // 先行入力タイマーを減らす
+        }
 
         if (_status.IsMovable && isTouchingWall && !isGrounded && moveInput.x != 0)
         {
             isWallSliding = true;
-            // 🔥 壁摺り下がり時も回数をリセット（壁キックからのリトライをスムーズにするため）
             remainingAirJumpCount = maxNumOfAirJumps;
             remainingAirDashCount = maxNumOfAirDashes;
+            _coyoteTimer = 0f; // 💡 壁スライド中はコヨーテ（地上猶予）をリセット
         }
         else
         {
             isWallSliding = false;
         }
 
+        // 💡 先行入力ジャンプのチェック（空中ボタン押し➔着地した瞬間にジャンプさせるため）
+        if (_jumpBufferTimer > 0f)
+        {
+            TryExecuteJump();
+        }
+
         if (_status.IsMovable) DetectDownDoubleTap();
-
-        // 毎フレーム、方向キーのダブルタップを監視（キック中の割り込みも内部で判定）
         DetectDoubleTapDash();
-
         if (_status.IsMovable) UpdateVisualDirection();
 
         _animator.SetFloat("MoveSpeed", _rigidbody.linearVelocity.magnitude);
@@ -291,29 +322,24 @@ public class PlayerController : MonoBehaviour
     {
         if (_status.IsDead || _status.IsKnockbacking || _status.IsInIntroMotion) return;
 
-
-        // キック中（Attackステート）の物理制御インターロック
         if (!_status.IsMovable)
         {
             isWallSliding = false;
 
             if (!isGrounded)
             {
-                // A. 空中キック：重力を完全にゼロにし、その場に完全ロック（ピタッと滞空）
                 _rigidbody.gravityScale = 0f;
                 _rigidbody.linearVelocity = Vector2.zero;
                 currentVelocityX = 0f;
             }
             else
             {
-                // B. 地上キック：横移動の慣性だけを強制ストップ
                 _rigidbody.linearVelocity = new Vector2(0f, _rigidbody.linearVelocity.y);
                 currentVelocityX = 0f;
             }
             return;
         }
 
-        // キック状態やダッシュから通常に戻ってきた際、重力を安全復帰
         if (_rigidbody.gravityScale == 0f && !isOnDash)
         {
             _rigidbody.gravityScale = originalGravityScale;
@@ -343,11 +369,9 @@ public class PlayerController : MonoBehaviour
         if (isOnDash) return;
         if (_status.IsDead || _status.IsInIntroMotion) return;
 
-        // 🔥 通常状態、または「キック中（地上・空中問わず）」であればダブルタップダッシュを許可
         bool canDashInput = _status.IsMovable || !_status.IsMovable;
         if (!canDashInput) return;
 
-        // 1. 右方向の入力
         if (moveInput.x > 0)
         {
             if (isAxisZeroLastFrame)
@@ -356,10 +380,9 @@ public class PlayerController : MonoBehaviour
 
                 if (timeSinceLastTap <= doubleTapTimeLimit)
                 {
-                    // 🔥 空中であればダッシュ残弾数がある場合のみ実行
                     if (isGrounded || remainingAirDashCount > 0)
                     {
-                        if (!_status.IsMovable) _status.GoToNormalStateIfPossible(); // キックキャンセル
+                        if (!_status.IsMovable) _status.GoToNormalStateIfPossible();
                         StartDash(1f);
                     }
                 }
@@ -368,7 +391,6 @@ public class PlayerController : MonoBehaviour
                 isAxisZeroLastFrame = false;
             }
         }
-        // 2. 左方向の入力
         else if (moveInput.x < 0)
         {
             if (isAxisZeroLastFrame)
@@ -377,10 +399,9 @@ public class PlayerController : MonoBehaviour
 
                 if (timeSinceLastTap <= doubleTapTimeLimit)
                 {
-                    // 🔥 空中であればダッシュ残弾数がある場合のみ実行
                     if (isGrounded || remainingAirDashCount > 0)
                     {
-                        if (!_status.IsMovable) _status.GoToNormalStateIfPossible(); // キックキャンセル
+                        if (!_status.IsMovable) _status.GoToNormalStateIfPossible();
                         StartDash(-1f);
                     }
                 }
@@ -389,7 +410,6 @@ public class PlayerController : MonoBehaviour
                 isAxisZeroLastFrame = false;
             }
         }
-        // 3. 入力なし
         else
         {
             isAxisZeroLastFrame = true;
@@ -433,8 +453,6 @@ public class PlayerController : MonoBehaviour
         _rigidbody.gravityScale = 0;
         _rigidbody.linearVelocity = new Vector2(direction * dashSpeed, 0);
 
-
-        // 🔥 【追加】空中ダッシュだった場合は残弾数を減らす
         if (!isGrounded)
         {
             remainingAirDashCount--;
@@ -470,34 +488,39 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded)
         {
-            float groundAccel = 50f;
-            currentVelocityX = Mathf.MoveTowards(currentVelocityX, targetSpeed, groundAccel * Time.deltaTime);
+            // 💡 進行方向と入力方向が逆（切り返し時）なら、ブレーキと加速を通常の3倍（150f）にする
+            float currentAccel = 50f;
+            if (targetSpeed != 0 && Mathf.Sign(targetSpeed) != Mathf.Sign(currentVelocityX) && currentVelocityX != 0)
+            {
+                currentAccel = 150f; // 👈 数値を大きくするほどキレが増します
+            }
+
+            currentVelocityX = Mathf.MoveTowards(currentVelocityX, targetSpeed, currentAccel * Time.deltaTime);
         }
         else
         {
-            float airControl = 25f;
-            currentVelocityX = Mathf.MoveTowards(currentVelocityX, targetSpeed, airControl * Time.deltaTime);
+            // 💡 空中も同様に、切り返し時は制御力をアップ（25f ➔ 60f）
+            float currentAirControl = 25f;
+            if (targetSpeed != 0 && Mathf.Sign(targetSpeed) != Mathf.Sign(currentVelocityX) && currentVelocityX != 0)
+            {
+                currentAirControl = 60f;
+            }
+
+            currentVelocityX = Mathf.MoveTowards(currentVelocityX, targetSpeed, currentAirControl * Time.deltaTime);
         }
 
         _rigidbody.linearVelocity = new Vector2(currentVelocityX, _rigidbody.linearVelocity.y);
     }
 
-    /// <summary>
-    /// 🔥 UniTaskによるフレーム単位の無敵制御
-    /// </summary>
     private async UniTaskVoid TriggerDashInvincibleAsync()
     {
         if (_status == null) return;
 
-        // 1. 無敵状態をONにする
         _status.SetInvicible();
         Debug.Log($"🛡️ ダッシュ無敵 ON ({dashInvincibleFrames}フレーム)");
 
-        // 2. 💡 指定されたフレーム数だけ「物理更新（FixedUpdate）のタイミング」で待機する
-        // 2Dアクションの判定はFixedUpdate基準が多いため、FixedUpdateタイミングで待つのが一番正確です
         await UniTask.DelayFrame(dashInvincibleFrames, PlayerLoopTiming.FixedUpdate, _dashInvincibleCancelToken.Token);
 
-        // 3. 無敵状態をOFFにする
         if (_status != null)
         {
             _status.CancelInvicible();
@@ -549,14 +572,16 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateVisualDirection()
     {
-        float threshold = 0.1f;
+        float inputThreshold = 0.1f; // スティックの遊び（デッドゾーン）を考慮
 
-        if (_rigidbody.linearVelocityX > threshold && moveInput.x >= 0)
+        if (moveInput.x > inputThreshold)
         {
+            // 右に入力されたら即座に右を向く
             transform.localScale = firstScale;
         }
-        else if (_rigidbody.linearVelocityX < -threshold && moveInput.x <= 0)
+        else if (moveInput.x < -inputThreshold)
         {
+            // 左に入力されたら即座に左を向く
             transform.localScale = new Vector3(-firstScale.x, firstScale.y, firstScale.z);
         }
     }
@@ -570,7 +595,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
-        // オブジェクト破棄時にタスクを安全にキャンセルする
         _dashInvincibleCancelToken?.Cancel();
         _dashInvincibleCancelToken?.Dispose();
     }
