@@ -8,6 +8,7 @@ public abstract class BallAbility : MonoBehaviour
     [SerializeField] private float ballLifeTime = 2f; // ボールX方向の速度が1以下になってから消滅するまでの秒数
     [SerializeField] private GameObject hitEffectPrefab;
     [SerializeField] private GameObject kickEffectPrefab;
+    [SerializeField] private GameObject spawnEffectPrefab;
 
     private Rigidbody2D _rigidbody;
     private Collider2D _collider;
@@ -18,6 +19,14 @@ public abstract class BallAbility : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
+
+        // 💡 自分が生成された（Startが走った）瞬間に、自分の位置にエフェクトを生成する！
+        if (spawnEffectPrefab != null)
+        {
+            // ボールの現在地（リロードで配置された座標）にエフェクトを出す
+            GameObject spawnEffect = Instantiate(spawnEffectPrefab, transform.position, Quaternion.identity);
+            spawnEffect.transform.SetParent(transform);
+        }
     }
 
     /// <summary>
