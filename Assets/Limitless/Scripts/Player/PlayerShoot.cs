@@ -44,6 +44,8 @@ public class PlayerShoot : MonoBehaviour
     private float _lastInputTime = -999f;
     private Vector3 _currentPredictedDirection = Vector3.right; // 🧠 現在予測されるシュート方向（Gizmo用）
 
+    private bool _hasShotThisAction = false;
+
     private void Awake()
     {
         _status = GetComponent<MobStatus>();
@@ -122,11 +124,15 @@ public class PlayerShoot : MonoBehaviour
 
     public void OnShootStart()
     {
+        _hasShotThisAction = false;
         shootCollider.enabled = true;
     }
 
     public void OnShoot(Collider2D collider)
     {
+        // 💡 すでにこのアクション内で何かを蹴っていたら、2個目以降は絶対に処理しない
+        if (_hasShotThisAction) return;
+
         if (!collider.CompareTag("Ball")) return;
 
         BallAbility ballInRange = collider.GetComponent<BallAbility>();
@@ -135,6 +141,9 @@ public class PlayerShoot : MonoBehaviour
         Vector3 shootDirection = _currentPredictedDirection;
 
         ballInRange.Fire(shootDirection, shootForce);
+
+        // 💡 1個蹴ったので、フラグを立ててロックする！
+        _hasShotThisAction = true;
 
         // ログ出力用
         bool isBuffered = (directionInput.action.ReadValue<Vector2>().sqrMagnitude <= 0.05f) && (Time.time - _lastInputTime <= inputBufferTime);
