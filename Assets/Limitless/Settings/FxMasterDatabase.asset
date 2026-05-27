@@ -23,7 +23,14 @@ MonoBehaviour:
   - label: SmashBallKick
     stopDuration: 0.15
     timeScale: 0
-    shakeDuration: 0.12
+    shakeDuration: 0.15
+    shakeMagnitude: 0.22
+    objectShakeMagnitude: 0.15
+    useObjectShakeY: 1
+  - label: KokusenBallKick
+    stopDuration: 0.25
+    timeScale: 0
+    shakeDuration: 0.25
     shakeMagnitude: 0.22
     objectShakeMagnitude: 0.15
     useObjectShakeY: 1

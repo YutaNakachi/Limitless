@@ -6,18 +6,21 @@ public abstract class BallAbility : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int attackDamage = 10; // 通常時のボールの攻撃力
     [SerializeField] private int smashAttackDamage = 20; // 💥 スマッシュ時のボールの攻撃力
+    [SerializeField] private int kokusenAttackDamage = 200; // 💥 黒閃時のボールの攻撃力
     [SerializeField] private float ballLifeTime = 2f; // ボールX方向の速度が1以下になってから消滅するまでの秒数
 
     // 💡 【追加】ヒット回数の設定（インスペクターで調整可能）
     [Header("Hit Count Settings")]
     [SerializeField] private int maxHitCount = 1;       // 通常キック時の最大ヒット回数（初期値: 1）
     [SerializeField] private int smashMaxHitCount = 5;  // 💥 スマッシュキック時の最大ヒット回数（初期値: 5）
+    [SerializeField] private int kokusenMaxHitCount = 10;  // 💥 黒閃キック時の最大ヒット回数（初期値: 10）
 
     [Header("Effects")]
     [SerializeField] private GameObject hitEffectPrefab;
+    [SerializeField] private GameObject hitKokusenEffectPrefab;
     [SerializeField] private GameObject kickEffectPrefab;
-    [SerializeField] private GameObject smashKickEffectPrefab_1; // 💥 スマッシュ用の派手なエフェクト
-    [SerializeField] private GameObject smashKickEffectPrefab_2; // 💥 スマッシュ用の派手なエフェクト
+    [SerializeField] private GameObject smashKickEffectPrefab; // 💥 スマッシュ用の派手なエフェクト
+    [SerializeField] private GameObject kokusenKickEffectPrefab; // 💥 スマッシュ用の派手なエフェクト
     [SerializeField] private GameObject spawnEffectPrefab;
 
     private Rigidbody2D _rigidbody;
@@ -26,6 +29,7 @@ public abstract class BallAbility : MonoBehaviour
     private int _currentDamage; // 実際に適用される今回のダメージ
     private int _remainingHitCount; // 💡 今回のボールの残りヒット回数（内部処理用）
     protected bool _isSmashFired = false; // スマッシュで発射されたかどうかの内部フラグ
+    protected bool _isKokusenFired = false; // 黒閃が発動したかどうかの内部フラグ
 
     public bool isKicked { get; private set; } = false;
 
@@ -86,15 +90,31 @@ public abstract class BallAbility : MonoBehaviour
     }
 
     // プレイヤーにキックされた時に呼び出される
-    public virtual void Fire(Vector2 direction, float force, bool isSmash)
+    public virtual void Fire(Vector2 direction, float force, bool isSmash, float gapY)
     {
         isKicked = true;
         _isSmashFired = isSmash;
         _collider.isTrigger = false;
+        if (Mathf.Abs(gapY) <= 0.01) _isKokusenFired = true;
 
-        // 💡 スマッシュか否かで攻撃力と「ヒット回数」を切り替える
-        _currentDamage = isSmash ? smashAttackDamage : attackDamage;
-        _remainingHitCount = isSmash ? smashMaxHitCount : maxHitCount;
+        // 💡 スマッシュか否か黒閃か否かで攻撃力と「ヒット回数」を切り替える
+        if (_isSmashFired && _isKokusenFired)
+        {
+            _currentDamage = kokusenAttackDamage;
+            _remainingHitCount = kokusenMaxHitCount;
+        }
+        else if (_isSmashFired)
+        {
+            _currentDamage = smashAttackDamage;
+            _remainingHitCount = smashMaxHitCount;
+        }
+        else
+        {
+            _currentDamage = attackDamage;
+            _remainingHitCount = maxHitCount;
+        }
+
+
 
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
@@ -126,7 +146,12 @@ public abstract class BallAbility : MonoBehaviour
     {
         Vector2 myCenter = transform.position;
         Vector3 exactHitPoint = collider.ClosestPoint(myCenter);
-        if (hitEffectPrefab != null)
+
+        if (_isSmashFired && _isKokusenFired && kokusenKickEffectPrefab != null)
+        {
+            Instantiate(hitKokusenEffectPrefab, exactHitPoint, Quaternion.identity);
+        }
+        else if (hitEffectPrefab != null)
         {
             Instantiate(hitEffectPrefab, exactHitPoint, Quaternion.identity);
         }
@@ -136,11 +161,15 @@ public abstract class BallAbility : MonoBehaviour
     protected virtual void PlayKickEffect()
     {
         // スマッシュフラグに応じて生成するプレハブを切り替える
-        if (_isSmashFired && smashKickEffectPrefab_1 != null)
+        if (_isSmashFired && smashKickEffectPrefab != null)
         {
-            Instantiate(smashKickEffectPrefab_1, transform.position, Quaternion.identity);
-            Instantiate(smashKickEffectPrefab_2, transform.position, Quaternion.identity);
+            Instantiate(smashKickEffectPrefab, transform.position, Quaternion.identity);
             Instantiate(kickEffectPrefab, transform.position, Quaternion.identity);
+
+            if (_isKokusenFired && kokusenKickEffectPrefab != null)
+            {
+                Instantiate(kokusenKickEffectPrefab, transform.position, Quaternion.identity);
+            }
         }
         else if (kickEffectPrefab != null)
         {

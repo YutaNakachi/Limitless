@@ -576,7 +576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerKick
   shootCollider: {fileID: 7126906893625790347}
-  shootForce: 180
+  shootForce: 200
   neutralShootAngle: 0
   kickCooldownTime: 0.1
   smashShootForceMultiplier: 1.65

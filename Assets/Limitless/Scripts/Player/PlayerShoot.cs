@@ -172,6 +172,13 @@ public class PlayerShoot : MonoBehaviour
 
         BallAbility ballInRange = collider.GetComponent<BallAbility>();
 
+        // 🔥 【追加】ぶつかった瞬間のY軸の相対差を計算
+        // ボールの中心Y座標 - シュートコライダーの中心Y座標
+        float relativeY = collider.transform.position.y - shootCollider.transform.position.y;
+
+        // デバッグログで確認（必要に応じてBallAbilityに渡すなどしてください）
+        Debug.Log($"⚽ ボールとのY軸相対差: {relativeY:F3} (プラスならボールが上、マイナスならボールが下)");
+
         // Updateで常に予測している最新の方向をそのまま採用して発射！
         Vector3 shootDirection = _currentPredictedDirection;
 
@@ -179,7 +186,7 @@ public class PlayerShoot : MonoBehaviour
         float finalForce = _isSmashKickActive ? shootForce * smashShootForceMultiplier : shootForce;
 
         // 💡 ボールのFireメソッドに、現在のスマッシュ状態を渡す！
-        ballInRange.Fire(shootDirection, finalForce, _isSmashKickActive);
+        ballInRange.Fire(shootDirection, finalForce, _isSmashKickActive, relativeY);
 
         // 1個蹴ったので、フラグを立ててロックする！
         _hasShotThisAction = true;
