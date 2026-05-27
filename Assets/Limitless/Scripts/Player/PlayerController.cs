@@ -388,6 +388,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isOnDash) return;
         if (_status.IsDead || _status.IsInIntroMotion) return;
+        if (_isWaitingForSmash) return; // 🔥【追加】スマッシュ入力受付の猶予フレーム中はダッシュを禁止する
 
         bool canDashInput = _status.IsMovable || !_status.IsMovable;
         if (!canDashInput) return;
@@ -512,6 +513,14 @@ public class PlayerController : MonoBehaviour
     {
         _isWaitingForSmash = false; // フラグを戻す
 
+        // 🔥【バグ対策】キックが確定した瞬間、もしダッシュ中（または暴発ダッシュ）なら強制終了させる
+        if (isOnDash)
+        {
+            isOnDash = false;
+            _rigidbody.gravityScale = originalGravityScale;
+            Debug.Log("⚠️ ダッシュ中にキックが紐づいたため、ダッシュ状態を強制解除しました。");
+        }
+
         if (isSmash)
         {
             _smashTimer = 0f;
@@ -525,7 +534,6 @@ public class PlayerController : MonoBehaviour
             _animator.SetTrigger("Kick");
             _animator.SetFloat("ShootDirection", _playerShoot.CurrentShootAngle);
             _animator.SetBool("IsSmash", isSmash);
-
         }
 
         if (_playerShoot != null)
