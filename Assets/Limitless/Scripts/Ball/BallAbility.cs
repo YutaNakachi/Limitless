@@ -16,7 +16,8 @@ public abstract class BallAbility : MonoBehaviour
     [Header("Effects")]
     [SerializeField] private GameObject hitEffectPrefab;
     [SerializeField] private GameObject kickEffectPrefab;
-    [SerializeField] private GameObject smashKickEffectPrefab; // 💥 スマッシュ用の派手なエフェクト
+    [SerializeField] private GameObject smashKickEffectPrefab_1; // 💥 スマッシュ用の派手なエフェクト
+    [SerializeField] private GameObject smashKickEffectPrefab_2; // 💥 スマッシュ用の派手なエフェクト
     [SerializeField] private GameObject spawnEffectPrefab;
 
     private Rigidbody2D _rigidbody;
@@ -135,9 +136,10 @@ public abstract class BallAbility : MonoBehaviour
     protected virtual void PlayKickEffect()
     {
         // スマッシュフラグに応じて生成するプレハブを切り替える
-        if (_isSmashFired && smashKickEffectPrefab != null)
+        if (_isSmashFired && smashKickEffectPrefab_1 != null)
         {
-            Instantiate(smashKickEffectPrefab, transform.position, Quaternion.identity);
+            Instantiate(smashKickEffectPrefab_1, transform.position, Quaternion.identity);
+            Instantiate(smashKickEffectPrefab_2, transform.position, Quaternion.identity);
             Instantiate(kickEffectPrefab, transform.position, Quaternion.identity);
         }
         else if (kickEffectPrefab != null)
