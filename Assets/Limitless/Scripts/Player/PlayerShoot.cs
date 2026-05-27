@@ -45,7 +45,7 @@ public class PlayerShoot : MonoBehaviour
 
     private Vector2 _lastValidInputDirection = Vector2.zero;
     private float _lastInputTime = -999f;
-    private Vector3 _currentPredictedDirection = Vector3.right; // 🧠 現在予測されるシュート方向（Gizmo用）
+    public Vector3 _currentPredictedDirection { get; private set; } = Vector3.right; // 🧠 現在予測されるシュート方向（Gizmo用）
 
     private bool _hasShotThisAction = false;
     private bool _isSmashKickActive = false; // 今回のキックがスマッシュかどうかを記憶

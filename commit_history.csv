@@ -1,0 +1,111 @@
+﻿b4c66d6,2026/05/27 01:11:40,YutaNakachi,Ballの敵との接触可能回数を制限
+6380ca6,2026/05/27 00:20:05,YutaNakachi,スマッシュキック実装
+62c2ce3,2026/05/26 15:39:21,YutaNakachi2026,Laser Beam Asset Imported
+2bcf14c,2026/05/26 14:23:20,YutaNakachi2026,１回のKickで２個同時に蹴らないように調整＆ShootColliderのサイズ調整
+16bc7fb,2026/05/26 14:06:21,YutaNakachi2026,振り向き動作など操作感調整
+c2b14d4,2026/05/26 13:43:52,YutaNakachi2026,Ball生成時のEffect追加＆壁出現演出追加
+915679c,2026/05/26 10:22:17,YutaNakachi2026,ダッシュによる無敵時間実装（回避機能）
+b2957ec,2026/05/26 00:06:18,YutaNakachi,敵死亡演出完成
+e051b31,2026/05/25 22:13:30,YutaNakachi,リロード中Kick不可に設定
+aa0933b,2026/05/25 22:09:41,YutaNakachi,Introモーション中の行動制限調整完了
+179f22f,2026/05/25 16:09:34,YutaNakachi2026,Introモーション中に行動できないように調整中
+00a0d2e,2026/05/25 15:14:55,YutaNakachi2026,キックエフェクト、ヒットエフェクト調整
+3e4876d,2026/05/25 14:43:21,YutaNakachi2026,敵及びplayerの被弾時にHit Effect追加
+ead5b97,2026/05/25 13:48:16,YutaNakachi2026,Merge branch 'main' of https://github.com/YutaNakachi/Limitless
+c000b28,2026/05/25 13:48:01,YutaNakachi2026,Effect素材アセットImport
+6ca9111,2026/05/25 13:47:41,YutaNakachi2026,Update README.md
+453469a,2026/05/25 13:25:49,YutaNakachi2026,被弾時にヒットストップ追加
+f15e2a1,2026/05/25 12:26:48,YutaNakachi2026,被弾時のノックバック完成
+3150b14,2026/05/25 01:45:52,YutaNakachi,ノックバック機能を搭載
+d64f326,2026/05/24 23:04:44,YutaNakachi,DOTween Imported
+48775d5,2026/05/24 22:58:31,YutaNakachi,Revert "被弾時のノックバック演出作成中"
+a2addfa,2026/05/23 23:58:26,YutaNakachi,被弾時のノックバック演出作成中
+5a78b11,2026/05/23 21:49:32,YutaNakachi,BatAI調整
+519d56d,2026/05/23 16:42:18,YutaNakachi,1人プレイ用サバイバルモード実装
+440841b,2026/05/23 00:54:25,YutaNakachi,ダッシュの時、ボールの位置下がる現象を修正
+4be2184,2026/05/22 23:53:08,YutaNakachi,Merge branch 'main' of https://github.com/YutaNakachi/Limitless
+bcaf81b,2026/05/22 23:53:05,YutaNakachi,キックアクションに関するバグ修正＆キックモーションのスプライト追加
+c375cde,2026/05/22 23:26:25,YutaNakachi,Revise development environment and project structure details
+3856a72,2026/05/22 22:55:31,YutaNakachi,Expand README with game architecture details
+60a7594,2026/05/22 15:52:26,YutaNakachi2026,MainScene一部更新
+cc2242f,2026/05/22 15:47:35,YutaNakachi2026,Rename FloatingBlock to OneWayPlatform in README
+47acaff,2026/05/22 15:44:04,YutaNakachi2026,Ballが飛んだ時に煙のようなエフェクトをつける
+61e238b,2026/05/22 12:21:38,YutaNakachi2026,敵キャラ：BatのAIを最適化
+371bd91,2026/05/22 10:07:29,YutaNakachi2026,キック方向指示の入力後、ニュートラルに戻るまでの猶予時間を追加
+175c7db,2026/05/22 00:04:38,YutaNakachi,キックモーションを追加＆FxManagerを改良
+cb65d8d,2026/05/21 16:19:44,YutaNakachi2026,Enemy(Bat)作成中＆LifeGauge追加
+42e3690,2026/05/21 13:41:10,YutaNakachi2026,Enemy Galore 1 - Pixel Art Imported
+0d8ebbf,2026/05/21 13:39:42,YutaNakachi2026,Update README.md
+2cdbed3,2026/05/21 13:38:20,YutaNakachi2026,Update README.md
+19fb022,2026/05/21 13:36:13,YutaNakachi2026,Document FxManager and effect parameters in README
+6744bee,2026/05/21 13:26:33,YutaNakachi2026,Add 'Enemy Galore 1 - Pixel Art' to asset list
+2b769f6,2026/05/21 12:47:06,YutaNakachi2026,方向キーを入力していないとき（ニュートラルのとき）にも若干角度をつけられるように調整
+5817975,2026/05/21 12:14:05,YutaNakachi2026,FxManager改良＆OneWayPlatform実装
+a784a52,2026/05/21 10:31:18,YutaNakachi2026,Playerの向きが勝手に反転するバグを修正
+5224f4e,2026/05/21 10:06:47,YutaNakachi2026,ScriptableObjectによるヒットストップパラメータの一元管理
+9f86c8b,2026/05/21 09:21:18,YutaNakachi2026,壁アクションのアニメーションを追加
+5a4a312,2026/05/21 01:10:06,YutaNakachi,ヒットストップとカメラシェイクのインスタンス実装
+1a5864a,2026/05/20 12:59:41,YutaNakachi2026,壁アクションからの２段ジャンプが可能になるよう調整
+f306906,2026/05/20 11:31:29,YutaNakachi2026,WallSlidingのAnimationを作成
+73f452c,2026/05/20 10:34:59,YutaNakachi2026,方向キー２回入力によるDash操作をスクリプトで実装
+412056d,2026/05/20 00:14:18,YutaNakachi,壁ジャンプ実装
+a47d869,2026/05/19 16:16:10,YutaNakachi2026,壁アクション作成中
+50a117e,2026/05/19 15:38:41,YutaNakachi2026,着地時のAnimationを微調整
+0a9de00,2026/05/19 15:03:53,YutaNakachi2026,Playerのサイズ感を調整
+8ab7080,2026/05/19 14:33:19,YutaNakachi2026,Merge branch 'main' of https://github.com/YutaNakachi/Limitless
+b36901a,2026/05/19 14:33:13,YutaNakachi2026,TileMapにて仮ステージ作成
+e66e779,2026/05/19 14:25:34,YutaNakachi2026,Update README.md
+c55076c,2026/05/19 14:17:04,YutaNakachi2026,Update README.md
+cf419ac,2026/05/19 14:09:52,YutaNakachi2026,Fix typo in BallLifeTime parameter description
+132add6,2026/05/19 14:08:42,YutaNakachi2026,Fix formatting for BallLifeTime parameter in README
+107e507,2026/05/19 14:08:00,YutaNakachi2026,Update README.md
+78c3a40,2026/05/19 11:11:07,YutaNakachi2026,Revise gameplay mechanics and VFX descriptions
+2dad97c,2026/05/19 10:51:25,YutaNakachi2026,Update README with design specifications
+feeb501,2026/05/18 23:55:49,YutaNakachi,Merge branch 'main' of https://github.com/YutaNakachi/Limitless
+742a180,2026/05/18 23:55:04,YutaNakachi,Cartoon FX Remaster Free Imported
+6ff5cf0,2026/05/18 23:54:36,YutaNakachi,Categorize music assets and add new sound effects pack
+7df4b6d,2026/05/18 23:24:16,YutaNakachi,Comic Explosion Effect Imported
+33a4ed0,2026/05/18 23:20:21,YutaNakachi,Pixel Adventure Imported
+5d54649,2026/05/18 22:52:24,YutaNakachi,TitleScene, ManualSceneのUI調整＆Build
+6cfd8a8,2026/05/18 15:05:17,YutaNakachi2026,Update README with external assets information
+7f4b866,2026/05/18 12:07:03,YutaNakachi2026,Fix typo in README and update Unity version
+f075a22,2026/05/18 12:05:04,YutaNakachi2026,Update Unity version badge in README
+ad56b93,2026/05/18 12:03:56,YutaNakachi2026,Update README.md
+6443e25,2026/05/18 12:03:33,YutaNakachi2026,Update Unity version badge in README
+548b1dc,2026/05/18 12:03:00,YutaNakachi2026,Fix Unity version badge in README.md
+bbad835,2026/05/18 12:00:34,YutaNakachi2026,Update Unity version badge in README.md
+a70f6af,2026/05/18 12:00:12,YutaNakachi2026,Create README.md with game overview and details
+cd22f9c,2026/05/14 01:21:23,YutaNakachi,キック時のエラー修正
+b80e297,2026/05/08 15:52:12,YutaNakachi2026,BallAbility（基底スクリプト）作成
+67aa061,2026/05/07 15:57:15,YutaNakachi2026,Normal BallにParticle System追加
+911087f,2026/05/07 00:33:50,YutaNakachi,プレイヤーの向きにより回転方向を変更
+c5e8632,2026/05/05 01:26:49,YutaNakachi,Ball回転ロジックを調整
+26e9efc,2026/05/05 00:39:42,YutaNakachi,activeBallsを配列化
+e3a83c0,2026/05/04 01:55:59,YutaNakachi,Ball回転機能のコード修正
+5a4c970,2026/04/30 23:13:01,YutaNakachi,SpriteSheet追加
+3fecffb,2026/04/30 22:48:00,YutaNakachi,入力によるReload機能追加
+4bd50d7,2026/04/30 16:27:46,YutaNakachi2026,Sprite設定調整
+df8e4d2,2026/04/30 01:17:26,YutaNakachi,所持中のBallがプレイヤーの周りをまわる機能実装
+367f838,2026/04/29 01:06:40,YutaNakachi,Playerの周りをBallが回わる仕組みを実装
+42b5d6e,2026/04/28 15:53:58,YutaNakachi2026,Test用NormalBall追加
+eea7cb1,2026/04/27 15:54:30,YutaNakachi2026,InputSystemのRe-Import
+297639f,2026/04/27 12:04:26,YutaNakachi2026,じゃがみ＆ダッシュ中Collider形状が動的に変化する仕組みを実装
+69baade,2026/04/27 01:42:17,YutaNakachi,PlayerとGhostの当たり判定実装＆ダッシュジャンプ、エアダッシュ実装
+569c2bc,2026/04/26 17:23:00,YutaNakachi,Shoot機能と画面端の壁実装
+47fbdcd,2026/04/26 11:55:51,YutaNakachi,シュートの基本的なシステムを実装
+d0ffa09,2026/04/26 06:36:14,YutaNakachi,BallとGhostの当たり判定実装
+b49a790,2026/04/24 15:58:44,YutaNakachi2026,CollisionDetectorスクリプト追加
+2d13e74,2026/04/24 15:36:02,YutaNakachi2026,Dash一旦完成＆Generatorシステム完成
+b05c55d,2026/04/24 00:49:44,YutaNakachi,Dashの動きを調整（途中）
+fc5e4c3,2026/04/23 16:19:11,YutaNakachi2026,プレイヤーのモーション実装
+0e94ce2,2026/04/22 15:56:06,YutaNakachi2026,Animation追加
+7c83f68,2026/04/22 01:04:36,YutaNakachi,Animation素材追加
+1ce5f09,2026/04/21 15:50:02,YutaNakachi2026,Animation作成
+a7482ef,2026/04/21 01:01:05,YutaNakachi,Sprite画像Upload
+7837561,2026/04/17 16:25:15,YutaNakachi2026,groundCheck File ID更新
+92b00be,2026/04/17 11:45:05,YutaNakachi2026,接地判定方法を最適化
+a8ec3ef,2026/04/16 23:40:46,YutaNakachi,入力操作をInputSystemに変更
+e0bb49e,2026/04/15 15:56:36,YutaNakachi2026,PhysicMaterialを追加
+ce6e5d4,2026/04/15 12:18:03,YutaNakachi2026,Ballを追加
+dcdbe46,2026/04/14 15:54:47,YutaNakachi2026,必要な素材の追加
+9fa276c,2026/04/12 23:10:59,YutaNakachi,Initial commit
