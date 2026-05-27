@@ -28,7 +28,6 @@ public class BallManager : MonoBehaviour
     [SerializeField] private float ballActivateDuration = 0.2f;
 
 
-    //private List<BallController> activeBalls = new List<BallController>();
     private BallAbility[] activeBalls;
 
     private float currentAngle;

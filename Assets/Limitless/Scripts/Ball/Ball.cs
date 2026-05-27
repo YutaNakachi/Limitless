@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public enum BallType { Normal, Red, Blue }
+public enum BallType { Normal, Red, Blue, Purple }
 
 [Serializable]
 public class Ball

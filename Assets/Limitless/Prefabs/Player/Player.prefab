@@ -531,7 +531,7 @@ MonoBehaviour:
   jumpForce: 11
   maxNumOfAirJumps: 1
   dashJumpForce: 1.1
-  smashInputThreshold: 0.65
+  smashInputThreshold: 0.5
   smashWindowTime: 0.25
   smashWaitFrames: 4
   coyoteDuration: 0.12
@@ -622,10 +622,10 @@ MonoBehaviour:
     <BallPrefab>k__BackingField: {fileID: 7504175457323940421, guid: f3405f959028c074591f4d4b9dd50a0c, type: 3}
     <Rate>k__BackingField: 96
   - <Type>k__BackingField: 1
-    <BallPrefab>k__BackingField: {fileID: 1782844606876501862, guid: 7f1da97624b32ae47bddaeae664a7589, type: 3}
+    <BallPrefab>k__BackingField: {fileID: 856638293993571749, guid: 48e76c71e6d15194d848b92047f90ac8, type: 3}
     <Rate>k__BackingField: 0
   - <Type>k__BackingField: 2
-    <BallPrefab>k__BackingField: {fileID: 7878110154866715779, guid: 938ea9809d292af4b89ffb8276b3b5d1, type: 3}
+    <BallPrefab>k__BackingField: {fileID: 8829045715925878824, guid: fabf4fd11e409f24fa49d17c9f4a701f, type: 3}
     <Rate>k__BackingField: 0
   maxBalls: 6
   orbitRadius: 0.8

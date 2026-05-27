@@ -8,7 +8,6 @@ public class NormalBallAbility : BallAbility
     [SerializeField] private GameObject kokusenThunderEffectPrefab;
     [SerializeField] private float effectDestroyTime = 2.0f; // ボールが飛んでいる間、煙を出し続ける時間
 
-
     protected override void OnFire()
     {
         // 1. 画面揺れやヒットストップ演出
