@@ -576,12 +576,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerKick
   shootCollider: {fileID: 7126906893625790347}
-  shootForce: 250
-  neutralShootAngle: 5
+  shootForce: 180
+  neutralShootAngle: 0
   kickCooldownTime: 0.1
-  smashShootForceMultiplier: 1.5
+  smashShootForceMultiplier: 1.65
   groundMaxUpAngle: 90
-  groundMaxDownAngle: 45
+  groundMaxDownAngle: 60
   airMaxUpAngle: 90
   airMaxDownAngle: 90
   inputBufferTime: 0.8
@@ -604,7 +604,7 @@ MonoBehaviour:
   invincibilityDuration: 2
   knockbackDuration: 0.2
   knockbackForce: 10
-  shootCollider: {fileID: 0}
+  shootCollider: {fileID: 7126906893625790347}
 --- !u!114 &2537649582537771541
 MonoBehaviour:
   m_ObjectHideFlags: 0

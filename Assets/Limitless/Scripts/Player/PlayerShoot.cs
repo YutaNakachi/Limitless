@@ -45,7 +45,27 @@ public class PlayerShoot : MonoBehaviour
 
     private Vector2 _lastValidInputDirection = Vector2.zero;
     private float _lastInputTime = -999f;
-    public Vector3 _currentPredictedDirection { get; private set; } = Vector3.right; // 🧠 現在予測されるシュート方向（Gizmo用）
+    private Vector3 _currentPredictedDirection = Vector3.right; // 🧠 現在予測されるシュート方向（Gizmo用）
+
+    /// <summary>
+    /// 🎯 現在狙っている方向の角度（正面: 0, 真上: 90, 真下: -90）を取得するプロパティ
+    /// </summary>
+    public float CurrentShootAngle
+    {
+        get
+        {
+            // プレイヤーの現在の正面方向（右向きなら Vector3.right、左向きなら Vector3.left）
+            Vector3 forwardDirection = transform.localScale.x > 0 ? Vector3.right : Vector3.left;
+
+            // 正面方向ベクトルと、予測されている弾道ベクトルの「なす角」を計算
+            float angle = Vector3.Angle(forwardDirection, _currentPredictedDirection);
+
+            // 弾道が「上向き」か「下向き」かで符号を決定する
+            // 弾道の Y 成分がプラスなら上向き（+）、マイナスなら下向き（-）
+            return _currentPredictedDirection.y >= 0f ? angle : -angle;
+        }
+    }
+
 
     private bool _hasShotThisAction = false;
     private bool _isSmashKickActive = false; // 今回のキックがスマッシュかどうかを記憶
@@ -91,6 +111,9 @@ public class PlayerShoot : MonoBehaviour
 
         // 🧠 2. 毎フレーム「いまボタンを押したらどっちに飛ぶか」を計算してキャッシュする（Gizmo用）
         _currentPredictedDirection = PredictShootDirection();
+
+        // デバッグログで角度を表示
+        Debug.Log($"現在狙っている角度: {CurrentShootAngle:F1}°");
     }
 
     /// <summary>

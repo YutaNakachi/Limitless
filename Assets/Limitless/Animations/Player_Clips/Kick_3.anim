@@ -22,9 +22,9 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 4405973423968388538, guid: e20da17bb1ac2e24f8838c9779576bc6, type: 3}
-    - time: 0.11666667
+    - time: 0.06666667
       value: {fileID: -2098980449301468287, guid: 583d199e841daa9438cfd25a4283ac70, type: 3}
-    - time: 0.23333333
+    - time: 0.16666667
       value: {fileID: -8862075072069620551, guid: e20da17bb1ac2e24f8838c9779576bc6, type: 3}
     - time: 0.4
       value: {fileID: -7441181163959990282, guid: e20da17bb1ac2e24f8838c9779576bc6, type: 3}
@@ -78,4 +78,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.16666667
+    functionName: OnShootStart
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.36666667
+    functionName: OnShootFinished
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

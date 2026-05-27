@@ -516,11 +516,16 @@ public class PlayerController : MonoBehaviour
         {
             _smashTimer = 0f;
             Debug.Log("💥 ーー 同時押し救済でスマッシュ成立！ ーー 💥");
-            _animator.SetTrigger("SmashKick");
+            _animator.SetTrigger("Kick");
+            _animator.SetFloat("ShootDirection", _playerShoot.CurrentShootAngle);
+            _animator.SetBool("IsSmash", isSmash);
         }
         else
         {
             _animator.SetTrigger("Kick");
+            _animator.SetFloat("ShootDirection", _playerShoot.CurrentShootAngle);
+            _animator.SetBool("IsSmash", isSmash);
+
         }
 
         if (_playerShoot != null)
