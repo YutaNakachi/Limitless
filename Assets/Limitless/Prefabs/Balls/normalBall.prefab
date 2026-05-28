@@ -202,7 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NormalBallAbility
   attackDamage: 5
   smashAttackDamage: 10
-  kokusenAttackDamage: 2000
+  kokusenAttackDamage: 591
   ballLifeTime: 0.5
   maxHitCount: 3
   smashMaxHitCount: 5
