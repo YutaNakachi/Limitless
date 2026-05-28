@@ -230,10 +230,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5300c9c21b02dac4ca4f4f23aabdbfc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RedBallAbility
-  attackDamage: 2
-  smashAttackDamage: 5
-  kokusenAttackDamage: 591
-  ballLifeTime: 0.5
+  attackDamage: 5
+  smashAttackDamage: 10
+  kokusenAttackDamage: 591000
+  ballLifeTime: 2
   maxHitCount: 3
   smashMaxHitCount: 5
   kokusenMaxHitCount: 10
@@ -250,7 +250,7 @@ MonoBehaviour:
   smashExpandSpeed: 0.6
   normalDuration: 3.5
   smashDuration: 5
-  damageInterval: 0.1
+  damageInterval: 0.3
   deployTargetLayers:
     serializedVersion: 2
     m_Bits: 20800

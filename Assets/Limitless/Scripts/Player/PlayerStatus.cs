@@ -55,9 +55,9 @@ public class PlayerStatus : MobStatus
 
     public override void GoToNormalStateIfPossible()
     {
+        if (shootCollider != null) shootCollider.enabled = false;
         if (_state == StateEnum.Die || _state == StateEnum.Knockback) return;
         _state = StateEnum.Normal;
-        if (shootCollider != null) shootCollider.enabled = false;
     }
 
     protected override void OnDie()

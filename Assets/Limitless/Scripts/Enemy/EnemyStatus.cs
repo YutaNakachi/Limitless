@@ -42,7 +42,7 @@ public class EnemyStatus : MobStatus
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
 
         _isFlyingToDeathWall = true;
-        _animator.SetTrigger("Death");
+        //_animator.SetTrigger("Death");
 
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.AddForce(randomDirection * deathKnockbackForce, ForceMode2D.Impulse);

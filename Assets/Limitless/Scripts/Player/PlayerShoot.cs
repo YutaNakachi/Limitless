@@ -170,6 +170,9 @@ public class PlayerShoot : MonoBehaviour
 
         if (!collider.CompareTag("Ball")) return;
 
+        // 1個蹴ったので、フラグを立ててロックする！
+        _hasShotThisAction = true;
+
         BallAbility ballInRange = collider.GetComponent<BallAbility>();
 
         // 🔥 【追加】ぶつかった瞬間のY軸の相対差を計算
@@ -187,9 +190,6 @@ public class PlayerShoot : MonoBehaviour
 
         // 💡 ボールのFireメソッドに、現在のスマッシュ状態を渡す！
         ballInRange.Fire(shootDirection, finalForce, _isSmashKickActive, relativeY);
-
-        // 1個蹴ったので、フラグを立ててロックする！
-        _hasShotThisAction = true;
 
         // ログ出力用
         bool isBuffered = (directionInput.action.ReadValue<Vector2>().sqrMagnitude <= 0.05f) && (Time.time - _lastInputTime <= inputBufferTime);

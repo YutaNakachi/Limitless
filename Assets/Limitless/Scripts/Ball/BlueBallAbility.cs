@@ -9,6 +9,9 @@ public class BlueBallAbility : BallAbility
     [SerializeField] private GameObject blueCenterEffectPrefab;    // 蒼の中心部分のエフェクト
     [SerializeField] private GameObject blueHitEffectPrefab;       // 発動時のヒット演出用
 
+    [Header("ーー 吸引レイヤー設定 ーー")]
+    [SerializeField] private LayerMask enemyLayer; // 👈 インスペクターで「Enemy」レイヤーを指定してください
+
     [Space(10)]
     [SerializeField] private float normalRadiusScale = 3.0f;       // 通常キック時のサイズ（スケール値）
     [SerializeField] private float smashRadiusScale = 6.0f;        // スマッシュキック時のサイズ（スケール値）
@@ -40,6 +43,7 @@ public class BlueBallAbility : BallAbility
 
     // 範囲内にいる敵のリスト（Update等での引き寄せ処理用）
     private List<Rigidbody2D> _pullTargets = new List<Rigidbody2D>();
+
 
     /// <summary>
     /// プレイヤーに蹴られて飛んでいく瞬間の処理
@@ -98,11 +102,11 @@ public class BlueBallAbility : BallAbility
         if (_isDeployed || !isKicked) return;
         if (_hasHitThisAction) return;
 
-        _hasHitThisAction = true;
 
         // 衝突した相手が指定レイヤーなら展開
         if ((deployTargetLayers.value & (1 << collider.gameObject.layer)) != 0)
         {
+            _hasHitThisAction = true;
             DeployBlue();
         }
     }
@@ -152,78 +156,56 @@ public class BlueBallAbility : BallAbility
         StartCoroutine(DurationCoroutine());
     }
 
-    /// <summary>
-    /// 毎フレーム、範囲内にいる敵を中心に向かってゆっくり引き寄せる物理処理
-    /// </summary>
     private void FixedUpdate()
     {
         if (!_isDeployed) return;
 
-        // 登録された吸い込み対象の敵を1体ずつ中心へ引っ張る
-        for (int i = _pullTargets.Count - 1; i >= 0; i--)
+        // 💡 罠1への対策：半径の計算を大きくする
+        // 見た目のエフェクトに対して、実際の数学的なサーチ円が小さすぎた可能性が高いです。
+        // * 0.5f を外して、確実に広い範囲（スケール値そのままの半径）でサーチさせます。
+        float pullRadius = _targetScale;
+
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, pullRadius, enemyLayer);
+
+        _pullTargets.Clear();
+
+        foreach (var col in hitEnemies)
+        {
+            // 💡 罠2への対策：コライダーが子要素にあるとGetComponentは失敗する！
+            // Unityの超有能機能「attachedRigidbody」を使います。
+            // これなら、当たり判定（Collider）が子要素の「HitBox」にあっても、親のRigidbodyを確実に見つけ出します。
+            Rigidbody2D enemyRb = col.attachedRigidbody;
+            if (enemyRb == null) continue;
+
+            // 敵のステータス取得も、大元のRigidbodyがあるオブジェクトから取得する
+            MobStatus enemyStatus = enemyRb.GetComponent<MobStatus>();
+            if (enemyStatus != null && enemyStatus.IsDead) continue;
+
+            if (!_pullTargets.Contains(enemyRb))
+            {
+                if (enemyRb.IsSleeping()) enemyRb.WakeUp();
+                _pullTargets.Add(enemyRb);
+            }
+        }
+
+        // --- 吸引物理ループ ---
+        for (int i = 0; i < _pullTargets.Count; i++)
         {
             Rigidbody2D enemyRb = _pullTargets[i];
-
-            // 敵が途中でDestroyされた場合のNullチェック
-            if (enemyRb == null)
-            {
-                _pullTargets.RemoveAt(i);
-                continue;
-            }
-
-            // 敵から「蒼（自分）」の中心へ向かうベクトルを計算
             Vector2 directionToCenter = ((Vector2)transform.position - enemyRb.position).normalized;
-
-            // 中心との距離を計測
             float distance = Vector2.Distance(transform.position, enemyRb.position);
 
-            if (distance > 0.1f) // 中心に完全に重なる手前まで引き寄せる
+            if (distance > 0.1f)
             {
-                // 🛠️ 敵の元々の速度を活かしつつ、引き寄せベクトルを徐々に上書き（吸い込み挙動）
-                enemyRb.linearVelocity = Vector2.MoveTowards(enemyRb.linearVelocity, directionToCenter * _currentPullSpeed, _currentPullSpeed * Time.fixedDeltaTime * 10f);
+                // 💡 罠3への対策：敵自身の「歩行スクリプト」に引力が負けているのを防ぐ！
+                // MoveTowards（徐々に変化）をやめて、有無を言わさず速度ベクトルを【完全上書き】します。
+                enemyRb.linearVelocity = directionToCenter * _currentPullSpeed;
             }
             else
             {
-                // 中心にほぼ到達したら、軌道を安定させるために速度を少し減衰
-                enemyRb.linearVelocity = Vector2.MoveTowards(enemyRb.linearVelocity, Vector2.zero, Time.fixedDeltaTime * 5f);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 範囲内に入り続けている物体を検出（CollisionDetectorのインスペクターイベント用メソッド）
-    /// ※「赫」のJutsushikiAkaと同様、CollisionDetectorのOnTriggerStayからここに繋げてください。
-    /// </summary>
-    public void JutsushikiAo(Collider2D collider)
-    {
-        if (!_isDeployed) return;
-
-        if (collider.CompareTag("Enemy"))
-        {
-            Rigidbody2D enemyRb = collider.GetComponent<Rigidbody2D>();
-            if (enemyRb != null)
-            {
-                // まだリストに入っていなければ引き寄せ対象に追加
-                if (!_pullTargets.Contains(enemyRb))
-                {
-                    _pullTargets.Add(enemyRb);
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// 範囲内から敵が出ていったときの処理
-    /// ※必要に応じてCollisionDetectorのOnTriggerExitにこのメソッドを紐付けてください
-    /// </summary>
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        if (collider.CompareTag("Enemy"))
-        {
-            Rigidbody2D enemyRb = collider.GetComponent<Rigidbody2D>();
-            if (enemyRb != null && _pullTargets.Contains(enemyRb))
-            {
-                _pullTargets.Remove(enemyRb);
+                // 中心に到達したら完全に固定し、ガタガタ震えるのを防ぐ
+                enemyRb.linearVelocity = Vector2.zero;
+                enemyRb.position = transform.position;
             }
         }
     }
@@ -247,17 +229,48 @@ public class BlueBallAbility : BallAbility
     }
 
     /// <summary>
-    /// 空振り時（何にも当たらずに失速した時）の自動展開ロジック
+    /// 🛠️【修正】空振り時（何にも当たらずに失速、または最大寿命に達した時）の空間起爆ロジック
     /// </summary>
     protected override IEnumerator DestroyABall()
     {
-        yield return new WaitUntil(() => _rigidbody != null && _rigidbody.linearVelocity.magnitude <= 2f);
+        // 蹴り出されてから、純粋に失速するか、または最大寿命に達するまでカウントするタイマー
+        float timer = 0f;
 
-        if (_isDeployed || this == null) yield break;
+        // 「すでに展開済み」または「ボールが消滅」しない限りループ
+        while (!_isDeployed && this != null)
+        {
+            timer += Time.deltaTime;
 
-        Debug.Log("🎯 空間起爆：何にも当たらなかったため、最大到達点で「蒼」を自動展開します。");
-        yield return new WaitForSeconds(ballLifeTime);
+            // 💡 判定をすり抜けないための安全策：
+            // 蹴り出されて少し時間が経ち（0.1秒以上）、かつ速度が閾値（0.5f）以下になった場合
+            if (timer > 0.5f && _rigidbody != null && _rigidbody.linearVelocity.magnitude <= 0.5f)
+            {
+                Debug.Log("🎯 空間起爆：ボールが失速したため「赫」を自動展開します。");
+                DeployBlue();
+                yield break;
+            }
 
-        DeployBlue();
+            // 💡 速度が落ちなくても、設定された最大寿命（例: 2〜3秒）に達した場合
+            if (timer >= ballLifeTime)
+            {
+                Debug.Log("🕒 空間起爆：最大寿命（タイムアウト）に達したため「赫」を自動展開します。");
+                DeployBlue();
+                yield break;
+            }
+
+            yield return null; // 毎フレーム監視
+        }
+    }
+
+    // 🛠️【新規追加】Unityエディタの画面に「実際の吸引判定の円」を描画する魔法のメソッド
+    // これをクラスの一番下（} の手前）に貼り付けてください。
+    private void OnDrawGizmos()
+    {
+        // エディタのSceneビューで、蒼の「見えない吸引範囲」が青い半透明の円で表示されるようになります！
+        Gizmos.color = new Color(0f, 0f, 1f, 0.3f);
+
+        // 実行中は現在の _targetScale を、実行前はインスペクターの normalRadiusScale を使って描画
+        float radius = Application.isPlaying ? _targetScale : normalRadiusScale;
+        Gizmos.DrawSphere(transform.position, radius);
     }
 }

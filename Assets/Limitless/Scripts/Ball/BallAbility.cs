@@ -133,16 +133,44 @@ public abstract class BallAbility : MonoBehaviour
 
     protected virtual IEnumerator DestroyABall()
     {
-        yield return new WaitUntil(() => _rigidbody != null && _rigidbody.linearVelocity.magnitude <= 2f);
+        float timer = 0f;
+        bool isStopped = false;
 
-        // 💡 既にOnHit側で消滅している（Destroyされている）場合のNullエラー防止
-        if (this == null) yield break;
+        // 1. ボールが失速するのを監視するループ
+        while (this != null)
+        {
+            timer += Time.deltaTime;
 
-        if (GetComponent<CollisionDetector>() != null) GetComponent<CollisionDetector>().enabled = false;
+            // 💡 蹴り出されてから少し時間が経ち、かつ速度が2f以下に失速した場合
+            if (timer > 0.5f && _rigidbody != null && _rigidbody.linearVelocity.magnitude <= 2f)
+            {
+                isStopped = true;
+                break; // 🛑 条件を満たしたので、毎フレーム監視ループを即座に脱出！
+            }
 
-        yield return new WaitForSeconds(ballLifeTime);
+            yield return null; // 毎フレーム監視
+        }
 
-        if (this != null) Destroy(gameObject);
+        // 2. 🛑 ループを抜けた後の処理（失速を検知した時の処理）
+        if (this != null && isStopped)
+        {
+
+            if (GetComponent<CollisionDetector>() != null)
+            {
+                GetComponent<CollisionDetector>().enabled = false;
+            }
+
+
+            // 🕒 ここで指定された秒数（ballLifeTime）だけ、オブジェクトを残して待機する
+            Debug.Log($"🕒 あと {ballLifeTime} 秒後にオブジェクトを完全に消滅させます。");
+            yield return new WaitForSeconds(ballLifeTime);
+        }
+
+        // 3. ❌ 最終的な消滅処理
+        if (this != null)
+        {
+            Destroy(gameObject);
+        }
     }
 
     // 各Ball固有のHit Effectを仕込む、OnHit()で呼び出す

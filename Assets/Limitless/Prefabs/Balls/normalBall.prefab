@@ -188,6 +188,12 @@ MonoBehaviour:
   onTriggerStay:
     m_PersistentCalls:
       m_Calls: []
+  onCollisionEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onCollisionStay:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2766605200379448915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,7 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NormalBallAbility
   attackDamage: 5
   smashAttackDamage: 10
-  kokusenAttackDamage: 591
+  kokusenAttackDamage: 591000
   ballLifeTime: 0.5
   maxHitCount: 3
   smashMaxHitCount: 5

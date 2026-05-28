@@ -506,6 +506,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: IsCrouching
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: IsGrounded
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5679872419801910677}
   m_Solo: 0
@@ -839,6 +842,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: IsCrouching
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: IsGrounded
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5679872419801910677}
   m_Solo: 0
@@ -1090,6 +1096,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: IsCrouching
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: IsGrounded
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6470544109775839234}
@@ -1393,6 +1402,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: 1233224061209883681}
   - {fileID: 1035572725877771683}
+  - {fileID: 7656490787830973646}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -1556,6 +1566,31 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &7656490787830973646
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: IsGrounded
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -9218734068405504582}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.516129
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1102 &7707433040178462962
 AnimatorState:
   serializedVersion: 6
@@ -1691,6 +1726,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: MoveSpeed
     m_EventTreshold: 0.01
+  - m_ConditionMode: 1
+    m_ConditionEvent: IsGrounded
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6470544109775839234}
   m_Solo: 0
@@ -1770,18 +1808,18 @@ AnimatorStateMachine:
   - {fileID: 7921537966013478750}
   - {fileID: -930677515406676722}
   m_StateMachineTransitions:
-  - first: {fileID: -5650006605624765002}
-    second:
-    - {fileID: -8834640022716194577}
-    - {fileID: -8135380012744651183}
-  - first: {fileID: -4319076196053412998}
-    second:
-    - {fileID: -1745832676453036087}
-    - {fileID: 2371689633611669920}
   - first: {fileID: -1688945786376620540}
     second:
     - {fileID: 6899456626526921397}
     - {fileID: -1030977402091115700}
+  - first: {fileID: -4319076196053412998}
+    second:
+    - {fileID: -1745832676453036087}
+    - {fileID: 2371689633611669920}
+  - first: {fileID: -5650006605624765002}
+    second:
+    - {fileID: -8834640022716194577}
+    - {fileID: -8135380012744651183}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -160, y: 150, z: 0}
   m_EntryPosition: {x: 50, y: 150, z: 0}

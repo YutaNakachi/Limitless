@@ -243,19 +243,28 @@ public class PlayerController : MonoBehaviour
 
     public void OnCrounch(InputAction.CallbackContext context)
     {
-        if (_status.IsDead || _status.IsInIntroMotion) return;
-        if (!_status.IsMovable) return;
-
-        if (context.performed && isGrounded)
+        if (_status.IsDead || _status.IsInIntroMotion)
         {
-            isCrouching = true;
+            isCrouching = false;
+            return;
         }
 
+        // 💡 押した（performed）ときのチェックだけ movable と grounded を見る
+        if (context.performed)
+        {
+            if (_status.IsMovable && isGrounded)
+            {
+                isCrouching = true;
+            }
+        }
+
+        // 💡 離した（canceled）ときは、どんなステートであっても確実にフラグを折る！
         if (context.canceled)
         {
             isCrouching = false;
         }
     }
+
     public void OnKick(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -575,6 +584,12 @@ public class PlayerController : MonoBehaviour
 
     private void HandleNormalMovement()
     {
+        // 💡 安全装置：空中であれば、何があろうとしゃがみフラグを強制解除する
+        if (!isGrounded)
+        {
+            isCrouching = false;
+        }
+
         float targetSpeed;
         if (isCrouching)
         {

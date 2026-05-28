@@ -110,12 +110,12 @@ public class RedBallAbility : BallAbility
         if (_isDeployed || !isKicked) return;
         if (_hasHitThisAction) return;
 
-        _hasHitThisAction = true;
 
         // 🛠️ ぶつかった相手のレイヤーが、インスペクターで指定した LayerMask に含まれているか判定
         // (1 << collider.gameObject.layer) でビット演算を行い、deployTargetLayers と重なっているかチェックします
         if ((deployTargetLayers.value & (1 << collider.gameObject.layer)) != 0)
         {
+            _hasHitThisAction = true;
             DeployRed();
         }
     }
@@ -200,18 +200,26 @@ public class RedBallAbility : BallAbility
                     _enemyDamageTimers[target] = 0f;
                 }
 
-                // 前回のダメージから0.5秒（damageInterval）経過しているかチェック
+                // 前回のダメージから0.5秒経過しているかチェック
                 if (_enemyDamageTimers[target] <= 0f)
                 {
-                    // ダメージ付与
-                    target.TakeDamage(_finalDamage, transform.position);
+                    // 🛠️【 MobStatusを汚さないノックバック反転ロジック 】
+                    // 1. 赫の中心（自分）から敵へのベクトルを計算
+                    Vector2 pullDirection = ((Vector2)collider.transform.position - (Vector2)transform.position).normalized;
 
-                    // ベースクラスのエフェクト再生メソッドを流用（接点にエフェクトを出す）
+                    // 2. 敵のさらに外側に「ダミーの攻撃者座標」を偽装する
+                    // 敵を基準に、中心とは逆方向に2ユニットほど離れた仮想の座標を作る
+                    Vector2 dummyAttackerPosition = (Vector2)collider.transform.position + (pullDirection * 2f);
+
+                    // 3. ダメージ付与（ダミーの座標を渡すことで、敵は赫の中心に向かって吹き飛ぶ）
+                    target.TakeDamage(_finalDamage, dummyAttackerPosition);
+
+                    // ベースクラスのエフェクト再生メソッドを流用
                     PlayHitEffect(collider);
 
-                    Debug.Log($"🩸 「赫」持続ダメージ: {collider.gameObject.name} に {_finalDamage} ダメージ！");
+                    Debug.Log($"🩸 「赫」引き込み持続ダメージ: {collider.gameObject.name} (中心へ吸引)");
 
-                    // タイマーをリセットして再セット（0.5秒間ダメージをロック）
+                    // タイマーをリセット
                     _enemyDamageTimers[target] = damageInterval;
                 }
             }
@@ -235,21 +243,36 @@ public class RedBallAbility : BallAbility
     }
 
     /// <summary>
-    /// 基底クラスの自然消滅コルーチンをシャットダウン（赫の寿命はDurationCoroutineで完全管理するため）
+    /// 🛠️【修正】空振り時（何にも当たらずに失速、または最大寿命に達した時）の空間起爆ロジック
     /// </summary>
     protected override IEnumerator DestroyABall()
     {
-        // ボールの速度が一定以下（例：2f以下）になるまで待機する（基底クラスの条件を流用）
-        yield return new WaitUntil(() => _rigidbody != null && _rigidbody.linearVelocity.magnitude <= 2f);
+        // 蹴り出されてから、純粋に失速するか、または最大寿命に達するまでカウントするタイマー
+        float timer = 0f;
 
-        // すでに何かにぶつかって展開（DeployRed）済みなら、このコルーチンは何もせず終了
-        if (_isDeployed || this == null) yield break;
+        // 「すでに展開済み」または「ボールが消滅」しない限りループ
+        while (!_isDeployed && this != null)
+        {
+            timer += Time.deltaTime;
 
-        Debug.Log("🎯 空間起爆：何にも当たらなかったため、最大到達点で「赫」を自動展開します。");
+            // 💡 判定をすり抜けないための安全策：
+            // 蹴り出されて少し時間が経ち（0.1秒以上）、かつ速度が閾値（0.5f）以下になった場合
+            if (timer > 0.5f && _rigidbody != null && _rigidbody.linearVelocity.magnitude <= 0.5f)
+            {
+                Debug.Log("🎯 空間起爆：ボールが失速したため「赫」を自動展開します。");
+                DeployRed();
+                yield break;
+            }
 
-        yield return new WaitForSeconds(ballLifeTime);
+            // 💡 速度が落ちなくても、設定された最大寿命（例: 2〜3秒）に達した場合
+            if (timer >= ballLifeTime)
+            {
+                Debug.Log("🕒 空間起爆：最大寿命（タイムアウト）に達したため「赫」を自動展開します。");
+                DeployRed();
+                yield break;
+            }
 
-        // 何にも当たらなかったので、その場で勝手に展開させる！
-        DeployRed();
+            yield return null; // 毎フレーム監視
+        }
     }
 }
