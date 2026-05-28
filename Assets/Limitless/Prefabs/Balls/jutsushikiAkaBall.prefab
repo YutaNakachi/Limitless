@@ -243,7 +243,7 @@ MonoBehaviour:
   smashKickEffectPrefab: {fileID: 467751860875805754, guid: 6b5c44c3e2915c7409d002c05e0ac56d, type: 3}
   kokusenKickEffectPrefab: {fileID: 9027514048236820045, guid: ac48f8914e04efc4c8dac1d09c8084ca, type: 3}
   spawnEffectPrefab: {fileID: 7516003108749195644, guid: 5f8156616e69d5b4988d490dca55caf7, type: 3}
-  redExplosionEffectPrefab: {fileID: 2708598583397607911, guid: 80f23729ce76e1543a70c49a239057da, type: 3}
+  redExplosionEffectPrefab: {fileID: 2708598583397607911, guid: e0f59e13be6389e4c858acf939a25a8b, type: 3}
   redCenterEffectPrefab: {fileID: 1124776465297922, guid: 295b75c82ce1cd0488c79a4ea8a43464, type: 3}
   redHitEffectPrefab: {fileID: 7627304123461817746, guid: b45d92572cdcad64595b818627bebcdc, type: 3}
   normalExpandSpeed: 0.45
