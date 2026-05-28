@@ -4,16 +4,16 @@ using UnityEngine;
 public abstract class BallAbility : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private int attackDamage = 10; // 通常時のボールの攻撃力
-    [SerializeField] private int smashAttackDamage = 20; // 💥 スマッシュ時のボールの攻撃力
-    [SerializeField] private int kokusenAttackDamage = 200; // 💥 黒閃時のボールの攻撃力
-    [SerializeField] private float ballLifeTime = 2f; // ボールX方向の速度が1以下になってから消滅するまでの秒数
+    [SerializeField] protected int attackDamage = 10; // 通常時のボールの攻撃力
+    [SerializeField] protected int smashAttackDamage = 20; // 💥 スマッシュ時のボールの攻撃力
+    [SerializeField] protected int kokusenAttackDamage = 200; // 💥 黒閃時のボールの攻撃力
+    [SerializeField] protected float ballLifeTime = 2f; // ボールの速度が一定以下になってから消滅するまでの秒数
 
     // 💡 【追加】ヒット回数の設定（インスペクターで調整可能）
     [Header("Hit Count Settings")]
-    [SerializeField] private int maxHitCount = 1;       // 通常キック時の最大ヒット回数（初期値: 1）
-    [SerializeField] private int smashMaxHitCount = 5;  // 💥 スマッシュキック時の最大ヒット回数（初期値: 5）
-    [SerializeField] private int kokusenMaxHitCount = 10;  // 💥 黒閃キック時の最大ヒット回数（初期値: 10）
+    [SerializeField] protected int maxHitCount = 1;       // 通常キック時の最大ヒット回数（初期値: 1）
+    [SerializeField] protected int smashMaxHitCount = 5;  // 💥 スマッシュキック時の最大ヒット回数（初期値: 5）
+    [SerializeField] protected int kokusenMaxHitCount = 10;  // 💥 黒閃キック時の最大ヒット回数（初期値: 10）
 
     [Header("Effects")]
     [SerializeField] private GameObject hitEffectPrefab;
@@ -23,8 +23,9 @@ public abstract class BallAbility : MonoBehaviour
     [SerializeField] private GameObject kokusenKickEffectPrefab; // 💥 スマッシュ用の派手なエフェクト
     [SerializeField] private GameObject spawnEffectPrefab;
 
-    private Rigidbody2D _rigidbody;
-    private Collider2D _collider;
+    protected Rigidbody2D _rigidbody;
+    protected Collider2D _collider;
+    protected SpriteRenderer _renderer;
 
     private int _currentDamage; // 実際に適用される今回のダメージ
     private int _remainingHitCount; // 💡 今回のボールの残りヒット回数（内部処理用）
@@ -37,6 +38,7 @@ public abstract class BallAbility : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
+        _renderer = GetComponent<SpriteRenderer>();
 
         // 初期の攻撃力を設定
         _currentDamage = attackDamage;
@@ -92,6 +94,8 @@ public abstract class BallAbility : MonoBehaviour
     // プレイヤーにキックされた時に呼び出される
     public virtual void Fire(Vector2 direction, float force, bool isSmash, float gapY)
     {
+        if (isKicked) return;
+
         isKicked = true;
         _isSmashFired = isSmash;
         _collider.isTrigger = false;
@@ -129,7 +133,7 @@ public abstract class BallAbility : MonoBehaviour
 
     protected virtual IEnumerator DestroyABall()
     {
-        yield return new WaitUntil(() => _rigidbody.linearVelocity.magnitude <= 2f);
+        yield return new WaitUntil(() => _rigidbody != null && _rigidbody.linearVelocity.magnitude <= 2f);
 
         // 💡 既にOnHit側で消滅している（Destroyされている）場合のNullエラー防止
         if (this == null) yield break;

@@ -187,6 +187,36 @@ MonoBehaviour:
         m_CallState: 2
   onTriggerStay:
     m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1094423318257139718}
+        m_TargetAssemblyTypeName: RedBallAbility, Assembly-CSharp
+        m_MethodName: JutsushikiAka
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onCollisionEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1094423318257139718}
+        m_TargetAssemblyTypeName: RedBallAbility, Assembly-CSharp
+        m_MethodName: OnHit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onCollisionStay:
+    m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1094423318257139718
 MonoBehaviour:
@@ -200,9 +230,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5300c9c21b02dac4ca4f4f23aabdbfc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RedBallAbility
-  attackDamage: 5
-  smashAttackDamage: 10
-  kokusenAttackDamage: 2000
+  attackDamage: 2
+  smashAttackDamage: 5
+  kokusenAttackDamage: 591
   ballLifeTime: 0.5
   maxHitCount: 3
   smashMaxHitCount: 5
@@ -213,7 +243,16 @@ MonoBehaviour:
   smashKickEffectPrefab: {fileID: 467751860875805754, guid: 6b5c44c3e2915c7409d002c05e0ac56d, type: 3}
   kokusenKickEffectPrefab: {fileID: 9027514048236820045, guid: ac48f8914e04efc4c8dac1d09c8084ca, type: 3}
   spawnEffectPrefab: {fileID: 7516003108749195644, guid: 5f8156616e69d5b4988d490dca55caf7, type: 3}
+  redExplosionEffectPrefab: {fileID: 2708598583397607911, guid: 80f23729ce76e1543a70c49a239057da, type: 3}
+  redCenterEffectPrefab: {fileID: 1124776465297922, guid: 295b75c82ce1cd0488c79a4ea8a43464, type: 3}
+  normalExpandSpeed: 0.45
+  smashExpandSpeed: 0.6
+  normalDuration: 3.5
+  smashDuration: 5
+  damageInterval: 0.1
+  deployTargetLayers:
+    serializedVersion: 2
+    m_Bits: 20800
   smokeEffectPrefab: {fileID: 3288035947860902249, guid: 47f82c18274944b4999376fc27ebe44f, type: 3}
   kokusenSmokeEffectPrefab: {fileID: 3288035947860902249, guid: 8d213e2755cf08d49a5142320860d582, type: 3}
   kokusenThunderEffectPrefab: {fileID: 9027514048236820045, guid: 609deac07faff0a4a85b32bf579c3dfc, type: 3}
-  effectDestroyTime: 5

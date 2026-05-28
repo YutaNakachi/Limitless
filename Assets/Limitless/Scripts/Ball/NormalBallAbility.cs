@@ -31,7 +31,7 @@ public class NormalBallAbility : BallAbility
             {
                 transform.localScale *= 2f;
 
-                GetComponent<Renderer>().enabled = false;
+                if (_renderer != null) _renderer.enabled = false;
 
                 // ボールと同じ位置に生成
                 GameObject kokusenSmoke = Instantiate(kokusenSmokeEffectPrefab, transform.position, Quaternion.identity);
