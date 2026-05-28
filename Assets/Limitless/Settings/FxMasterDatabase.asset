@@ -62,15 +62,15 @@ MonoBehaviour:
     shakeMagnitude: 0.4
     objectShakeMagnitude: 0.25
     useObjectShakeY: 1
-  - label: RedBallKick
-    stopDuration: 0.1
+  - label: RedBallHit
+    stopDuration: 1
     timeScale: 0
-    shakeDuration: 0.18
-    shakeMagnitude: 0.35
+    shakeDuration: 0
+    shakeMagnitude: 0
     objectShakeMagnitude: 0
     useObjectShakeY: 0
-  - label: BlueBallKick
-    stopDuration: 0.1
+  - label: BlueBallHit
+    stopDuration: 1
     timeScale: 0
     shakeDuration: 0
     shakeMagnitude: 0

@@ -7,6 +7,7 @@ public class RedBallAbility : BallAbility
     [Header("ーー 「赫」 固有設定 ーー")]
     [SerializeField] private GameObject redExplosionEffectPrefab; // 赫の展開エフェクト（子要素になる）
     [SerializeField] private GameObject redCenterEffectPrefab; // 赫の中心部分のエフェクト
+    [SerializeField] private GameObject redHitEffectPrefab;
     [SerializeField] private float normalExpandSpeed = 2f;       // 通常時の拡大速度
     [SerializeField] private float smashExpandSpeed = 3.5f;     // スマッシュ時の拡大速度（より素早く広がる）
 
@@ -118,6 +119,10 @@ public class RedBallAbility : BallAbility
     private void DeployRed()
     {
         _isDeployed = true;
+
+        FxManager.Instance.Play("RedBallHit", transform);
+        GameObject redHitEffect = Instantiate(redHitEffectPrefab, transform.position, Quaternion.identity);
+        redHitEffect.transform.SetParent(transform); // 子要素にする
 
         // 1. その場で完全停止
         _rigidbody.linearVelocity = Vector2.zero;
