@@ -140,6 +140,12 @@ MonoBehaviour:
   onTriggerStay:
     m_PersistentCalls:
       m_Calls: []
+  onCollisionEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onCollisionStay:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6711382325980383970
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,10 +629,10 @@ MonoBehaviour:
     <Rate>k__BackingField: 96
   - <Type>k__BackingField: 1
     <BallPrefab>k__BackingField: {fileID: 856638293993571749, guid: 48e76c71e6d15194d848b92047f90ac8, type: 3}
-    <Rate>k__BackingField: 0
+    <Rate>k__BackingField: 2
   - <Type>k__BackingField: 2
     <BallPrefab>k__BackingField: {fileID: 8829045715925878824, guid: fabf4fd11e409f24fa49d17c9f4a701f, type: 3}
-    <Rate>k__BackingField: 0
+    <Rate>k__BackingField: 2
   maxBalls: 6
   orbitRadius: 0.8
   centerOffsetY: 0.5

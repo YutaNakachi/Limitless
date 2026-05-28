@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 8257671796850684965}
   - component: {fileID: 3455133738611357053}
   - component: {fileID: 9143113952951837847}
-  - component: {fileID: 3732619827003510578}
+  - component: {fileID: 7272213084705218772}
   m_Layer: 0
-  m_Name: FX_Shine_Red_custom
+  m_Name: FX_Shine_Blue_custom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,8 +223,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 1, g: 0, b: 0, a: 1}
-      maxColor: {r: 1, g: 0, b: 0, a: 1}
+      minColor: {r: 0, g: 0, b: 1, a: 1}
+      maxColor: {r: 0, g: 0, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4895,7 +4895,7 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
---- !u!114 &3732619827003510578
+--- !u!114 &7272213084705218772
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

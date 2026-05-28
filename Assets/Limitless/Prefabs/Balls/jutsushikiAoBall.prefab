@@ -143,8 +143,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
-  m_LinearDamping: 6
+  m_Mass: 5
+  m_LinearDamping: 12
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -187,6 +187,36 @@ MonoBehaviour:
         m_CallState: 2
   onTriggerStay:
     m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4409843047024233182}
+        m_TargetAssemblyTypeName: BlueBallAbility, Assembly-CSharp
+        m_MethodName: JutsushikiAo
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onCollisionEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4409843047024233182}
+        m_TargetAssemblyTypeName: BlueBallAbility, Assembly-CSharp
+        m_MethodName: OnHit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onCollisionStay:
+    m_PersistentCalls:
       m_Calls: []
 --- !u!114 &4409843047024233182
 MonoBehaviour:
@@ -202,7 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BlueBallAbility
   attackDamage: 5
   smashAttackDamage: 10
-  kokusenAttackDamage: 2000
+  kokusenAttackDamage: 591
   ballLifeTime: 0.5
   maxHitCount: 3
   smashMaxHitCount: 5
@@ -213,7 +243,18 @@ MonoBehaviour:
   smashKickEffectPrefab: {fileID: 467751860875805754, guid: 6b5c44c3e2915c7409d002c05e0ac56d, type: 3}
   kokusenKickEffectPrefab: {fileID: 9027514048236820045, guid: ac48f8914e04efc4c8dac1d09c8084ca, type: 3}
   spawnEffectPrefab: {fileID: 7516003108749195644, guid: b1e081f8ec65b65499ef6c106757d2f3, type: 3}
+  blueExplosionEffectPrefab: {fileID: 5824670795371433373, guid: cc1b585114f3ad345aa9c694417a6b61, type: 3}
+  blueCenterEffectPrefab: {fileID: 1042948235847576, guid: 533d992a42da00e40803ab5538c28171, type: 3}
+  blueHitEffectPrefab: {fileID: 7627304123461817746, guid: 0f421152a0a3b0242a1e77aa19c0cc50, type: 3}
+  normalRadiusScale: 2.5
+  smashRadiusScale: 4
+  normalPullSpeed: 10
+  smashPullSpeed: 10
+  normalDuration: 3
+  smashDuration: 5
+  deployTargetLayers:
+    serializedVersion: 2
+    m_Bits: 151872
   smokeEffectPrefab: {fileID: 3288035947860902249, guid: 525d28f5e9efa6c45b78a20ef4d69c01, type: 3}
   kokusenSmokeEffectPrefab: {fileID: 3288035947860902249, guid: 8d213e2755cf08d49a5142320860d582, type: 3}
   kokusenThunderEffectPrefab: {fileID: 9027514048236820045, guid: 609deac07faff0a4a85b32bf579c3dfc, type: 3}
-  effectDestroyTime: 5

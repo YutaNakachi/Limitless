@@ -8,14 +8,17 @@ public class RedBallAbility : BallAbility
     [SerializeField] private GameObject redExplosionEffectPrefab; // 赫の展開エフェクト（子要素になる）
     [SerializeField] private GameObject redCenterEffectPrefab; // 赫の中心部分のエフェクト
     [SerializeField] private GameObject redHitEffectPrefab;
+
+    [Space(10)]
     [SerializeField] private float normalExpandSpeed = 2f;       // 通常時の拡大速度
     [SerializeField] private float smashExpandSpeed = 3.5f;     // スマッシュ時の拡大速度（より素早く広がる）
 
+    [Space(10)]
     [SerializeField] private float normalDuration = 3.0f;       // 通常時の持続時間
     [SerializeField] private float smashDuration = 5.0f;        // スマッシュ時の持続時間（仕様：持続が伸びる）
 
+    [Space(10)]
     [SerializeField] private float damageInterval = 0.5f;       // 多段ヒットの間隔（秒）
-
     // 🛠️【追加】インスペクターから「赫」を展開させるレイヤーを複数選択できるようにする
     [SerializeField] private LayerMask deployTargetLayers;
 
@@ -25,6 +28,7 @@ public class RedBallAbility : BallAbility
     [SerializeField] private GameObject kokusenThunderEffectPrefab;
 
     private bool _isDeployed = false; // 術式が展開（衝突・停止）したかどうかのフラグ
+    private bool _hasHitThisAction = false;
     private float _currentDuration = 0f;
     private float _currentExpandSpeed = 0f;
     private int _finalDamage = 0;
@@ -104,6 +108,9 @@ public class RedBallAbility : BallAbility
     {
         // すでに展開している、またはまだ蹴られていないなら無視
         if (_isDeployed || !isKicked) return;
+        if (_hasHitThisAction) return;
+
+        _hasHitThisAction = true;
 
         // 🛠️ ぶつかった相手のレイヤーが、インスペクターで指定した LayerMask に含まれているか判定
         // (1 << collider.gameObject.layer) でビット演算を行い、deployTargetLayers と重なっているかチェックします
@@ -121,8 +128,10 @@ public class RedBallAbility : BallAbility
         _isDeployed = true;
 
         FxManager.Instance.Play("RedBallHit", transform);
-        GameObject redHitEffect = Instantiate(redHitEffectPrefab, transform.position, Quaternion.identity);
-        redHitEffect.transform.SetParent(transform); // 子要素にする
+        if (redHitEffectPrefab != null)
+        {
+            GameObject redHitEffect = Instantiate(redHitEffectPrefab, transform.position, Quaternion.identity);
+        }
 
         // 1. その場で完全停止
         _rigidbody.linearVelocity = Vector2.zero;
