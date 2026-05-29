@@ -8,6 +8,7 @@ public class PurpleBallAbility : BallAbility
     [Tooltip("あらかじめ右向きにコライダーと【エフェクトの見た目】を両方仕込んだ子オブジェクト")]
     [SerializeField] private GameObject laserChildObject;
     [SerializeField] private GameObject purpleKickEffectPrefab;   // キックした瞬間の爆発Effect
+    [SerializeField] private GameObject purpleThunderEffectPrefab;
 
     [Header("ーー レーザー性能設定（太さ倍率） ーー")]
     [Tooltip("通常キック時のレーザーの太さ倍率（1.0で等倍＝プレハブ本来の太さ）")]
@@ -39,6 +40,18 @@ public class PurpleBallAbility : BallAbility
     // ⚽ プレイヤーが蹴り出した方向を一時的に保持する変数
     private Vector2 _launchDirection = Vector2.right;
 
+    private GameObject _purpleThunderEffect;
+
+    private void Start()
+    {
+        // 自分が生成された（Startが走った）瞬間に、自分の位置にエフェクトを生成する！
+        if (purpleThunderEffectPrefab != null)
+        {
+            _purpleThunderEffect = Instantiate(purpleThunderEffectPrefab, transform.position, Quaternion.identity);
+            _purpleThunderEffect.transform.SetParent(transform);
+        }
+    }
+
     public override void Fire(Vector2 direction, float force, bool isSmash, float gapY)
     {
         if (isKicked) return;
@@ -49,6 +62,8 @@ public class PurpleBallAbility : BallAbility
         if (Mathf.Abs(gapY) <= 0.01) _isKokusenFired = true;
 
         _rigidbody.linearVelocity = Vector2.zero;
+
+        if (_purpleThunderEffect != null) Destroy(_purpleThunderEffect);
 
         // ⭕ 引数の方向をキャッシュし、正規化しておく
         _launchDirection = direction.normalized;
