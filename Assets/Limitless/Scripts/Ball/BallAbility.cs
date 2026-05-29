@@ -99,7 +99,7 @@ public abstract class BallAbility : MonoBehaviour
         isKicked = true;
         _isSmashFired = isSmash;
         _collider.isTrigger = false;
-        if (Mathf.Abs(gapY) <= 0.01) _isKokusenFired = true;
+        if (Mathf.Abs(gapY) <= 0.11) _isKokusenFired = true;
 
         // 💡 スマッシュか否か黒閃か否かで攻撃力と「ヒット回数」を切り替える
         if (_isSmashFired && _isKokusenFired)

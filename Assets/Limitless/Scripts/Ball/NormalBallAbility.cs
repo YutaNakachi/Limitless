@@ -31,7 +31,17 @@ public class NormalBallAbility : BallAbility
             {
                 transform.localScale *= 2f;
 
-                if (_renderer != null) _renderer.enabled = false;
+                // 🔴【新規追加】ボール本体を禍々しい「赤黒い色」に染め上げる
+                if (_renderer != null)
+                {
+                    // カラーコード（HTML形式）から赤黒い色を生成して適用
+                    // ※インスペクターから色を自由に変えたい場合は、変数化（Color.redなど）してもOKです
+                    Color kokusenBallColor;
+                    if (ColorUtility.TryParseHtmlString("#4A0000", out kokusenBallColor))
+                    {
+                        _renderer.color = kokusenBallColor;
+                    }
+                }
 
                 // ボールと同じ位置に生成
                 GameObject kokusenSmoke = Instantiate(kokusenSmokeEffectPrefab, transform.position, Quaternion.identity);
