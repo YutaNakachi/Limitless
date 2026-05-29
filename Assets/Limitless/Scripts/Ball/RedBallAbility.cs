@@ -7,6 +7,7 @@ public class RedBallAbility : BallAbility
     [Header("ーー 「赫」 固有設定 ーー")]
     [SerializeField] private GameObject redExplosionEffectPrefab; // 赫の展開エフェクト（子要素になる）
     [SerializeField] private GameObject redCenterEffectPrefab; // 赫の中心部分のエフェクト
+    [SerializeField] private GameObject redThunderEffectPrefab;
     [SerializeField] private GameObject redHitEffectPrefab;
 
     [Space(10)]
@@ -152,8 +153,10 @@ public class RedBallAbility : BallAbility
         {
             GameObject effect = Instantiate(redExplosionEffectPrefab, transform.position, Quaternion.identity);
             GameObject centerEffect = Instantiate(redCenterEffectPrefab, transform.position, Quaternion.identity);
+            GameObject thunderEffect = Instantiate(redThunderEffectPrefab, transform.position, Quaternion.identity);
             effect.transform.SetParent(transform); // 子要素にする
             centerEffect.transform.SetParent(transform); // 子要素にする
+            thunderEffect.transform.SetParent(transform);
         }
 
         Debug.Log("💥 術式「赫」展開！！");

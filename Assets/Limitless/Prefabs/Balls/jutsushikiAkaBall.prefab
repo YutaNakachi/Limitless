@@ -245,6 +245,7 @@ MonoBehaviour:
   spawnEffectPrefab: {fileID: 7516003108749195644, guid: 5f8156616e69d5b4988d490dca55caf7, type: 3}
   redExplosionEffectPrefab: {fileID: 2708598583397607911, guid: e0f59e13be6389e4c858acf939a25a8b, type: 3}
   redCenterEffectPrefab: {fileID: 1124776465297922, guid: 295b75c82ce1cd0488c79a4ea8a43464, type: 3}
+  redThunderEffectPrefab: {fileID: 9027514048236820045, guid: c3ffece49ec16e048a6e5a440b29554c, type: 3}
   redHitEffectPrefab: {fileID: 7627304123461817746, guid: b45d92572cdcad64595b818627bebcdc, type: 3}
   normalExpandSpeed: 0.45
   smashExpandSpeed: 0.6
