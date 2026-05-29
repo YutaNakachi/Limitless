@@ -247,6 +247,7 @@ MonoBehaviour:
   redCenterEffectPrefab: {fileID: 1124776465297922, guid: 295b75c82ce1cd0488c79a4ea8a43464, type: 3}
   redThunderEffectPrefab: {fileID: 9027514048236820045, guid: c3ffece49ec16e048a6e5a440b29554c, type: 3}
   redHitEffectPrefab: {fileID: 7627304123461817746, guid: b45d92572cdcad64595b818627bebcdc, type: 3}
+  isPullMode: 0
   normalExpandSpeed: 0.45
   smashExpandSpeed: 0.6
   normalDuration: 3.5

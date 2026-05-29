@@ -10,7 +10,6 @@ public class BlueBallAbility : BallAbility
     [SerializeField] private GameObject blueHitEffectPrefab;
 
     [Header("ーー 吸引・回転設定 ーー")]
-    [SerializeField] private LayerMask enemyLayer;
     [Tooltip("吸い込み中に敵を回転させる速度（度/秒）")]
     [SerializeField] private float rotationSpeed = 360f; // 👈 1秒間に1回転する速度（インスペクターで調整してね！）
 

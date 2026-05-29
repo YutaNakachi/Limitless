@@ -10,6 +10,10 @@ public class RedBallAbility : BallAbility
     [SerializeField] private GameObject redThunderEffectPrefab;
     [SerializeField] private GameObject redHitEffectPrefab;
 
+    [Header("ーー ノックバック・吸引設定 ーー")]
+    [Tooltip("チェックを入れると『中心へ吸引（反転）』、外すと『外側へ吹き飛ばし（通常）』になります")]
+    [SerializeField] private bool isPullMode = true; // 👈 インスペクターで切り替え可能！
+
     [Space(10)]
     [SerializeField] private float normalExpandSpeed = 2f;       // 通常時の拡大速度
     [SerializeField] private float smashExpandSpeed = 3.5f;     // スマッシュ時の拡大速度（より素早く広がる）
@@ -20,7 +24,7 @@ public class RedBallAbility : BallAbility
 
     [Space(10)]
     [SerializeField] private float damageInterval = 0.5f;       // 多段ヒットの間隔（秒）
-    // 🛠️【追加】インスペクターから「赫」を展開させるレイヤーを複数選択できるようにする
+
     [SerializeField] private LayerMask deployTargetLayers;
 
     [Header("Smoke Effects")]
@@ -39,12 +43,9 @@ public class RedBallAbility : BallAbility
     // 敵ごとの無敵時間を管理する辞書（連続ダメージの間隔制御用）
     private Dictionary<EnemyStatus, float> _enemyDamageTimers = new Dictionary<EnemyStatus, float>();
 
-    /// <summary>
-    /// プレイヤーに蹴られて飛んでいく瞬間の処理
-    /// </summary>
+
     protected override void OnFire()
     {
-        // 1. 画面揺れやヒットストップ演出
         if (_isSmashFired && _isKokusenFired)
         {
             FxManager.Instance.Play("KokusenBallKick", transform);
@@ -58,18 +59,13 @@ public class RedBallAbility : BallAbility
             FxManager.Instance.Play("NormalBallKick", transform);
         }
 
-        // 2. 🔥 【ボールの子要素としてエフェクトを生成する】
         if (_isSmashFired && _isKokusenFired)
         {
             if (kokusenSmokeEffectPrefab != null && kokusenThunderEffectPrefab != null)
             {
                 transform.localScale *= 1.5f;
-
-                // ボールと同じ位置に生成
                 _smokeEffect = Instantiate(kokusenSmokeEffectPrefab, transform.position, Quaternion.identity);
                 _thunderEffect = Instantiate(kokusenThunderEffectPrefab, transform.position, Quaternion.identity);
-
-                // 💡 ここが核心！ボールの子供にすることで、煙の「噴射口」をボールに追従させる
                 _smokeEffect.transform.SetParent(transform);
                 _thunderEffect.transform.SetParent(transform);
             }
@@ -79,41 +75,23 @@ public class RedBallAbility : BallAbility
             if (smokeEffectPrefab != null)
             {
                 transform.localScale *= 1.5f;
-
-                // ボールと同じ位置に生成
                 _smokeEffect = Instantiate(smokeEffectPrefab, transform.position, Quaternion.identity);
-
-                // 💡 ここが核心！ボールの子供にすることで、煙の「噴射口」をボールに追従させる
                 _smokeEffect.transform.SetParent(transform);
             }
         }
 
-        // 発射された時点のフラグ状態から、今回のダメージ・持続時間・拡大速度をキャッシュする
         _currentDuration = _isSmashFired ? smashDuration : normalDuration;
         _currentExpandSpeed = _isSmashFired ? smashExpandSpeed : normalExpandSpeed;
-
-        // 元のインスペクター設定値（attackDamage等）は基底クラスのプライベート変数なので、
-        // 擬似的にここでスマッシュか否かの判定を行い赫用のダメージを決定します
-        // （※必要に応じて元の設定値（1回のダメージ量）を調整してください）
         _finalDamage = _isSmashFired ? smashAttackDamage : attackDamage;
 
         Debug.Log($"🔴 術式「赫」放たれる！ (Smash: {_isSmashFired})");
     }
 
-    /// <summary>
-    /// 🛠️ 基底クラスのOnHitをoverrideして「赫」の展開トリガーにする
-    /// CollisionDetector から衝突（またはトリガー）検知時に呼び出されます
-    /// </summary>
-    /// <param name="collider">衝突した相手のCollider2D</param>
     public override void OnHit(Collider2D collider)
     {
-        // すでに展開している、またはまだ蹴られていないなら無視
         if (_isDeployed || !isKicked) return;
         if (_hasHitThisAction) return;
 
-
-        // 🛠️ ぶつかった相手のレイヤーが、インスペクターで指定した LayerMask に含まれているか判定
-        // (1 << collider.gameObject.layer) でビット演算を行い、deployTargetLayers と重なっているかチェックします
         if ((deployTargetLayers.value & (1 << collider.gameObject.layer)) != 0)
         {
             _hasHitThisAction = true;
@@ -121,9 +99,6 @@ public class RedBallAbility : BallAbility
         }
     }
 
-    /// <summary>
-    /// 術式「赫」をその場に展開する中心ロジック
-    /// </summary>
     private void DeployRed()
     {
         _isDeployed = true;
@@ -134,34 +109,29 @@ public class RedBallAbility : BallAbility
             GameObject redHitEffect = Instantiate(redHitEffectPrefab, transform.position, Quaternion.identity);
         }
 
-        // 1. その場で完全停止
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
-        _rigidbody.bodyType = RigidbodyType2D.Kinematic; // 展開中に他の物理で動かされないように固定
+        _rigidbody.bodyType = RigidbodyType2D.Kinematic;
 
-        // 2. Ball自体のRendererを非アクティブにする
         if (_renderer != null) _renderer.enabled = false;
 
         if (_smokeEffect != null) Destroy(_smokeEffect);
         if (_thunderEffect != null) Destroy(_thunderEffect);
 
-        // 3. コライダーをトリガー（すり抜け・多段判定用）に切り替える
         _collider.isTrigger = true;
 
-        // 4. 同時にBallの子要素としてエフェクトを生成
         if (redExplosionEffectPrefab != null)
         {
             GameObject effect = Instantiate(redExplosionEffectPrefab, transform.position, Quaternion.identity);
             GameObject centerEffect = Instantiate(redCenterEffectPrefab, transform.position, Quaternion.identity);
             GameObject thunderEffect = Instantiate(redThunderEffectPrefab, transform.position, Quaternion.identity);
-            effect.transform.SetParent(transform); // 子要素にする
-            centerEffect.transform.SetParent(transform); // 子要素にする
+            effect.transform.SetParent(transform);
+            centerEffect.transform.SetParent(transform);
             thunderEffect.transform.SetParent(transform);
         }
 
         Debug.Log("💥 術式「赫」展開！！");
 
-        // 5. 制限時間後に消滅させるカウントダウンを開始
         StartCoroutine(DurationCoroutine());
     }
 
@@ -169,10 +139,8 @@ public class RedBallAbility : BallAbility
     {
         if (!_isDeployed) return;
 
-        // 6. 徐々にBallのサイズを大きくする（コライダーが大きくなる）
         transform.localScale += Vector3.one * _currentExpandSpeed * Time.deltaTime;
 
-        // 敵ごとのダメージ内部タイマーを進める（辞書の更新）
         List<EnemyStatus> keys = new List<EnemyStatus>(_enemyDamageTimers.Keys);
         foreach (var enemy in keys)
         {
@@ -197,30 +165,36 @@ public class RedBallAbility : BallAbility
             {
                 if (target.IsInvincible) return;
 
-                // 辞書に対象の敵が登録されていなければ初期化登録
                 if (!_enemyDamageTimers.ContainsKey(target))
                 {
                     _enemyDamageTimers[target] = 0f;
                 }
 
-                // 前回のダメージから0.5秒経過しているかチェック
                 if (_enemyDamageTimers[target] <= 0f)
                 {
-                    // 🛠️【 MobStatusを汚さないノックバック反転ロジック 】
-                    // 1. 赫の中心（自分）から敵へのベクトルを計算
-                    Vector2 pullDirection = ((Vector2)collider.transform.position - (Vector2)transform.position).normalized;
+                    // 1. 赫の中心（自分）から敵への方向ベクトルを計算
+                    Vector2 pushDirection = ((Vector2)collider.transform.position - (Vector2)transform.position).normalized;
 
-                    // 2. 敵のさらに外側に「ダミーの攻撃者座標」を偽装する
-                    // 敵を基準に、中心とは逆方向に2ユニットほど離れた仮想の座標を作る
-                    Vector2 dummyAttackerPosition = (Vector2)collider.transform.position + (pullDirection * 2f);
+                    // 2. フラグによって偽装する攻撃者座標の生成位置をスイッチ
+                    Vector2 finalAttackerPosition;
 
-                    // 3. ダメージ付与（ダミーの座標を渡すことで、敵は赫の中心に向かって吹き飛ぶ）
-                    target.TakeDamage(_finalDamage, dummyAttackerPosition);
+                    if (isPullMode)
+                    {
+                        // 【吸引モード】敵のさらに外側にダミーの座標を置く（敵は中心に吸い寄せられる）
+                        finalAttackerPosition = (Vector2)collider.transform.position + (pushDirection * 2f);
+                        Debug.Log($"🩸 「赫」引き込み持続ダメージ: {collider.gameObject.name} (中心へ吸引)");
+                    }
+                    else
+                    {
+                        // 【吹き飛ばしモード】赫の「中心点そのもの」を攻撃者座標にする（敵は外側にドンッ！と弾き飛ぶ）
+                        finalAttackerPosition = (Vector2)transform.position;
+                        Debug.Log($"💥 「赫」弾き飛ばし持続ダメージ: {collider.gameObject.name} (外側へ吹き飛ばし)");
+                    }
 
-                    // ベースクラスのエフェクト再生メソッドを流用
+                    // 3. 決定した座標を渡してダメージ処理を実行
+                    target.TakeDamage(_finalDamage, finalAttackerPosition);
+
                     PlayHitEffect(collider);
-
-                    Debug.Log($"🩸 「赫」引き込み持続ダメージ: {collider.gameObject.name} (中心へ吸引)");
 
                     // タイマーをリセット
                     _enemyDamageTimers[target] = damageInterval;
@@ -229,37 +203,26 @@ public class RedBallAbility : BallAbility
         }
     }
 
-    /// <summary>
-    /// 8. 一定時間経過後にBallをDestroyするコルーチン
-    /// </summary>
     private IEnumerator DurationCoroutine()
     {
         yield return new WaitForSeconds(_currentDuration);
 
         Debug.Log("🔴 術式「赫」が制限時間に達したため消滅します");
 
-        // 多重判定を防ぐ安全処理
         if (GetComponent<CollisionDetector>() != null) GetComponent<CollisionDetector>().enabled = false;
         _collider.enabled = false;
 
         Destroy(gameObject);
     }
 
-    /// <summary>
-    /// 🛠️【修正】空振り時（何にも当たらずに失速、または最大寿命に達した時）の空間起爆ロジック
-    /// </summary>
     protected override IEnumerator DestroyABall()
     {
-        // 蹴り出されてから、純粋に失速するか、または最大寿命に達するまでカウントするタイマー
         float timer = 0f;
 
-        // 「すでに展開済み」または「ボールが消滅」しない限りループ
         while (!_isDeployed && this != null)
         {
             timer += Time.deltaTime;
 
-            // 💡 判定をすり抜けないための安全策：
-            // 蹴り出されて少し時間が経ち（0.1秒以上）、かつ速度が閾値（0.5f）以下になった場合
             if (timer > 0.5f && _rigidbody != null && _rigidbody.linearVelocity.magnitude <= 0.5f)
             {
                 Debug.Log("🎯 空間起爆：ボールが失速したため「赫」を自動展開します。");
@@ -267,15 +230,14 @@ public class RedBallAbility : BallAbility
                 yield break;
             }
 
-            // 💡 速度が落ちなくても、設定された最大寿命（例: 2〜3秒）に達した場合
             if (timer >= ballLifeTime)
             {
-                Debug.Log("🕒 空間起爆：最大寿命（タイムアウト）に達したため「赫」を自動展開します。");
+                Debug.Log("🕒 空間起爆：最大寿命に達したため「赫」を自動展開します。");
                 DeployRed();
                 yield break;
             }
 
-            yield return null; // 毎フレーム監視
+            yield return null;
         }
     }
 }
