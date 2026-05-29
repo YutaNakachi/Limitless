@@ -120,6 +120,10 @@ public class RedBallAbility : BallAbility
 
         _collider.isTrigger = true;
 
+        // 🚀【最重要】展開した瞬間、自身のタグを「Untagged（無所属）」に変更する！
+        // これにより、PlayerShootの「if (!collider.CompareTag("Ball")) return;」のチェックをすり抜けるようになります。
+        gameObject.tag = "Untagged";
+
         if (redExplosionEffectPrefab != null)
         {
             GameObject effect = Instantiate(redExplosionEffectPrefab, transform.position, Quaternion.identity);

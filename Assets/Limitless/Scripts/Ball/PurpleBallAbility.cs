@@ -118,6 +118,10 @@ public class PurpleBallAbility : BallAbility
         _collider.enabled = false;
         if (_renderer != null) _renderer.enabled = false;
 
+        // 🚀【最重要】展開した瞬間、自身のタグを「Untagged（無所属）」に変更する！
+        // これにより、PlayerShootの「if (!collider.CompareTag("Ball")) return;」のチェックをすり抜けるようになります。
+        gameObject.tag = "Untagged";
+
         // 2. 📐【回転処理】
         float angle = Mathf.Atan2(_launchDirection.y, _launchDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);

@@ -1853,7 +1853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FxManager
   fxPresetData: {fileID: 11400000, guid: d636b1a7b790eb040832a794783be954, type: 2}
   cameraTransform: {fileID: 519420032}
-  fxCoolTime: 0.5
+  fxCoolTime: 2
 --- !u!4 &997152989
 Transform:
   m_ObjectHideFlags: 0
@@ -2931,7 +2931,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: balls.Array.data[0].<Rate>k__BackingField
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: balls.Array.data[1].<Rate>k__BackingField
