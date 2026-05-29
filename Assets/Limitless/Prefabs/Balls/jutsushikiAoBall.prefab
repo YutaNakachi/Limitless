@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3975189071568595650}
   - component: {fileID: 4409843047024233182}
   m_Layer: 7
-  m_Name: jutsushikiAoBall
+  m_Name: JutsushikiAoBall
   m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

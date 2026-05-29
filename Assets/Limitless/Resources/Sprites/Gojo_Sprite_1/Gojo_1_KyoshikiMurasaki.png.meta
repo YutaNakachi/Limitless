@@ -139,94 +139,6 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gojo_1_KyoshikiMurasaki_0
-      rect:
-        serializedVersion: 2
-        x: 939
-        y: 171
-        width: 57
-        height: 211
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 82022fd7a24aa4070800000000000000
-      internalID: 8091460182933119016
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gojo_1_KyoshikiMurasaki_1
-      rect:
-        serializedVersion: 2
-        x: 1503
-        y: 302
-        width: 27
-        height: 79
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a250ebae21efc9960800000000000000
-      internalID: 7610236827550483754
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gojo_1_KyoshikiMurasaki_2
-      rect:
-        serializedVersion: 2
-        x: 189
-        y: 179
-        width: 27
-        height: 92
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bd8590c5c6371df40800000000000000
-      internalID: 5751505108366612699
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gojo_1_KyoshikiMurasaki_3
-      rect:
-        serializedVersion: 2
-        x: 195
-        y: 271
-        width: 16
-        height: 23
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 87448014fe05d6610800000000000000
-      internalID: 1616036829814342776
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Gojo_1_KyoshikiMurasaki_4
       rect:
         serializedVersion: 2
@@ -234,8 +146,8 @@ TextureImporter:
         y: 43
         width: 202
         height: 232
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -249,28 +161,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gojo_1_KyoshikiMurasaki_5
-      rect:
-        serializedVersion: 2
-        x: 780
-        y: 43
-        width: 202
-        height: 232
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e983f08834ea02730800000000000000
-      internalID: 3972366476409518238
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Gojo_1_KyoshikiMurasaki_6
       rect:
         serializedVersion: 2
@@ -278,8 +168,8 @@ TextureImporter:
         y: 43
         width: 200
         height: 231
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -300,8 +190,8 @@ TextureImporter:
         y: 43
         width: 203
         height: 231
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -322,8 +212,8 @@ TextureImporter:
         y: 42
         width: 201
         height: 233
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -344,8 +234,8 @@ TextureImporter:
         y: 43
         width: 200
         height: 219
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -366,8 +256,8 @@ TextureImporter:
         y: 44
         width: 202
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -380,77 +270,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Gojo_1_KyoshikiMurasaki_11
-      rect:
-        serializedVersion: 2
-        x: 1504
-        y: 235
-        width: 21
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: dc90b713b8719d4c0800000000000000
-      internalID: -4262349685731423795
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gojo_1_KyoshikiMurasaki_12
-      rect:
-        serializedVersion: 2
-        x: 1503
-        y: 171
-        width: 30
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f501ebe79c7a70520800000000000000
-      internalID: 2668285788096958559
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gojo_1_KyoshikiMurasaki_13
-      rect:
-        serializedVersion: 2
-        x: 1530
-        y: 141
-        width: 25
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9f63c0a1b5981e060800000000000000
-      internalID: 6981011921773016825
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 8ac33510e0a90dc4b843777b089f6d33
     internalID: 0
     vertices: []
     indices: 

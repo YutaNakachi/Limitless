@@ -610,6 +610,7 @@ MonoBehaviour:
   invincibilityDuration: 2
   knockbackDuration: 0.2
   knockbackForce: 10
+  comboResetDuration: 0.5
   shootCollider: {fileID: 7126906893625790347}
 --- !u!114 &2537649582537771541
 MonoBehaviour:
@@ -626,12 +627,15 @@ MonoBehaviour:
   balls:
   - <Type>k__BackingField: 0
     <BallPrefab>k__BackingField: {fileID: 7504175457323940421, guid: f3405f959028c074591f4d4b9dd50a0c, type: 3}
-    <Rate>k__BackingField: 96
+    <Rate>k__BackingField: 0
   - <Type>k__BackingField: 1
     <BallPrefab>k__BackingField: {fileID: 856638293993571749, guid: 48e76c71e6d15194d848b92047f90ac8, type: 3}
     <Rate>k__BackingField: 2
   - <Type>k__BackingField: 2
     <BallPrefab>k__BackingField: {fileID: 8829045715925878824, guid: fabf4fd11e409f24fa49d17c9f4a701f, type: 3}
+    <Rate>k__BackingField: 2
+  - <Type>k__BackingField: 3
+    <BallPrefab>k__BackingField: {fileID: 856638293993571749, guid: 2f59eb92873ba2e4eb1f9f2c4d7c133e, type: 3}
     <Rate>k__BackingField: 2
   maxBalls: 6
   orbitRadius: 0.8

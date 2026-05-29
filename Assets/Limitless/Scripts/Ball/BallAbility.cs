@@ -32,7 +32,7 @@ public abstract class BallAbility : MonoBehaviour
     protected bool _isSmashFired = false; // スマッシュで発射されたかどうかの内部フラグ
     protected bool _isKokusenFired = false; // 黒閃が発動したかどうかの内部フラグ
 
-    public bool isKicked { get; private set; } = false;
+    public bool isKicked { get; protected set; } = false;
 
     private void Awake()
     {

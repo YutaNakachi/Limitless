@@ -222,8 +222,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0, g: 0, b: 1, a: 1}
-      maxColor: {r: 0, g: 0, b: 1, a: 1}
+      minColor: {r: 0.854902, g: 0.4392157, b: 0.8392158, a: 1}
+      maxColor: {r: 0.854902, g: 0.4392157, b: 0.8392158, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5116,8 +5116,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0, g: 0, b: 1, a: 1}
-      maxColor: {r: 0, g: 0, b: 1, a: 1}
+      minColor: {r: 0.854902, g: 0.4392157, b: 0.8392158, a: 1}
+      maxColor: {r: 0.854902, g: 0.4392157, b: 0.8392158, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -9801,7 +9801,7 @@ GameObject:
   - component: {fileID: 8030583952249720544}
   - component: {fileID: 5847677553255846366}
   m_Layer: 0
-  m_Name: FX_Click_Blue_custom
+  m_Name: FX_Click_Purple_custom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10013,8 +10013,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0, g: 0, b: 1, a: 1}
-      maxColor: {r: 0, g: 0, b: 1, a: 1}
+      minColor: {r: 0.854902, g: 0.4392157, b: 0.8392158, a: 1}
+      maxColor: {r: 0.854902, g: 0.4392157, b: 0.8392158, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

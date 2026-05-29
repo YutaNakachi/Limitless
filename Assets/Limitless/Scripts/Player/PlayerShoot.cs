@@ -207,12 +207,14 @@ public class PlayerShoot : MonoBehaviour
     public void OnShootFinished()
     {
         shootCollider.enabled = false;
+
         StartCoroutine(CooldownCoroutine());
     }
 
     private IEnumerator CooldownCoroutine()
     {
         yield return new WaitForSeconds(kickCooldownTime);
+
         _status.GoToNormalStateIfPossible();
     }
 

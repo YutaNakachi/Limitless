@@ -137,11 +137,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1207
-        y: 361
+        y: 362
         width: 90
-        height: 97
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 96
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -158,12 +158,12 @@ TextureImporter:
       name: Gojo_1_Jutsushiki_1
       rect:
         serializedVersion: 2
-        x: 1521
-        y: 122
-        width: 371
-        height: 239
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 18
+        y: 33
+        width: 114
+        height: 263
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -180,12 +180,12 @@ TextureImporter:
       name: Gojo_1_Jutsushiki_2
       rect:
         serializedVersion: 2
-        x: 17
+        x: 179
         y: 34
-        width: 115
+        width: 116
         height: 263
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -202,12 +202,12 @@ TextureImporter:
       name: Gojo_1_Jutsushiki_3
       rect:
         serializedVersion: 2
-        x: 179
+        x: 338
         y: 34
-        width: 116
-        height: 264
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 109
+        height: 263
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -224,12 +224,12 @@ TextureImporter:
       name: Gojo_1_Jutsushiki_4
       rect:
         serializedVersion: 2
-        x: 338
+        x: 508
         y: 34
-        width: 110
-        height: 264
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 162
+        height: 261
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -246,12 +246,12 @@ TextureImporter:
       name: Gojo_1_Jutsushiki_5
       rect:
         serializedVersion: 2
-        x: 508
-        y: 34
-        width: 162
-        height: 262
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 712
+        y: 33
+        width: 128
+        height: 298
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -268,12 +268,12 @@ TextureImporter:
       name: Gojo_1_Jutsushiki_6
       rect:
         serializedVersion: 2
-        x: 713
+        x: 938
         y: 33
-        width: 128
-        height: 299
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 112
+        height: 297
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -290,12 +290,12 @@ TextureImporter:
       name: Gojo_1_Jutsushiki_7
       rect:
         serializedVersion: 2
-        x: 938
-        y: 33
-        width: 112
-        height: 297
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1201
+        y: 21
+        width: 114
+        height: 308
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -312,12 +312,12 @@ TextureImporter:
       name: Gojo_1_Jutsushiki_8
       rect:
         serializedVersion: 2
-        x: 1200
-        y: 21
-        width: 116
-        height: 308
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1521
+        y: 123
+        width: 371
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -334,12 +334,12 @@ TextureImporter:
       name: Gojo_1_Jutsushiki_9
       rect:
         serializedVersion: 2
-        x: 2009
+        x: 2010
         y: 43
-        width: 102
+        width: 101
         height: 254
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -356,12 +356,12 @@ TextureImporter:
       name: Gojo_1_Jutsushiki_10
       rect:
         serializedVersion: 2
-        x: 2132
-        y: 39
-        width: 120
-        height: 262
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 2133
+        y: 38
+        width: 119
+        height: 263
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -379,11 +379,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2274
-        y: 39
-        width: 170
+        y: 38
+        width: 169
         height: 257
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -400,7 +400,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 960ab34dc1544944fb65a2a8613e70e2
     internalID: 0
     vertices: []
     indices: 
@@ -408,7 +408,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Gojo_1_Jutsushiki_0: 8550466914748367144
       Gojo_1_Jutsushiki_1: 851798109645914805

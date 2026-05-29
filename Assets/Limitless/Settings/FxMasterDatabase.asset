@@ -86,7 +86,7 @@ MonoBehaviour:
     useObjectShakeY: 0
     useCoolTime: 0
   - label: PurpleBallKick
-    stopDuration: 0.14
+    stopDuration: 2
     timeScale: 0
     shakeDuration: 0
     shakeMagnitude: 0

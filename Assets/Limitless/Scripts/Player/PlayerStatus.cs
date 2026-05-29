@@ -6,6 +6,8 @@ public class PlayerStatus : MobStatus
 {
     [SerializeField] private Collider2D shootCollider;
 
+    public bool isOnMurasaki = false;
+
     protected override void Start()
     {
         base.Start();
@@ -56,7 +58,7 @@ public class PlayerStatus : MobStatus
     public override void GoToNormalStateIfPossible()
     {
         if (shootCollider != null) shootCollider.enabled = false;
-        if (_state == StateEnum.Die || _state == StateEnum.Knockback) return;
+        if (_state == StateEnum.Die || _state == StateEnum.Knockback || isOnMurasaki) return;
         _state = StateEnum.Normal;
     }
 
