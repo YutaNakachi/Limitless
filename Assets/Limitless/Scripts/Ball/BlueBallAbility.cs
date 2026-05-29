@@ -6,6 +6,7 @@ public class BlueBallAbility : BallAbility
 {
     [Header("ーー 「蒼」 固有設定 ーー")]
     [SerializeField] private GameObject blueExplosionEffectPrefab;
+    [SerializeField] private GameObject blueShockwaveEffectPrefab;
     [SerializeField] private GameObject blueCenterEffectPrefab;
     [SerializeField] private GameObject blueHitEffectPrefab;
 
@@ -124,10 +125,12 @@ public class BlueBallAbility : BallAbility
         // これにより、PlayerShootの「if (!collider.CompareTag("Ball")) return;」のチェックをすり抜けるようになります。
         gameObject.tag = "Untagged";
 
-        if (blueExplosionEffectPrefab != null)
+        if (blueShockwaveEffectPrefab != null)
         {
-            GameObject effect = Instantiate(blueExplosionEffectPrefab, transform.position, Quaternion.identity);
+            GameObject explosionEffect = Instantiate(blueExplosionEffectPrefab, transform.position, Quaternion.identity);
+            GameObject effect = Instantiate(blueShockwaveEffectPrefab, transform.position, Quaternion.identity);
             GameObject centerEffect = Instantiate(blueCenterEffectPrefab, transform.position, Quaternion.identity);
+            explosionEffect.transform.SetParent(transform);
             effect.transform.SetParent(transform);
             centerEffect.transform.SetParent(transform);
         }

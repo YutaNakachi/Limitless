@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3975189071568595650}
   - component: {fileID: 4409843047024233182}
   m_Layer: 7
-  m_Name: JutsushikiAoBall
+  m_Name: jutsushikiAoBall
   m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,11 +232,10 @@ MonoBehaviour:
   kokusenKickEffectPrefab: {fileID: 9027514048236820045, guid: ac48f8914e04efc4c8dac1d09c8084ca, type: 3}
   spawnEffectPrefab: {fileID: 7516003108749195644, guid: b1e081f8ec65b65499ef6c106757d2f3, type: 3}
   blueExplosionEffectPrefab: {fileID: 5824670795371433373, guid: cc1b585114f3ad345aa9c694417a6b61, type: 3}
+  blueShockwaveEffectPrefab: {fileID: 2708598583397607911, guid: 810b8e3f625e4d842b9de096d53e6028, type: 3}
   blueCenterEffectPrefab: {fileID: 1042948235847576, guid: 533d992a42da00e40803ab5538c28171, type: 3}
   blueHitEffectPrefab: {fileID: 7627304123461817746, guid: 0f421152a0a3b0242a1e77aa19c0cc50, type: 3}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 256
+  rotationSpeed: 360
   normalRadiusScale: 3
   smashRadiusScale: 5
   normalPullSpeed: 5
