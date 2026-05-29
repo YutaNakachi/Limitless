@@ -96,7 +96,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.33333334
-    functionName: OnShootStart
+    functionName: OnShootFinished
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
