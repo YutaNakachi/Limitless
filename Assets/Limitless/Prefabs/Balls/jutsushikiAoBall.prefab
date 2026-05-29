@@ -237,10 +237,10 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
-  normalRadiusScale: 2.5
-  smashRadiusScale: 4
-  normalPullSpeed: 10
-  smashPullSpeed: 10
+  normalRadiusScale: 3
+  smashRadiusScale: 5
+  normalPullSpeed: 5
+  smashPullSpeed: 5
   normalDuration: 3
   smashDuration: 5
   deployTargetLayers:

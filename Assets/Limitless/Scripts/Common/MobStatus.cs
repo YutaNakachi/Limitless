@@ -192,4 +192,31 @@ public abstract class MobStatus : MonoBehaviour
         if (_state == StateEnum.Die || _state == StateEnum.Knockback) return;
         _state = StateEnum.Normal;
     }
+
+    /// <summary>
+    /// 🛠️【新規追加】術式「蒼」などの継続的な吸引によって、強制的に行動不能ステートにする
+    /// </summary>
+    public void ForceApplyPullState()
+    {
+        if (IsDead) return;
+
+        // すでにノックバック中などの場合はコルーチン等による復帰を防ぐために
+        // ステートを強制上書きして、AI移動（IsMovable）を完全に封じます
+        _state = StateEnum.Knockback;
+    }
+
+    /// <summary>
+    /// 🛠️【新規追加】術式「蒼」などの強制拘束ステートを完全に解除し、通常状態へ引き戻す
+    /// </summary>
+    public void ForceResetToNormalState()
+    {
+        if (IsDead) return; // 死亡している場合は流石に除外
+
+        _state = StateEnum.Normal;
+
+        if (_rigidbody != null)
+        {
+            _rigidbody.linearVelocity = Vector2.zero; // 変な慣性を残さないようにピタッと止める
+        }
+    }
 }
