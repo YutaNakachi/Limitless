@@ -1853,7 +1853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FxManager
   fxPresetData: {fileID: 11400000, guid: d636b1a7b790eb040832a794783be954, type: 2}
   cameraTransform: {fileID: 519420032}
-  fxCoolTime: 2
+  fxCoolTime: 0.5
 --- !u!4 &997152989
 Transform:
   m_ObjectHideFlags: 0

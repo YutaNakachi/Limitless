@@ -26,7 +26,7 @@ MonoBehaviour:
     timeScale: 0
     shakeDuration: 0.15
     shakeMagnitude: 0.22
-    objectShakeMagnitude: 0.15
+    objectShakeMagnitude: 0.1
     useObjectShakeY: 1
     useCoolTime: 0
   - label: KokusenBallKick
@@ -40,11 +40,11 @@ MonoBehaviour:
   - label: Damaged
     stopDuration: 0.12
     timeScale: 0
-    shakeDuration: 0.15
+    shakeDuration: 0.12
     shakeMagnitude: 0.25
     objectShakeMagnitude: 0.15
     useObjectShakeY: 1
-    useCoolTime: 0
+    useCoolTime: 1
   - label: CriticalDamaged
     stopDuration: 0.12
     timeScale: 0
@@ -56,8 +56,8 @@ MonoBehaviour:
   - label: EnemyFatalHit
     stopDuration: 0.22
     timeScale: 0
-    shakeDuration: 0.3
-    shakeMagnitude: 0.45
+    shakeDuration: 0.22
+    shakeMagnitude: 0.35
     objectShakeMagnitude: 0.3
     useObjectShakeY: 1
     useCoolTime: 1

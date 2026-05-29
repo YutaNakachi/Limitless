@@ -24,8 +24,7 @@ public class FxManager : MonoBehaviour
     private CancellationTokenSource _hitStopCTS;     // ヒットストップ用のキャンセル管理
     private CancellationTokenSource _cameraShakeCTS; // カメラシェイク用のキャンセル管理
 
-    // ⏱️ 連続暴発を防ぐための時間記録用
-    private string _lastPlayedPresetLabel = "";
+    // ⏱️ 連続暴発を防ぐための絶対時間記録用
     private float _lastPlayedTime = -999f;
 
     void Awake()
@@ -63,43 +62,44 @@ public class FxManager : MonoBehaviour
     {
         if (fxPresetData == null) return;
 
-        // 先にアセットから設定を取得
+        // 1. まず指定されたプリセット設定をアセットから取得
         FxPresetData.FxSettings settings = fxPresetData.GetPreset(presetLabel);
 
-        // ⭕【確実な修正】構造体がデフォルト状態（未設定の空っぽ）なら処理を抜ける
-        // これなら内部の変数名（Labelなど）が何であっても、100%エラーを回避して安全に弾けます！
+        // 構造体がデフォルト状態（未設定の空っぽ）なら処理を抜ける
         if (settings.Equals(default(FxPresetData.FxSettings))) return;
 
-        // 🛠️【個別制限ロジック】
-        // 1. その設定が「useCoolTime = true（制限する）」になっていて、
-        // 2. かつ全く同じプリセットが極小時間内（fxCoolTime内）に何度も呼ばれた場合
-        if (settings.useCoolTime && presetLabel == _lastPlayedPresetLabel && Time.unscaledTime - _lastPlayedTime < fxCoolTime)
+        // 🔥【超重要：useCoolTime対応型・グローバル防壁】
+        // 要求された演出設定の「useCoolTimeがtrue」であり、かつ前回の全体演出から指定時間（fxCoolTime）が経過していない場合のみ、
+        // 画面全体のカメラシェイクや時間停止を「間引き（遮断）」します。
+        if (settings.useCoolTime && (Time.unscaledTime - _lastPlayedTime < fxCoolTime))
         {
-            // 💡 全体演出（画面揺れ・時間停止）は弾き、対象の敵だけの微振動（手応え）を実行
+            // 💡 画面全体が止まるのは防ぎつつ、殴られた敵個別の「微振動（手応え）」だけは実行！
             TriggerObjectShakeOnly(settings, targetObject);
-            return;
+            return; // 🛑 ここで処理を終了し、下の画面全体演出（HitStop等）へは行かせない
         }
 
-        // 今回再生した演出情報と時間を記録（Time.timeScale = 0でも進む unscaledTime を使用）
-        _lastPlayedPresetLabel = presetLabel;
-        _lastPlayedTime = Time.unscaledTime;
+        // 📝【記録のタイミング】間引かれずに「実際に全体演出が実行される時」だけ、実行時刻を更新する
+        // これにより、useCoolTime = false の重要演出が走っても、雑魚の間引き用タイマーが不当に延長されるのを防ぎます
+        if (settings.useCoolTime)
+        {
+            _lastPlayedTime = Time.unscaledTime;
+        }
 
-        // 1. ヒットストップの実行
+        // 2. ヒットストップの実行（useCoolTime = false、またはクールタイム明けた演出はここを通る）
         if (settings.stopDuration > 0)
         {
             PlayHitStop(settings.stopDuration, settings.timeScale);
         }
 
-        // 2. カメラシェイクの実行
+        // 3. カメラシェイクの実行
         if (settings.shakeDuration > 0)
         {
             PlayCameraShake(settings.shakeDuration, settings.shakeMagnitude);
         }
 
-        // 3. ヒット対象自体の微振動を実行
+        // 4. ヒット対象自体の微振動を実行
         if (targetObject != null && settings.objectShakeMagnitude > 0 && settings.stopDuration > 0)
         {
-            // オブジェクトの微振動は、そのオブジェクト自身の消滅（OnDestroy）に連動させるため、対象の CancellationToken を渡す
             StartObjectShake(targetObject, settings.stopDuration, settings.objectShakeMagnitude, settings.useObjectShakeY, targetObject.GetCancellationTokenOnDestroy()).Forget();
         }
     }
@@ -122,7 +122,7 @@ public class FxManager : MonoBehaviour
     // ================================================================
     public void PlayHitStop(float duration, float timeScale = 0f)
     {
-        // 新しく要求された時間が、現在残っている時間よりも「長い」場合だけ採用（排他制御）
+        // 新しく要求された停止時間が、現在の残り時間より長い場合のみ採用（スマートな排他制御）
         if (duration > hitStopRemainingTime)
         {
             hitStopRemainingTime = duration;
@@ -145,7 +145,6 @@ public class FxManager : MonoBehaviour
             // 残り時間が 0 になるまでループ
             while (hitStopRemainingTime > 0)
             {
-                // 実時間（Time.timeScaleの影響を受けないUpdate）タイミングで1フレーム待機
                 await UniTask.Yield(PlayerLoopTiming.Update, token);
 
                 float dt = Time.unscaledDeltaTime;
@@ -156,14 +155,11 @@ public class FxManager : MonoBehaviour
         }
         catch (OperationCanceledException)
         {
-            // 他のヒットストップに上書きキャンセルされた場合はここを通る
-            // 新しい次のタスクに処理を譲るため、ここではtimeScaleは戻さない
             return;
         }
         finally
         {
-            // 正常終了時はもちろん、エラーが起きようがシーンが切り替わろうが、「絶対に」ここを通る。
-            // 割り込みキャンセル（IsCancellationRequested = true）でない時だけ、安全に時間を元に戻す。
+            // 正常に終了した（他の時間停止に割り込まれていない）時だけ、時間軸を1.0に戻す
             if (!token.IsCancellationRequested)
             {
                 hitStopRemainingTime = 0f;
@@ -187,10 +183,8 @@ public class FxManager : MonoBehaviour
         {
             while (elapsed < duration)
             {
-                // 実時間で1フレーム待機。対象オブジェクトがDestroyされたら、objectTokenがそれを検知して自動でループを脱出する
                 await UniTask.Yield(PlayerLoopTiming.Update, objectToken);
 
-                // 念のためのNullダブルチェック
                 if (target == null || !target.gameObject.activeInHierarchy) return;
 
                 elapsed += Time.unscaledDeltaTime;
@@ -203,12 +197,10 @@ public class FxManager : MonoBehaviour
         }
         catch (OperationCanceledException)
         {
-            // オブジェクトがDestroyされた場合は自動的にここに飛び、エラーを出さずに静かに消滅する
             return;
         }
         finally
         {
-            // 終了時にオブジェクトがまだ生きていれば、位置を元に戻す
             if (target != null)
             {
                 target.localPosition = originalPos;
@@ -223,7 +215,6 @@ public class FxManager : MonoBehaviour
     {
         if (cameraTransform == null) return;
 
-        // 連続でシェイクが呼ばれたら、前のシェイクをキャンセルしてカメラ位置を一瞬でリセット
         if (_cameraShakeCTS != null)
         {
             CleanUpCTS(ref _cameraShakeCTS);
@@ -257,7 +248,6 @@ public class FxManager : MonoBehaviour
         }
         finally
         {
-            // キャンセルされた場合も含め、終了時は100%オリジナルのカメラ位置にピタッと戻す
             if (cameraTransform != null)
             {
                 cameraTransform.localPosition = originalCameraPos;
