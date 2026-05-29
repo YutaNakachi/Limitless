@@ -203,6 +203,18 @@ public class RedBallAbility : BallAbility
         }
     }
 
+    // 各Ball固有のHit Effectを仕込む、OnHit()で呼び出す
+    protected override void PlayHitEffect(Collider2D collider)
+    {
+        Vector2 myCenter = transform.position;
+        Vector3 exactHitPoint = collider.ClosestPoint(myCenter);
+
+        if (hitEffectPrefab != null)
+        {
+            Instantiate(hitEffectPrefab, exactHitPoint, Quaternion.identity);
+        }
+    }
+
     private IEnumerator DurationCoroutine()
     {
         yield return new WaitForSeconds(_currentDuration);

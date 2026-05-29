@@ -16,12 +16,12 @@ public abstract class BallAbility : MonoBehaviour
     [SerializeField] protected int kokusenMaxHitCount = 10;  // 💥 黒閃キック時の最大ヒット回数（初期値: 10）
 
     [Header("Effects")]
-    [SerializeField] private GameObject hitEffectPrefab;
-    [SerializeField] private GameObject hitKokusenEffectPrefab;
-    [SerializeField] private GameObject kickEffectPrefab;
-    [SerializeField] private GameObject smashKickEffectPrefab; // 💥 スマッシュ用の派手なエフェクト
-    [SerializeField] private GameObject kokusenKickEffectPrefab; // 💥 スマッシュ用の派手なエフェクト
-    [SerializeField] private GameObject spawnEffectPrefab;
+    [SerializeField] protected GameObject hitEffectPrefab;
+    [SerializeField] protected GameObject hitKokusenEffectPrefab;
+    [SerializeField] protected GameObject kickEffectPrefab;
+    [SerializeField] protected GameObject smashKickEffectPrefab; // 💥 スマッシュ用の派手なエフェクト
+    [SerializeField] protected GameObject kokusenKickEffectPrefab; // 💥 スマッシュ用の派手なエフェクト
+    [SerializeField] protected GameObject spawnEffectPrefab;
 
     protected Rigidbody2D _rigidbody;
     protected Collider2D _collider;
