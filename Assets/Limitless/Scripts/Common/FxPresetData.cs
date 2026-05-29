@@ -18,6 +18,10 @@ public class FxPresetData : ScriptableObject
         [Header("Object Shake")]
         public float objectShakeMagnitude;
         public bool useObjectShakeY;
+
+        [Header("Continuous Occurrence Limit")]
+        [Tooltip("チェックを入れると、この演出が連続で大量に呼ばれた際に演出を自動で間引きます")]
+        public bool useCoolTime; // 👈 これを新しく追加します！
     }
 
     public FxSettings[] presets;

@@ -20,6 +20,7 @@ MonoBehaviour:
     shakeMagnitude: 0.05
     objectShakeMagnitude: 0.1
     useObjectShakeY: 1
+    useCoolTime: 0
   - label: SmashBallKick
     stopDuration: 0.15
     timeScale: 0
@@ -27,6 +28,7 @@ MonoBehaviour:
     shakeMagnitude: 0.22
     objectShakeMagnitude: 0.15
     useObjectShakeY: 1
+    useCoolTime: 0
   - label: KokusenBallKick
     stopDuration: 0.25
     timeScale: 0
@@ -34,6 +36,7 @@ MonoBehaviour:
     shakeMagnitude: 0.22
     objectShakeMagnitude: 0.15
     useObjectShakeY: 1
+    useCoolTime: 0
   - label: Damaged
     stopDuration: 0.12
     timeScale: 0
@@ -41,6 +44,7 @@ MonoBehaviour:
     shakeMagnitude: 0.25
     objectShakeMagnitude: 0.15
     useObjectShakeY: 1
+    useCoolTime: 0
   - label: CriticalDamaged
     stopDuration: 0.12
     timeScale: 0
@@ -48,6 +52,7 @@ MonoBehaviour:
     shakeMagnitude: 0.25
     objectShakeMagnitude: 0.15
     useObjectShakeY: 1
+    useCoolTime: 0
   - label: EnemyFatalHit
     stopDuration: 0.22
     timeScale: 0
@@ -55,6 +60,7 @@ MonoBehaviour:
     shakeMagnitude: 0.45
     objectShakeMagnitude: 0.3
     useObjectShakeY: 1
+    useCoolTime: 1
   - label: PlayerGameOver
     stopDuration: 0.4
     timeScale: 0
@@ -62,6 +68,7 @@ MonoBehaviour:
     shakeMagnitude: 0.4
     objectShakeMagnitude: 0.25
     useObjectShakeY: 1
+    useCoolTime: 0
   - label: RedBallHit
     stopDuration: 1
     timeScale: 0
@@ -69,6 +76,7 @@ MonoBehaviour:
     shakeMagnitude: 0
     objectShakeMagnitude: 0
     useObjectShakeY: 0
+    useCoolTime: 0
   - label: BlueBallHit
     stopDuration: 1
     timeScale: 0
@@ -76,6 +84,7 @@ MonoBehaviour:
     shakeMagnitude: 0
     objectShakeMagnitude: 0
     useObjectShakeY: 0
+    useCoolTime: 0
   - label: PurpleBallKick
     stopDuration: 0.14
     timeScale: 0
@@ -83,3 +92,4 @@ MonoBehaviour:
     shakeMagnitude: 0
     objectShakeMagnitude: 0
     useObjectShakeY: 0
+    useCoolTime: 0

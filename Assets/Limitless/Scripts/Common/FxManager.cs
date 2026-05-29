@@ -15,18 +15,24 @@ public class FxManager : MonoBehaviour
     [SerializeField] private Transform cameraTransform;
     private Vector3 originalCameraPos;
 
+    [Header("ーー 大量撃破時の演出間引き設定 ーー")]
+    [Tooltip("連続実行を防ぐための共通クールタイム（秒）。0.05f〜0.1fあたりが最適です")]
+    [SerializeField] private float fxCoolTime = 0.08f;
+
     // 複数同時発生時の制御用変数
     private float hitStopRemainingTime = 0f;          // 残りのヒットストップ時間
     private CancellationTokenSource _hitStopCTS;     // ヒットストップ用のキャンセル管理
     private CancellationTokenSource _cameraShakeCTS; // カメラシェイク用のキャンセル管理
+
+    // ⏱️ 連続暴発を防ぐための時間記録用
+    private string _lastPlayedPresetLabel = "";
+    private float _lastPlayedTime = -999f;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            // シーンを跨いでも破棄されないようにする場合は以下を有効に（お好みで）
-            // DontDestroyOnLoad(gameObject); 
         }
         else
         {
@@ -57,7 +63,26 @@ public class FxManager : MonoBehaviour
     {
         if (fxPresetData == null) return;
 
+        // 先にアセットから設定を取得
         FxPresetData.FxSettings settings = fxPresetData.GetPreset(presetLabel);
+
+        // ⭕【確実な修正】構造体がデフォルト状態（未設定の空っぽ）なら処理を抜ける
+        // これなら内部の変数名（Labelなど）が何であっても、100%エラーを回避して安全に弾けます！
+        if (settings.Equals(default(FxPresetData.FxSettings))) return;
+
+        // 🛠️【個別制限ロジック】
+        // 1. その設定が「useCoolTime = true（制限する）」になっていて、
+        // 2. かつ全く同じプリセットが極小時間内（fxCoolTime内）に何度も呼ばれた場合
+        if (settings.useCoolTime && presetLabel == _lastPlayedPresetLabel && Time.unscaledTime - _lastPlayedTime < fxCoolTime)
+        {
+            // 💡 全体演出（画面揺れ・時間停止）は弾き、対象の敵だけの微振動（手応え）を実行
+            TriggerObjectShakeOnly(settings, targetObject);
+            return;
+        }
+
+        // 今回再生した演出情報と時間を記録（Time.timeScale = 0でも進む unscaledTime を使用）
+        _lastPlayedPresetLabel = presetLabel;
+        _lastPlayedTime = Time.unscaledTime;
 
         // 1. ヒットストップの実行
         if (settings.stopDuration > 0)
@@ -74,14 +99,26 @@ public class FxManager : MonoBehaviour
         // 3. ヒット対象自体の微振動を実行
         if (targetObject != null && settings.objectShakeMagnitude > 0 && settings.stopDuration > 0)
         {
-            // オブジェクトの微振動は、そのオブジェクト自身の消滅（OnDestroy）に連動させるため、
-            // 引数に対象の CancellationToken を渡すのがUniTaskの鉄則です
+            // オブジェクトの微振動は、そのオブジェクト自身の消滅（OnDestroy）に連動させるため、対象の CancellationToken を渡す
+            StartObjectShake(targetObject, settings.stopDuration, settings.objectShakeMagnitude, settings.useObjectShakeY, targetObject.GetCancellationTokenOnDestroy()).Forget();
+        }
+    }
+
+    /// <summary>
+    /// クールタイム中に、すでに取得済みの settings を使ってオブジェクトの揺れだけを適用するサブメソッド
+    /// </summary>
+    private void TriggerObjectShakeOnly(FxPresetData.FxSettings settings, Transform targetObject)
+    {
+        if (targetObject == null) return;
+
+        if (settings.objectShakeMagnitude > 0 && settings.stopDuration > 0)
+        {
             StartObjectShake(targetObject, settings.stopDuration, settings.objectShakeMagnitude, settings.useObjectShakeY, targetObject.GetCancellationTokenOnDestroy()).Forget();
         }
     }
 
     // ================================================================
-    // 🛡️ 究極版：ヒットストップ（UniTaskによる絶対時間復帰システム）
+    // 🛡️ ヒットストップ（UniTaskによる絶対時間復帰システム）
     // ================================================================
     public void PlayHitStop(float duration, float timeScale = 0f)
     {
@@ -125,7 +162,6 @@ public class FxManager : MonoBehaviour
         }
         finally
         {
-            // 🔥 ここがUniTask最大の強み！
             // 正常終了時はもちろん、エラーが起きようがシーンが切り替わろうが、「絶対に」ここを通る。
             // 割り込みキャンセル（IsCancellationRequested = true）でない時だけ、安全に時間を元に戻す。
             if (!token.IsCancellationRequested)
@@ -138,7 +174,7 @@ public class FxManager : MonoBehaviour
     }
 
     // ================================================================
-    // 🛡️ 究極版：オブジェクト微振動（心中バグ完全シャットアウト）
+    // 🛡️ オブジェクト微振動（心中バグ完全シャットアウト）
     // ================================================================
     private async UniTaskVoid StartObjectShake(Transform target, float duration, float magnitude, bool useY, CancellationToken objectToken)
     {
@@ -181,7 +217,7 @@ public class FxManager : MonoBehaviour
     }
 
     // ================================================================
-    // 🛡️ 究極版：カメラシェイク（連続被弾時の位置ズレ防止回路）
+    // 🛡️ カメラシェイク（連続被弾時の位置ズレ防止回路）
     // ================================================================
     public void PlayCameraShake(float duration, float magnitude)
     {
@@ -229,9 +265,6 @@ public class FxManager : MonoBehaviour
         }
     }
 
-    // ================================================================
-    // 🛠️ 便利サブメソッド（トークンの安全な使い回し回路）
-    // ================================================================
     private void CleanUpCTS(ref CancellationTokenSource cts)
     {
         if (cts != null)
