@@ -113,3 +113,13 @@ MonoBehaviour:
     rumbleLeft: 0.9
     rumbleRight: 0.9
     useCoolTime: 0
+  - label: Resonance
+    stopDuration: 1.5
+    timeScale: 0
+    shakeDuration: 0
+    shakeMagnitude: 0
+    objectShakeMagnitude: 0
+    useObjectShakeY: 0
+    rumbleLeft: 0.5
+    rumbleRight: 0.8
+    useCoolTime: 0

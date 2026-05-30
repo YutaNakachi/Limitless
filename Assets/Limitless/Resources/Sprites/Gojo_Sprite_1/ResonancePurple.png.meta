@@ -1,0 +1,779 @@
+fileFormatVersion: 2
+guid: 424b48c96bdd33e488f72f7139e10727
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4451147357403038206
+    second: ResonancePurple_0
+  - first:
+      213: 3621277543963844153
+    second: ResonancePurple_1
+  - first:
+      213: 378864615590827291
+    second: ResonancePurple_2
+  - first:
+      213: 7945100974449041864
+    second: ResonancePurple_3
+  - first:
+      213: -1453005444346974796
+    second: ResonancePurple_4
+  - first:
+      213: -6015403897104035319
+    second: ResonancePurple_5
+  - first:
+      213: -1621086928644253336
+    second: ResonancePurple_6
+  - first:
+      213: -4873535430272462631
+    second: ResonancePurple_7
+  - first:
+      213: 1912646954778990598
+    second: ResonancePurple_8
+  - first:
+      213: -2918483595634077090
+    second: ResonancePurple_9
+  - first:
+      213: -6817583336716199085
+    second: ResonancePurple_10
+  - first:
+      213: 7242076528002662604
+    second: ResonancePurple_11
+  - first:
+      213: -5084258348391788233
+    second: ResonancePurple_12
+  - first:
+      213: -4435954029935613471
+    second: ResonancePurple_13
+  - first:
+      213: -2729906805273756534
+    second: ResonancePurple_14
+  - first:
+      213: 1092879519660695675
+    second: ResonancePurple_15
+  - first:
+      213: -410994615236820155
+    second: ResonancePurple_16
+  - first:
+      213: -3992546503811923508
+    second: ResonancePurple_17
+  - first:
+      213: -7490418306846115498
+    second: ResonancePurple_18
+  - first:
+      213: 6534870255827432136
+    second: ResonancePurple_19
+  - first:
+      213: -255610177612316627
+    second: ResonancePurple_20
+  - first:
+      213: 7678569102439998586
+    second: ResonancePurple_21
+  - first:
+      213: -6492813012471363998
+    second: ResonancePurple_22
+  - first:
+      213: 384481064918047087
+    second: ResonancePurple_23
+  - first:
+      213: 5981021811970519439
+    second: ResonancePurple_24
+  - first:
+      213: -3811984120466983139
+    second: ResonancePurple_25
+  - first:
+      213: -8027006498070045222
+    second: ResonancePurple_26
+  - first:
+      213: -4220039688133495986
+    second: ResonancePurple_27
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ResonancePurple_0
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 215
+        width: 304
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef14de830f6a5cd30800000000000000
+      internalID: 4451147357403038206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_2
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 215
+        width: 199
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b15914e4c5ff14500800000000000000
+      internalID: 378864615590827291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_4
+      rect:
+        serializedVersion: 2
+        x: 685
+        y: 215
+        width: 179
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bd6df82f33e5dbe0800000000000000
+      internalID: -1453005444346974796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_5
+      rect:
+        serializedVersion: 2
+        x: 945
+        y: 215
+        width: 168
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9021d9cc60ef48ca0800000000000000
+      internalID: -6015403897104035319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_6
+      rect:
+        serializedVersion: 2
+        x: 1192
+        y: 188
+        width: 139
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 869512cf60eb089e0800000000000000
+      internalID: -1621086928644253336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_7
+      rect:
+        serializedVersion: 2
+        x: 1424
+        y: 181
+        width: 150
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d05456e859bd5cb0800000000000000
+      internalID: -4873535430272462631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_8
+      rect:
+        serializedVersion: 2
+        x: 1659
+        y: 176
+        width: 147
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 608955095461b8a10800000000000000
+      internalID: 1912646954778990598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_9
+      rect:
+        serializedVersion: 2
+        x: 1876
+        y: 171
+        width: 148
+        height: 149
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e521d6fe1a67f77d0800000000000000
+      internalID: -2918483595634077090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_10
+      rect:
+        serializedVersion: 2
+        x: 2093
+        y: 172
+        width: 144
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35b986c83141361a0800000000000000
+      internalID: -6817583336716199085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_11
+      rect:
+        serializedVersion: 2
+        x: 2300
+        y: 163
+        width: 171
+        height: 163
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc00bc76b36018460800000000000000
+      internalID: 7242076528002662604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_12
+      rect:
+        serializedVersion: 2
+        x: 2532
+        y: 150
+        width: 183
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7311bcd38f51179b0800000000000000
+      internalID: -5084258348391788233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_13
+      rect:
+        serializedVersion: 2
+        x: 2752
+        y: 151
+        width: 154
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e9a9bdff435072c0800000000000000
+      internalID: -4435954029935613471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_14
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 12
+        width: 91
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8c7cb9693c6d1ad0800000000000000
+      internalID: -2729906805273756534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_15
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 12
+        width: 92
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b70ecaff120ba2f00800000000000000
+      internalID: 1092879519660695675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_16
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 13
+        width: 161
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5430632339adb4af0800000000000000
+      internalID: -410994615236820155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_17
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 12
+        width: 164
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc10013bb10a798c0800000000000000
+      internalID: -3992546503811923508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_18
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 16
+        width: 220
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 659ba516c30bc0890800000000000000
+      internalID: -7490418306846115498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_19
+      rect:
+        serializedVersion: 2
+        x: 967
+        y: 18
+        width: 122
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c23cdbdfd580ba50800000000000000
+      internalID: 6534870255827432136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_20
+      rect:
+        serializedVersion: 2
+        x: 1196
+        y: 15
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d208172d5e3e37cf0800000000000000
+      internalID: -255610177612316627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_21
+      rect:
+        serializedVersion: 2
+        x: 1431
+        y: 10
+        width: 143
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a74e9367ae1cf8a60800000000000000
+      internalID: 7678569102439998586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_22
+      rect:
+        serializedVersion: 2
+        x: 1672
+        y: 12
+        width: 133
+        height: 136
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2664c9e27f4e4e5a0800000000000000
+      internalID: -6492813012471363998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_23
+      rect:
+        serializedVersion: 2
+        x: 1888
+        y: 14
+        width: 133
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f69dd41dd73f55500800000000000000
+      internalID: 384481064918047087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_24
+      rect:
+        serializedVersion: 2
+        x: 2103
+        y: 14
+        width: 131
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f81bd5036abd00350800000000000000
+      internalID: 5981021811970519439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_25
+      rect:
+        serializedVersion: 2
+        x: 2328
+        y: 17
+        width: 122
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d17b222a3ac191bc0800000000000000
+      internalID: -3811984120466983139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResonancePurple_26
+      rect:
+        serializedVersion: 2
+        x: 2642
+        y: 13
+        width: 91
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: add58c07e185a9090800000000000000
+      internalID: -8027006498070045222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: ebf0188bf7b185b4f8f8109c8aeae120
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ResonancePurple_0: 4451147357403038206
+      ResonancePurple_1: 3621277543963844153
+      ResonancePurple_10: -6817583336716199085
+      ResonancePurple_11: 7242076528002662604
+      ResonancePurple_12: -5084258348391788233
+      ResonancePurple_13: -4435954029935613471
+      ResonancePurple_14: -2729906805273756534
+      ResonancePurple_15: 1092879519660695675
+      ResonancePurple_16: -410994615236820155
+      ResonancePurple_17: -3992546503811923508
+      ResonancePurple_18: -7490418306846115498
+      ResonancePurple_19: 6534870255827432136
+      ResonancePurple_2: 378864615590827291
+      ResonancePurple_20: -255610177612316627
+      ResonancePurple_21: 7678569102439998586
+      ResonancePurple_22: -6492813012471363998
+      ResonancePurple_23: 384481064918047087
+      ResonancePurple_24: 5981021811970519439
+      ResonancePurple_25: -3811984120466983139
+      ResonancePurple_26: -8027006498070045222
+      ResonancePurple_27: -4220039688133495986
+      ResonancePurple_3: 7945100974449041864
+      ResonancePurple_4: -1453005444346974796
+      ResonancePurple_5: -6015403897104035319
+      ResonancePurple_6: -1621086928644253336
+      ResonancePurple_7: -4873535430272462631
+      ResonancePurple_8: 1912646954778990598
+      ResonancePurple_9: -2918483595634077090
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

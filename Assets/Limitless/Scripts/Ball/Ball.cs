@@ -6,7 +6,8 @@ public enum BallType
     Normal,
     Red,
     Blue,
-    Purple
+    Purple,
+    Pink
 }
 
 [Serializable]

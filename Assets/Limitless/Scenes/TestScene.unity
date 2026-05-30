@@ -2805,11 +2805,23 @@ PrefabInstance:
       objectReference: {fileID: 4957267627485865974, guid: 6832fb3853e9d6440978664f405bd209, type: 3}
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: resonanceList.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: resonanceList.Array.data[0].name
       value: Murasaki
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[1].name
+      value: Pink
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[0].priority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[1].priority
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: resonanceList.Array.data[0].materialA
@@ -2818,6 +2830,14 @@ PrefabInstance:
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: resonanceList.Array.data[0].materialB
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[1].materialA
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[1].materialB
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: balls.Array.data[0].<Rate>k__BackingField
@@ -2832,13 +2852,33 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[0].hasProduction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[0].backgroundEffectPrefab
+      value: 
+      objectReference: {fileID: 8576788277409184239, guid: 8e44180605a634149a545a5a462eb87a, type: 3}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: resonanceList.Array.data[0].resultBall.<Type>k__BackingField
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[1].resultBall.<Rate>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[1].resultBall.<Type>k__BackingField
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: resonanceList.Array.data[0].resultBall.<BallPrefab>k__BackingField
       value: 
       objectReference: {fileID: 856638293993571749, guid: 2f59eb92873ba2e4eb1f9f2c4d7c133e, type: 3}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[1].resultBall.<BallPrefab>k__BackingField
+      value: 
+      objectReference: {fileID: 7504175457323940421, guid: a0ace5653c98a1947b5802650ea783a5, type: 3}
     - target: {fileID: 2883445398658177238, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.8278084
@@ -2882,6 +2922,10 @@ PrefabInstance:
     - target: {fileID: 6711382325980383970, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6761665809959723064, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
