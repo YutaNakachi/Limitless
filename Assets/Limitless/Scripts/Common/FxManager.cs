@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks; // 💡 UniTaskを有効化
 using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.InputSystem; // 🎮 Input Systemを有効化
 using Random = UnityEngine.Random;
 
 public class FxManager : MonoBehaviour
@@ -16,7 +17,7 @@ public class FxManager : MonoBehaviour
     private Vector3 originalCameraPos;
 
     [Header("ーー 大量撃破時の演出間引き設定 ーー")]
-    [Tooltip("連続実行を防ぐための共通クールタイム（秒）。0.05f〜0.1fあたりが最適です")]
+    [Tooltip("連続実行を防供ための共通クールタイム（秒）。0.05f〜0.1fあたりが最適です")]
     [SerializeField] private float fxCoolTime = 0.08f;
 
     // 複数同時発生時の制御用変数
@@ -53,6 +54,12 @@ public class FxManager : MonoBehaviour
         // マネージャー自体が破棄されるときは、走っているタスクをすべて安全に強制終了する
         CleanUpCTS(ref _hitStopCTS);
         CleanUpCTS(ref _cameraShakeCTS);
+
+        // 🎮 アプリ終了時やシーン遷移時にコントローラーが震えっぱなしになるのを防ぐ
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.ResetHaptics();
+        }
     }
 
     /// <summary>
@@ -68,27 +75,24 @@ public class FxManager : MonoBehaviour
         // 構造体がデフォルト状態（未設定の空っぽ）なら処理を抜ける
         if (settings.Equals(default(FxPresetData.FxSettings))) return;
 
-        // 🔥【超重要：useCoolTime対応型・グローバル防壁】
-        // 要求された演出設定の「useCoolTimeがtrue」であり、かつ前回の全体演出から指定時間（fxCoolTime）が経過していない場合のみ、
-        // 画面全体のカメラシェイクや時間停止を「間引き（遮断）」します。
+        // 🔥【useCoolTime対応型・グローバル防壁】
         if (settings.useCoolTime && (Time.unscaledTime - _lastPlayedTime < fxCoolTime))
         {
             // 💡 画面全体が止まるのは防ぎつつ、殴られた敵個別の「微振動（手応え）」だけは実行！
             TriggerObjectShakeOnly(settings, targetObject);
-            return; // 🛑 ここで処理を終了し、下の画面全体演出（HitStop等）へは行かせない
+            return;
         }
 
-        // 📝【記録のタイミング】間引かれずに「実際に全体演出が実行される時」だけ、実行時刻を更新する
-        // これにより、useCoolTime = false の重要演出が走っても、雑魚の間引き用タイマーが不当に延長されるのを防ぎます
+        // 📝 間引かれずに「実際に全体演出が実行される時」だけ、実行時刻を更新する
         if (settings.useCoolTime)
         {
             _lastPlayedTime = Time.unscaledTime;
         }
 
-        // 2. ヒットストップの実行（useCoolTime = false、またはクールタイム明けた演出はここを通る）
+        // 2. ヒットストップの実行（設定データをそのまま渡して振動に対応）
         if (settings.stopDuration > 0)
         {
-            PlayHitStop(settings.stopDuration, settings.timeScale);
+            PlayHitStop(settings);
         }
 
         // 3. カメラシェイクの実行
@@ -120,25 +124,37 @@ public class FxManager : MonoBehaviour
     // ================================================================
     // 🛡️ ヒットストップ（UniTaskによる絶対時間復帰システム）
     // ================================================================
-    public void PlayHitStop(float duration, float timeScale = 0f)
+    public void PlayHitStop(FxPresetData.FxSettings settings)
     {
-        // 新しく要求された停止時間が、現在の残り時間より長い場合のみ採用（スマートな排他制御）
+        float duration = settings.stopDuration;
+
+        // 新しく要求された停止時間が、現在の残り時間より長い場合のみ採用
         if (duration > hitStopRemainingTime)
         {
             hitStopRemainingTime = duration;
 
             // すでに走っているヒットストップタスクがあれば、安全に「キャンセル」して上書きする
+            // 💡 新しいタスクが割り込む瞬間に、古いタスクの「finally（ResetHaptics）」が一瞬走りますが、
+            // 直後に新しいタスクのモーター駆動が上書きされるため、途切れることなく滑らかに次の振動へ遷移します。
             CleanUpCTS(ref _hitStopCTS);
             _hitStopCTS = new CancellationTokenSource();
 
             // 非同期メソッドを非同期のまま投げっぱなし（Forget）で起動
-            PlayHitStopAsync(timeScale, _hitStopCTS.Token).Forget();
+            PlayHitStopAsync(settings, _hitStopCTS.Token).Forget();
         }
     }
 
-    private async UniTaskVoid PlayHitStopAsync(float timeScale, CancellationToken token)
+    private async UniTaskVoid PlayHitStopAsync(FxPresetData.FxSettings settings, CancellationToken token)
     {
-        Time.timeScale = timeScale;
+        Time.timeScale = settings.timeScale;
+
+        // 🎮【コントローラー振動開始】
+        Gamepad gamepad = Gamepad.current;
+        if (gamepad != null)
+        {
+            // インスペクターで設定した左右のモーター強度を適用
+            gamepad.SetMotorSpeeds(settings.rumbleLeft, settings.rumbleRight);
+        }
 
         try
         {
@@ -159,12 +175,18 @@ public class FxManager : MonoBehaviour
         }
         finally
         {
-            // 正常に終了した（他の時間停止に割り込まれていない）時だけ、時間軸を1.0に戻す
+            // 🎮【コントローラー振動停止】
+            // 正常終了時はもちろん、次の重い一撃によってこのタスクがキャンセルされた際にも100%確実にリセットを通す
+            if (gamepad != null)
+            {
+                gamepad.ResetHaptics();
+            }
+
             if (!token.IsCancellationRequested)
             {
                 hitStopRemainingTime = 0f;
                 Time.timeScale = 1.0f;
-                Debug.Log("⏱️ [UniTask] ヒットストップが正常に終了、時間軸が復帰しました。");
+                Debug.Log("⏱️ [UniTask] ヒットストップが正常に終了、時間軸とゲームパッドの振動が復帰しました。");
             }
         }
     }

@@ -7,6 +7,7 @@ public class FxPresetData : ScriptableObject
     public struct FxSettings
     {
         public string label;
+
         [Header("Hit Stop")]
         public float stopDuration;
         [Range(0f, 1f)] public float timeScale;
@@ -19,9 +20,16 @@ public class FxPresetData : ScriptableObject
         public float objectShakeMagnitude;
         public bool useObjectShakeY;
 
+        // 🎮【新規追加】ゲームパッドの振動設定
+        [Header("Gamepad Game Haptics")]
+        [Tooltip("左モーター：重い低周波の振動（ドンッという衝撃）")]
+        [Range(0f, 1f)] public float rumbleLeft;
+        [Tooltip("右モーター：高い高周波の振動（チリチリ・カリッとした感触）")]
+        [Range(0f, 1f)] public float rumbleRight;
+
         [Header("Continuous Occurrence Limit")]
         [Tooltip("チェックを入れると、この演出が連続で大量に呼ばれた際に演出を自動で間引きます")]
-        public bool useCoolTime; // 👈 これを新しく追加します！
+        public bool useCoolTime;
     }
 
     public FxSettings[] presets;
