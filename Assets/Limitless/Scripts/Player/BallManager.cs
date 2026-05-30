@@ -112,6 +112,11 @@ public class BallManager : MonoBehaviour
 
     private void OnResonancePerformed(InputAction.CallbackContext context)
     {
+
+        // 👤 【追加の防壁】プレイヤーが動ける状態（IsMovable == true）のときだけ発動可能にする
+        // ※プロパティ名や参照方法（メソッド型など）が異なる場合は、実際の PlayerStatus の定義に合わせてください。
+        if (_playerStatus != null && !_playerStatus.IsMovable) return;
+
         if (isReloading || isProducing || resonanceList == null || resonanceList.Count == 0) return;
 
         List<ResonanceRecipe> validRecipes = new List<ResonanceRecipe>();
