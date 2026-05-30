@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro; // UI表示にTextMeshProを使用する場合
 using UnityEngine;
@@ -199,6 +200,15 @@ public class SurvivalModeManager : MonoBehaviour
     {
         if (_isGameOver) return;
         _isGameOver = true;
+
+        StartCoroutine(ResultCoroutine());
+
+        //Time.timeScale = 0f;
+    }
+
+    private IEnumerator ResultCoroutine()
+    {
+        yield return new WaitForSeconds(2.5f);
         Debug.Log($"📢 GAME OVER! スコア: {_score}, KILLS: {_killCount}, MAX COMBO: {_maxComboCount}");
 
         if (gameOverPanel != null) gameOverPanel.SetActive(true);
@@ -211,8 +221,6 @@ public class SurvivalModeManager : MonoBehaviour
                                   $"TOTAL KILLS : {_killCount}\n" +
                                   $"MAX COMBO   : {_maxComboCount} Combo";
         }
-
-        //Time.timeScale = 0f;
     }
 
     private void OnDestroy()

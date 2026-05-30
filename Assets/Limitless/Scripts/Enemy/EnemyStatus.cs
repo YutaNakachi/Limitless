@@ -33,7 +33,7 @@ public class EnemyStatus : MobStatus
         base.OnDie();
 
         // 画面揺れやヒットストップ演出
-        FxManager.Instance.Play("EnemyFatalHit", transform);
+        StartCoroutine(DeathCoroutine());
 
         // 🔥 【新設】Z軸の回転固定を解除して、物理で回るようにする！
         _rigidbody.freezeRotation = false;
@@ -60,6 +60,12 @@ public class EnemyStatus : MobStatus
         }
 
         StartCoroutine(FallbackDestroyCoroutine());
+    }
+
+    private IEnumerator DeathCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        FxManager.Instance.Play("EnemyFatalHit", transform);
     }
 
     /// <summary>

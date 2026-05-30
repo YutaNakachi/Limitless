@@ -62,7 +62,7 @@ MonoBehaviour:
     useObjectShakeY: 1
     rumbleLeft: 0
     rumbleRight: 0
-    useCoolTime: 0
+    useCoolTime: 1
   - label: EnemyFatalHit
     stopDuration: 0.22
     timeScale: 0
@@ -74,14 +74,14 @@ MonoBehaviour:
     rumbleRight: 0.2
     useCoolTime: 1
   - label: PlayerGameOver
-    stopDuration: 0.4
-    timeScale: 0
-    shakeDuration: 0.5
+    stopDuration: 2
+    timeScale: 0.4
+    shakeDuration: 0.1
     shakeMagnitude: 0.4
-    objectShakeMagnitude: 0.25
+    objectShakeMagnitude: 0
     useObjectShakeY: 1
-    rumbleLeft: 0
-    rumbleRight: 0
+    rumbleLeft: 0.9
+    rumbleRight: 0.9
     useCoolTime: 0
   - label: RedBallHit
     stopDuration: 1

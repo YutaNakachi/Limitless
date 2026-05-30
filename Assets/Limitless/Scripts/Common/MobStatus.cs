@@ -34,8 +34,6 @@ public abstract class MobStatus : MonoBehaviour
     [Tooltip("連続ヒットとみなす猶予時間。この時間内に次のヒットが来たらヒットストップをスキップします")]
     [SerializeField] private float comboResetDuration = 0.5f;
 
-    private float _lastHitTime = -999f; // 最後にダメージを受けた時間
-    private bool _isComboHitting = false; // 現在連続ヒット中かどうかのフラグ
 
     public float Life => _life;
 
@@ -90,36 +88,7 @@ public abstract class MobStatus : MonoBehaviour
         _life -= damage;
         _animator.SetTrigger("Hit");
 
-        // 🛠️ 1. 連続ヒットの判定チェック
-        // 現在の時間と、最後に当たった時間の差が設定値（0.5秒）以内なら連続ヒットとみなす
-        if (Time.time - _lastHitTime <= comboResetDuration)
-        {
-            _isComboHitting = true;
-        }
-        else
-        {
-            // 時間が空いていれば、連続ヒット状態は終了（リセット）している
-            _isComboHitting = false;
-        }
-
-        // 最後に当たった時間を現在時刻に更新
-        _lastHitTime = Time.time;
-
-        // 2. 実際のダメージ処理（既存の処理）
-        // hp -= damage; などの処理...
-
-        // 🛠️ 3. ヒットストップの実行制御
-        if (!_isComboHitting)
-        {
-            // 🔥 1回目（単発、またはコンボの初撃）だけヒットストップを走らせる！
-            FxManager.Instance.Play("Damaged", transform);
-            Debug.Log($"💥 初撃ヒット！ヒットストップを実行します。 (Damage: {damage})");
-        }
-        else
-        {
-            // 2回目以降の連続ヒット時は、ヒットストップをスキップしてログだけ出す
-            Debug.Log($"⚔️ 連続ヒット中につきヒットストップをスキップ: (Damage: {damage})");
-        }
+        FxManager.Instance.Play("Damaged", transform);
 
         OnTakeDamageEvent?.Invoke(damage);
 

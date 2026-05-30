@@ -65,7 +65,17 @@ public class PlayerStatus : MobStatus
     protected override void OnDie()
     {
         base.OnDie();
+
+        StartCoroutine(DeathCoroutine());
+    }
+
+    private IEnumerator DeathCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        FxManager.Instance.Play("PlayerGameOver", transform);
         _animator.SetTrigger("Death");
+        _animator.SetBool("IsDead", IsDead);
+
         Debug.Log("GameOver");
     }
 }
