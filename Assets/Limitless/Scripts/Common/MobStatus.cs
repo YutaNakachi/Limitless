@@ -30,10 +30,6 @@ public abstract class MobStatus : MonoBehaviour
     [SerializeField] private float knockbackDuration = 0.2f;
     [SerializeField] private float knockbackForce = 12f;
 
-    [Header("ーー 連続ヒットストップ制御 ーー")]
-    [Tooltip("連続ヒットとみなす猶予時間。この時間内に次のヒットが来たらヒットストップをスキップします")]
-    [SerializeField] private float comboResetDuration = 0.5f;
-
 
     public float Life => _life;
 

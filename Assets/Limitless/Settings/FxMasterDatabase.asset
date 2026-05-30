@@ -70,8 +70,8 @@ MonoBehaviour:
     shakeMagnitude: 0.35
     objectShakeMagnitude: 0.3
     useObjectShakeY: 1
-    rumbleLeft: 0.15
-    rumbleRight: 0.2
+    rumbleLeft: 0.3
+    rumbleRight: 0.4
     useCoolTime: 1
   - label: PlayerGameOver
     stopDuration: 2
