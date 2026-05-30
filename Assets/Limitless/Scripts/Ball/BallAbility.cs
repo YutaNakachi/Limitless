@@ -23,6 +23,9 @@ public abstract class BallAbility : MonoBehaviour
     [SerializeField] protected GameObject kokusenKickEffectPrefab; // 💥 スマッシュ用の派手なエフェクト
     [SerializeField] protected GameObject spawnEffectPrefab;
 
+    // 💡 BallAbility.cs の内部にこれを追記してください
+    [HideInInspector] public BallType ballType;
+
     protected Rigidbody2D _rigidbody;
     protected Collider2D _collider;
     protected SpriteRenderer _renderer;

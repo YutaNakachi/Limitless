@@ -2800,6 +2800,26 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceAction
+      value: 
+      objectReference: {fileID: 4957267627485865974, guid: 6832fb3853e9d6440978664f405bd209, type: 3}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[0].name
+      value: Murasaki
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[0].materialA
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[0].materialB
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: balls.Array.data[0].<Rate>k__BackingField
       value: 10
       objectReference: {fileID: 0}
@@ -2811,6 +2831,14 @@ PrefabInstance:
       propertyPath: balls.Array.data[2].<Rate>k__BackingField
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[0].resultBall.<Type>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: resonanceList.Array.data[0].resultBall.<BallPrefab>k__BackingField
+      value: 
+      objectReference: {fileID: 856638293993571749, guid: 2f59eb92873ba2e4eb1f9f2c4d7c133e, type: 3}
     - target: {fileID: 2883445398658177238, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.8278084

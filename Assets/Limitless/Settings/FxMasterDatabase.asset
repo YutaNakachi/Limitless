@@ -20,6 +20,8 @@ MonoBehaviour:
     shakeMagnitude: 0.05
     objectShakeMagnitude: 0.1
     useObjectShakeY: 1
+    rumbleLeft: 0
+    rumbleRight: 0
     useCoolTime: 0
   - label: SmashBallKick
     stopDuration: 0.15
@@ -28,6 +30,8 @@ MonoBehaviour:
     shakeMagnitude: 0.22
     objectShakeMagnitude: 0.1
     useObjectShakeY: 1
+    rumbleLeft: 0.2
+    rumbleRight: 0.4
     useCoolTime: 0
   - label: KokusenBallKick
     stopDuration: 0.25
@@ -36,6 +40,8 @@ MonoBehaviour:
     shakeMagnitude: 0.22
     objectShakeMagnitude: 0.15
     useObjectShakeY: 1
+    rumbleLeft: 0.4
+    rumbleRight: 0.8
     useCoolTime: 0
   - label: Damaged
     stopDuration: 0.12
@@ -44,6 +50,8 @@ MonoBehaviour:
     shakeMagnitude: 0.25
     objectShakeMagnitude: 0.15
     useObjectShakeY: 1
+    rumbleLeft: 0.1
+    rumbleRight: 0.15
     useCoolTime: 1
   - label: CriticalDamaged
     stopDuration: 0.12
@@ -52,6 +60,8 @@ MonoBehaviour:
     shakeMagnitude: 0.25
     objectShakeMagnitude: 0.15
     useObjectShakeY: 1
+    rumbleLeft: 0
+    rumbleRight: 0
     useCoolTime: 0
   - label: EnemyFatalHit
     stopDuration: 0.22
@@ -60,6 +70,8 @@ MonoBehaviour:
     shakeMagnitude: 0.35
     objectShakeMagnitude: 0.3
     useObjectShakeY: 1
+    rumbleLeft: 0.15
+    rumbleRight: 0.2
     useCoolTime: 1
   - label: PlayerGameOver
     stopDuration: 0.4
@@ -68,6 +80,8 @@ MonoBehaviour:
     shakeMagnitude: 0.4
     objectShakeMagnitude: 0.25
     useObjectShakeY: 1
+    rumbleLeft: 0
+    rumbleRight: 0
     useCoolTime: 0
   - label: RedBallHit
     stopDuration: 1
@@ -76,6 +90,8 @@ MonoBehaviour:
     shakeMagnitude: 0
     objectShakeMagnitude: 0
     useObjectShakeY: 0
+    rumbleLeft: 0.7
+    rumbleRight: 0.3
     useCoolTime: 0
   - label: BlueBallHit
     stopDuration: 1
@@ -84,6 +100,8 @@ MonoBehaviour:
     shakeMagnitude: 0
     objectShakeMagnitude: 0
     useObjectShakeY: 0
+    rumbleLeft: 0.7
+    rumbleRight: 0.3
     useCoolTime: 0
   - label: PurpleBallKick
     stopDuration: 2
@@ -92,4 +110,6 @@ MonoBehaviour:
     shakeMagnitude: 0
     objectShakeMagnitude: 0
     useObjectShakeY: 0
+    rumbleLeft: 0.9
+    rumbleRight: 0.9
     useCoolTime: 0
