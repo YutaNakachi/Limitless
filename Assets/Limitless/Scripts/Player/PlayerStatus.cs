@@ -75,6 +75,7 @@ public class PlayerStatus : MobStatus
         FxManager.Instance.Play("PlayerGameOver", transform);
         _animator.SetTrigger("Death");
         _animator.SetBool("IsDead", IsDead);
+        SoundManager.Instance.PlaySEAtPosition("PlayerDeath", transform.position);
 
         Debug.Log("GameOver");
     }

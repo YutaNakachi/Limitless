@@ -172,6 +172,7 @@ public class BallManager : MonoBehaviour
 
             // ⏱️ FxManagerで画面全体をフリーズ（Time.timeScaleを変更するシステム）
             FxManager.Instance.Play("Resonance", transform);
+            SoundManager.Instance.PlaySEAtPosition("ResonanceSpecialSound", transform.position);
 
             // 🎬 背後の特殊エフェクトを生成
             if (recipe.backgroundEffectPrefab != null)
@@ -202,6 +203,8 @@ public class BallManager : MonoBehaviour
         newBall.ballType = recipe.resultBall.Type;
 
         activeBalls[slotA] = newBall;
+
+        SoundManager.Instance.PlaySEAtPosition("Resonance", transform.position);
 
         isProducing = false;
     }
@@ -321,6 +324,8 @@ public class BallManager : MonoBehaviour
                     SetBallPosition(ball.transform, i);
                     ball.ballType = generatedBallData.Type;
                     activeBalls[i] = ball;
+
+                    SoundManager.Instance.PlaySEAtPosition("ReloadBall", ball.transform.position);
                 }
             }
         }

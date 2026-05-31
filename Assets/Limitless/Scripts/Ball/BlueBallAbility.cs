@@ -106,6 +106,9 @@ public class BlueBallAbility : BallAbility
         _isDeployed = true;
 
         FxManager.Instance.Play("BlueBallHit", transform);
+        SoundManager.Instance.PlaySEAtPosition("JutsushikiFire", transform.position);
+        SoundManager.Instance.PlaySEAtPosition("Ao", transform.position);
+
         if (blueHitEffectPrefab != null)
         {
             GameObject blueHitEffect = Instantiate(blueHitEffectPrefab, transform.position, Quaternion.identity);

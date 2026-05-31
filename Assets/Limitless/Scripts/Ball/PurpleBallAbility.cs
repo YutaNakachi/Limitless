@@ -85,6 +85,7 @@ public class PurpleBallAbility : BallAbility
 
         // 特別カットインなどの演出トリガー
         FxManager.Instance.Play("PurpleBallKick", transform);
+        SoundManager.Instance.PlaySEAtPosition("MurasakiLaunch", _playerStatus.transform.position);
 
         // 2. ⏳ プレイヤーのロックが完璧に完了した状態で、世界にヒットストップをかける！
         // FxManager.Instance.HitStop(0.5f); 
@@ -132,6 +133,8 @@ public class PurpleBallAbility : BallAbility
             laserChildObject.SetActive(true);
             laserChildObject.transform.localScale = new Vector3(1f, _currentLaserScaleY, 1f);
         }
+
+        SoundManager.Instance.PlaySEAtPosition("Murasaki", transform.position);
 
         // ❌ ここにあった ApplyPlayerRestrictions(); は OnFire の最上部に移動しました！
 

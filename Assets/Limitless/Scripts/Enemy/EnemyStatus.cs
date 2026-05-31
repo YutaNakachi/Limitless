@@ -120,6 +120,9 @@ public class EnemyStatus : MobStatus
             }
         }
 
+        FxManager.Instance.Play("Bomb", transform);
+        SoundManager.Instance.PlaySEAtPosition("Bomb", transform.position);
+
         // 自身を即座に消滅させる
         Destroy(gameObject);
     }

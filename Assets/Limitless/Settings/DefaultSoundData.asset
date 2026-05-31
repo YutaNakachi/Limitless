@@ -13,10 +13,138 @@ MonoBehaviour:
   m_Name: DefaultSoundData
   m_EditorClassIdentifier: Assembly-CSharp::SoundDataAsset
   seList:
-  - key: 
-    clip: {fileID: 0}
-    volume: 0
+  - key: Land
+    clip: {fileID: 8300000, guid: 9977f7c541709f545a23788775b5449f, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: Dash
+    clip: {fileID: 8300000, guid: f11db4559b3ffff45b62e9327fc5535d, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: Jump
+    clip: {fileID: 8300000, guid: 4e349dc959014a845b9aa317d1c2b7f0, type: 3}
+    volume: 0.9
+    startTime: 0
+    endTime: 0
+  - key: Run
+    clip: {fileID: 8300000, guid: 023ea3ddeaa8dd146b7633a0800e5a0e, type: 3}
+    volume: 0.9
+    startTime: 0
+    endTime: 0
+  - key: Crouch
+    clip: {fileID: 8300000, guid: d47cf76eb6084c8429b8dc42ca7bc4c9, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: Intro
+    clip: {fileID: 8300000, guid: 78ad99fd0a0a5144280b07bbdba84815, type: 3}
+    volume: 1
+    startTime: 0
+    endTime: 0
+  - key: WallJump
+    clip: {fileID: 8300000, guid: e1e2d06fe0d78194b9c7c8cc88414d0d, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: WallSliding
+    clip: {fileID: 8300000, guid: 1e0f0bf5642f53a4985bdff9d1a2aa98, type: 3}
+    volume: 0.5
+    startTime: 1
+    endTime: 2
+  - key: KickSwing
+    clip: {fileID: 8300000, guid: f11db4559b3ffff45b62e9327fc5535d, type: 3}
+    volume: 0.9
+    startTime: 0
+    endTime: 0
+  - key: Kick
+    clip: {fileID: 8300000, guid: 89d1ade36b2b43c4b83ee9ac8ee9dc9f, type: 3}
+    volume: 0.2
+    startTime: 0
+    endTime: 0
+  - key: SmashKick
+    clip: {fileID: 8300000, guid: e1a50bac05460b84d92f57ed9f629727, type: 3}
+    volume: 0.4
+    startTime: 0
+    endTime: 0
+  - key: KokusenKick
+    clip: {fileID: 8300000, guid: 2e071f5b8b8467d45a5e6e24c23c6ad4, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: Hit
+    clip: {fileID: 8300000, guid: a37f44cbf8c2a7443a3c361efa2f233a, type: 3}
+    volume: 0.3
+    startTime: 0
+    endTime: 0
+  - key: Death
+    clip: {fileID: 8300000, guid: a37f44cbf8c2a7443a3c361efa2f233a, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: JutsushikiFire
+    clip: {fileID: 8300000, guid: 944c61189e76bff47bcd2331d34f7cd1, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: Ao
+    clip: {fileID: 8300000, guid: c91fcf414acc0344cb03b13996f1bf3b, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: Aka
+    clip: {fileID: 8300000, guid: a652877b012108e41871f867ada9f176, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: MurasakiLaunch
+    clip: {fileID: 8300000, guid: 25b377f6da227d5419dc50c967a0008e, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: Murasaki
+    clip: {fileID: 8300000, guid: 7784e7ab59ab376458c07be56b1a8d6f, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: Resonance
+    clip: {fileID: 8300000, guid: 490bfbc72255342408984f60044487de, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: Bomb
+    clip: {fileID: 8300000, guid: 5ff823f546b52574a931e1d9b44290a6, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: ReloadBall
+    clip: {fileID: 8300000, guid: 4fa2aa5edbbdb1f4885ff9fcd341bbaf, type: 3}
+    volume: 0.2
+    startTime: 0
+    endTime: 0
+  - key: FlyingBall
+    clip: {fileID: 8300000, guid: b3967a5ec2567854a9a1a879bffde1ea, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: FlyingKokusenBall
+    clip: {fileID: 8300000, guid: e7908de27be8d9545802e2b76d2359fb, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: ResonanceSpecialSound
+    clip: {fileID: 8300000, guid: eec3bf121b316d64ca1c8aac7573a2f4, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
+  - key: PlayerDeath
+    clip: {fileID: 8300000, guid: 5367b8979dc8d6345b6f19428e740200, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0
   bgmList:
   - key: 
     clip: {fileID: 0}
     volume: 0
+    startTime: 0

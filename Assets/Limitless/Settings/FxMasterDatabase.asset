@@ -73,6 +73,16 @@ MonoBehaviour:
     rumbleLeft: 0.3
     rumbleRight: 0.4
     useCoolTime: 1
+  - label: Bomb
+    stopDuration: 0.25
+    timeScale: 0
+    shakeDuration: 0.22
+    shakeMagnitude: 0.35
+    objectShakeMagnitude: 0
+    useObjectShakeY: 1
+    rumbleLeft: 0.3
+    rumbleRight: 0.4
+    useCoolTime: 1
   - label: PlayerGameOver
     stopDuration: 2
     timeScale: 0.4

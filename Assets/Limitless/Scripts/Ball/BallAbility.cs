@@ -125,6 +125,14 @@ public abstract class BallAbility : MonoBehaviour
 
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
+        if (_isSmashFired && _isKokusenFired)
+        {
+            SoundManager.Instance.PlaySEAtPosition("FlyingKokusenBall", transform.position);
+        }
+        else
+        {
+            SoundManager.Instance.PlaySEAtPosition("FlyingBall", transform.position);
+        }
 
         // エフェクトの再生処理にフラグを渡すように変更
         PlayKickEffect();
@@ -200,15 +208,20 @@ public abstract class BallAbility : MonoBehaviour
         {
             Instantiate(smashKickEffectPrefab, transform.position, Quaternion.identity);
             Instantiate(kickEffectPrefab, transform.position, Quaternion.identity);
+            SoundManager.Instance.PlaySEAtPosition("SmashKick", transform.position);
 
             if (_isKokusenFired && kokusenKickEffectPrefab != null)
             {
                 Instantiate(kokusenKickEffectPrefab, transform.position, Quaternion.identity);
+                SoundManager.Instance.PlaySEAtPosition("KokusenKick", transform.position);
+
             }
         }
         else if (kickEffectPrefab != null)
         {
             Instantiate(kickEffectPrefab, transform.position, Quaternion.identity);
+            SoundManager.Instance.PlaySEAtPosition("Kick", transform.position);
+
         }
     }
 

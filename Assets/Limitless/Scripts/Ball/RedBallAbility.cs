@@ -104,6 +104,9 @@ public class RedBallAbility : BallAbility
         _isDeployed = true;
 
         FxManager.Instance.Play("RedBallHit", transform);
+        SoundManager.Instance.PlaySEAtPosition("JutsushikiFire", transform.position);
+        SoundManager.Instance.PlaySEAtPosition("Aka", transform.position);
+
         if (redHitEffectPrefab != null)
         {
             GameObject redHitEffect = Instantiate(redHitEffectPrefab, transform.position, Quaternion.identity);

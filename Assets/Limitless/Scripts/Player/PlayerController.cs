@@ -29,16 +29,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int maxNumOfAirJumps = 1;
     [SerializeField] private float dashJumpForce = 1.1f;
 
-    // 💡 クラスのメンバ変数宣言部分に追加
     [Header("Smash Kick Settings")]
-    [SerializeField] private float smashInputThreshold = 0.6f; // 1フレームでどれだけスティックが動いたら「弾いた」とするか（0.5〜0.8）
-    [SerializeField] private float smashWindowTime = 0.1f;     // 弾いてからボタンを受け付ける猶予時間（秒）
-    [SerializeField] private int smashWaitFrames = 3; // 💡 ボタンを押してからスティックの弾きを待つフレーム数（2〜3フレームが体感できない限界）
+    [SerializeField] private float smashInputThreshold = 0.6f;
+    [SerializeField] private float smashWindowTime = 0.1f;
+    [SerializeField] private int smashWaitFrames = 3;
 
-    // 💡 【追加】コヨーテタイムと先行入力の設定
     [Header("Coyote & Buffer Settings")]
-    [SerializeField] private float coyoteDuration = 0.12f;     // 崖から落ちて空中ジャンプにならない猶予時間（約7フレーム）
-    [SerializeField] private float jumpBufferDuration = 0.1f;   // 着地前の先行入力を受け付ける時間（約6フレーム）
+    [SerializeField] private float coyoteDuration = 0.12f;
+    [SerializeField] private float jumpBufferDuration = 0.1f;
 
     [Header("Ground Check Settings")]
     [SerializeField] private Transform groundCheck;
@@ -63,6 +61,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ColliderData normalCollider;
     [SerializeField] private ColliderData crouchCollider;
     [SerializeField] private ColliderData dashCollider;
+
+    // 💡【追加】着地音の連打防止用の落下速度閾値
+    [Header("Audio Settings Extension")]
+    [SerializeField] private float landVelocityThreshold = -2.0f;
 
     // 内部コンポーネント・変数
     private Rigidbody2D _rigidbody;
@@ -89,9 +91,8 @@ public class PlayerController : MonoBehaviour
     private int _smashWaitFrameCount = 0;
     private bool _isWaitingForSmash = false;
 
-    // 💡 【追加】コヨーテ＆バッファ用カウンター
-    private float _coyoteTimer;       // 地面を離れてからの猶予タイマー
-    private float _jumpBufferTimer;   // ジャンプボタンを押してからの先行入力タイマー
+    private float _coyoteTimer;
+    private float _jumpBufferTimer;
 
     private float lastInputTimeRight;
     private float lastInputTimeLeft;
@@ -103,6 +104,11 @@ public class PlayerController : MonoBehaviour
 
     private CancellationTokenSource _dashInvincibleCancelToken;
 
+    // 💡【追加】状態の変化を検知するためのプライベート変数
+    private bool _wasGrounded;
+    private bool _wasWallSliding;
+    private AudioSource _wallSlideAudioSource; // 壁すり音用のループスピーカー
+
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -111,6 +117,12 @@ public class PlayerController : MonoBehaviour
         _ballManager = GetComponent<BallManager>();
         _status = GetComponent<MobStatus>();
         _playerShoot = GetComponent<PlayerShoot>();
+
+        // 💡 壁すり音（ループ再生）を制御するために自分自身にスピーカーを1つ持たせる
+        _wallSlideAudioSource = gameObject.AddComponent<AudioSource>();
+        _wallSlideAudioSource.playOnAwake = false;
+        _wallSlideAudioSource.loop = true;
+        _wallSlideAudioSource.spatialBlend = 1f; // プレイヤーの位置から鳴らす(3D)
     }
 
     void Start()
@@ -160,31 +172,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // 💡 ジャンプボタンが押された時の処理をリファクタリング
     public void OnJump(InputAction.CallbackContext context)
     {
         if (_status.IsDead || _status.IsInIntroMotion) return;
 
         if (context.performed)
         {
-            // 💡 先行入力タイマーをリセットして受付開始
             _jumpBufferTimer = jumpBufferDuration;
-
-            // 💡 実際のジャンプ処理を試みる（先行入力が入ったので即実行を試みる）
             TryExecuteJump();
         }
     }
 
-    /// <summary>
-    /// 💡 【新規追加】ジャンプの条件をチェックして実行する中心ロジック
-    /// Update側（先行入力）とOnJump側（直押し）の両方から呼ばれます
-    /// </summary>
     private void TryExecuteJump()
     {
-        // 先行入力が有効、かつ壁スライド中ではない通常ジャンプの判定
         if (_jumpBufferTimer > 0f)
         {
-            // 🔥 キック中の割り込み判定（コヨーテタイム中も地上扱いとしてジャンプキャンセルを許可）
             if (!_status.IsMovable)
             {
                 if (_coyoteTimer > 0f || remainingAirJumpCount > 0)
@@ -196,16 +198,14 @@ public class PlayerController : MonoBehaviour
 
             if (_status.IsMovable)
             {
-                // 💡 壁スライド中なら壁ジャンプを最優先
                 if (isWallSliding)
                 {
                     WallJump();
                     _animator.SetTrigger("Jump");
-                    _jumpBufferTimer = 0f; // バッファ消費
+                    _jumpBufferTimer = 0f;
                     return;
                 }
 
-                // 💡 通常ジャンプ（地上にいる、またはコヨーテタイムの猶予内）
                 if (_coyoteTimer > 0f)
                 {
                     if (isOnDash && !isWallSliding)
@@ -223,19 +223,20 @@ public class PlayerController : MonoBehaviour
                         _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce);
                     }
 
+                    // 💡 通常地上ジャンプ音（必要に応じてSoundManagerから再生可能）
                     _animator.SetTrigger("Jump");
-                    _coyoteTimer = 0f;       // 💡 ジャンプしたのでコヨーテ終了
-                    _jumpBufferTimer = 0f;   // 💡 バッファ消費
+                    _coyoteTimer = 0f;
+                    _jumpBufferTimer = 0f;
                 }
-                // 💡 空中ジャンプ（コヨーテタイムが切れた後の空中）
                 else if (remainingAirJumpCount > 0 && !isWallSliding)
                 {
                     currentVelocityX = _rigidbody.linearVelocityX;
                     _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce);
                     remainingAirJumpCount--;
 
+                    // 💡 空中2段ジャンプ音（必要に応じて追加可能）
                     _animator.SetTrigger("Jump");
-                    _jumpBufferTimer = 0f;   // 💡 バッファ消費
+                    _jumpBufferTimer = 0f;
                 }
             }
         }
@@ -249,16 +250,19 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // 💡 押した（performed）ときのチェックだけ movable と grounded を見る
         if (context.performed)
         {
             if (_status.IsMovable && isGrounded)
             {
+                // 💡【差し込み】しゃがんだ瞬間に「サッ」と服が擦れる音を鳴らす
+                if (!isCrouching)
+                {
+                    SoundManager.Instance.PlaySEAtPosition("Crouch", transform.position);
+                }
                 isCrouching = true;
             }
         }
 
-        // 💡 離した（canceled）ときは、どんなステートであっても確実にフラグを折る！
         if (context.canceled)
         {
             isCrouching = false;
@@ -270,10 +274,6 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
             if (_status.IsDead || _status.IsKnockbacking || _status.IsInIntroMotion) return;
-
-            //if (_ballManager.isReloading) return;
-
-            // 💡 すぐにキックを実行せず、「スマッシュ待ちフラグ」を立てる
             _isWaitingForSmash = true;
             _smashWaitFrameCount = smashWaitFrames;
         }
@@ -289,29 +289,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     private void Update()
     {
         if (wallJumpLockTimer > 0) wallJumpLockTimer -= Time.deltaTime;
 
-        // 💡 接地判定を最初に更新
         isGrounded = Physics2D.OverlapBox(groundCheck.position, checkSize, 0f, groundLayer);
         isTouchingWall = Physics2D.OverlapCircle(wallCheckPoint.position, wallCheckRadius, wallLayer);
 
-        // 💡 コヨーテタイムと先行入力のタイマー更新
+        // 💡【差し込み】着地音（Land）の判定
+        //「前フレームが空中」かつ「今フレームが地上」の瞬間を検知
+        if (!_wasGrounded && isGrounded)
+        {
+            // 坂道での暴発（チャタリング）防止のため、一定以上の下向き落下速度のときだけ鳴らす
+            if (_rigidbody.linearVelocity.y < landVelocityThreshold)
+            {
+                SoundManager.Instance.PlaySEAtPosition("Land", transform.position);
+            }
+        }
+        _wasGrounded = isGrounded; // 状態を記憶
+
         if (isGrounded)
         {
-            _coyoteTimer = coyoteDuration; // 地面についていれば常に満タン
+            _coyoteTimer = coyoteDuration;
             remainingAirJumpCount = maxNumOfAirJumps;
             remainingAirDashCount = maxNumOfAirDashes;
         }
         else
         {
-            _coyoteTimer -= Time.deltaTime; // 空中ならタイマーを減らす
+            _coyoteTimer -= Time.deltaTime;
         }
 
         if (_jumpBufferTimer > 0f)
         {
-            _jumpBufferTimer -= Time.deltaTime; // 先行入力タイマーを減らす
+            _jumpBufferTimer -= Time.deltaTime;
         }
 
         if (_status.IsMovable && isTouchingWall && !isGrounded && moveInput.x != 0)
@@ -319,14 +330,44 @@ public class PlayerController : MonoBehaviour
             isWallSliding = true;
             remainingAirJumpCount = maxNumOfAirJumps;
             remainingAirDashCount = maxNumOfAirDashes;
-            _coyoteTimer = 0f; // 💡 壁スライド中はコヨーテ（地上猶予）をリセット
+            _coyoteTimer = 0f;
         }
         else
         {
             isWallSliding = false;
         }
 
-        // 💡 先行入力ジャンプのチェック（空中ボタン押し➔着地した瞬間にジャンプさせるため）
+        // 💡【差し込み】壁すり音（WallSliding）のループ再生制御
+        if (isWallSliding)
+        {
+            // 壁スライドが「始まった最初の1フレーム」だけ再生を開始する
+            if (!_wasWallSliding)
+            {
+                var asset = SoundManager.Instance.GetComponent<SoundManager>();
+                // マネージャーのSoundDataAssetから直接クリップ情報を安全に引っ張ってきてローカルスピーカーでループ再生
+                // ※SoundDataAssetがオープンな設計なので、以下のようにスマートに再生できます
+                // もしデータアセット経由が難しければ、直接SoundManagerに一時停止/再生を任せてもOKですが、今回は安全に制御します
+                // 簡易的にSoundManagerのSEアセットからクリップと音量を取得してローカルでループ
+                SoundDataAsset.SoundEffect se = jsonSoundAssetBugFix();
+                if (se.clip != null && !_wallSlideAudioSource.isPlaying)
+                {
+                    _wallSlideAudioSource.clip = se.clip;
+                    _wallSlideAudioSource.volume = se.volume;
+                    _wallSlideAudioSource.time = se.startTime; // トリミングの開始位置も適用
+                    _wallSlideAudioSource.Play();
+                }
+            }
+        }
+        else
+        {
+            // 壁スライドが終わったら即ループ音を止める
+            if (_wallSlideAudioSource.isPlaying)
+            {
+                _wallSlideAudioSource.Stop();
+            }
+        }
+        _wasWallSliding = isWallSliding; // 状態を記憶
+
         if (_jumpBufferTimer > 0f)
         {
             TryExecuteJump();
@@ -335,7 +376,6 @@ public class PlayerController : MonoBehaviour
         if (_status.IsMovable) DetectDownDoubleTap();
         DetectDoubleTapDash();
         DetectStickFlick();
-        // 💡 同時押しの救済ロジック
         HandleKickExecution();
 
         if (_status.IsMovable) UpdateVisualDirection();
@@ -345,6 +385,13 @@ public class PlayerController : MonoBehaviour
         _animator.SetBool("IsCrouching", isCrouching);
         _animator.SetBool("IsOnDash", isOnDash);
         _animator.SetBool("IsOnWallSliding", isWallSliding);
+    }
+
+    // 💡 壁すり音アセット取得用のヘルパー（リフレクションやシリアライズを汚さないための安全措置）
+    private SoundDataAsset.SoundEffect jsonSoundAssetBugFix()
+    {
+        // マネージャーから直接データを安全に参照
+        return SoundManager.Instance.GetSEData("WallSliding");
     }
 
     private void FixedUpdate()
@@ -397,7 +444,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isOnDash) return;
         if (_status.IsDead || _status.IsInIntroMotion) return;
-        if (_isWaitingForSmash) return; // 🔥【追加】スマッシュ入力受付の猶予フレーム中はダッシュを禁止する
+        if (_isWaitingForSmash) return;
 
         bool canDashInput = _status.IsMovable || !_status.IsMovable;
         if (!canDashInput) return;
@@ -473,24 +520,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 💡 スティックがニュートラル付近から外側に急激に弾かれたかを判定する
-    /// </summary>
     private void DetectStickFlick()
     {
         if (_smashTimer > 0) _smashTimer -= Time.deltaTime;
 
-        // 前フレームからの移動ベクトルを計算（moveInput を監視）
         Vector2 delta = moveInput - _lastStickInput;
 
-        // スティックが中心付近から外側に急激に動かされ、かつある程度深く倒されている場合
         if (delta.magnitude > smashInputThreshold && moveInput.magnitude > 0.5f)
         {
-            _smashTimer = smashWindowTime; // スマッシュ受付タイマー起動！
+            _smashTimer = smashWindowTime;
             Debug.Log("スマッシュ検知！");
         }
 
-        // 現在の入力を次のフレームのために保存
         _lastStickInput = moveInput;
     }
 
@@ -498,31 +539,24 @@ public class PlayerController : MonoBehaviour
     {
         if (!_isWaitingForSmash) return;
 
-        // ⏳ 待ち時間中にスマッシュが検知された（_smashTimer > 0）かチェック
         if (_smashTimer > 0f)
         {
             ExecuteKick(isSmash: true);
             return;
         }
 
-        // フレーム数をカウントダウン
         _smashWaitFrameCount--;
 
-        // 猶予フレームを過ぎてもスティックが弾かれなかったら、通常キックとして実行
         if (_smashWaitFrameCount <= 0)
         {
             ExecuteKick(isSmash: false);
         }
     }
 
-    /// <summary>
-    /// 💡 実際にステートを切り替えてキックを発動する共通メソッド
-    /// </summary>
     private void ExecuteKick(bool isSmash)
     {
-        _isWaitingForSmash = false; // フラグを戻す
+        _isWaitingForSmash = false;
 
-        // 🔥【バグ対策】キックが確定した瞬間、もしダッシュ中（または暴発ダッシュ）なら強制終了させる
         if (isOnDash)
         {
             isOnDash = false;
@@ -557,6 +591,9 @@ public class PlayerController : MonoBehaviour
     {
         isOnDash = true;
 
+        // 💡【差し込み】ダッシュ開始の瞬間に鋭い風切り音（Dash）を鳴らす
+        SoundManager.Instance.PlaySEAtPosition("Dash", transform.position);
+
         TriggerDashInvincibleAsync().Forget();
 
         dashTimer = dashDuration;
@@ -584,7 +621,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleNormalMovement()
     {
-        // 💡 安全装置：空中であれば、何があろうとしゃがみフラグを強制解除する
         if (!isGrounded)
         {
             isCrouching = false;
@@ -604,18 +640,16 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded)
         {
-            // 💡 進行方向と入力方向が逆（切り返し時）なら、ブレーキと加速を通常の3倍（150f）にする
             float currentAccel = 50f;
             if (targetSpeed != 0 && Mathf.Sign(targetSpeed) != Mathf.Sign(currentVelocityX) && currentVelocityX != 0)
             {
-                currentAccel = 150f; // 👈 数値を大きくするほどキレが増します
+                currentAccel = 150f;
             }
 
             currentVelocityX = Mathf.MoveTowards(currentVelocityX, targetSpeed, currentAccel * Time.deltaTime);
         }
         else
         {
-            // 💡 空中も同様に、切り返し時は制御力をアップ（25f ➔ 60f）
             float currentAirControl = 25f;
             if (targetSpeed != 0 && Mathf.Sign(targetSpeed) != Mathf.Sign(currentVelocityX) && currentVelocityX != 0)
             {
@@ -654,6 +688,9 @@ public class PlayerController : MonoBehaviour
             jumpDirection = -Mathf.Sign(transform.localScale.x);
         }
 
+        // 💡【差し込み】壁を力強く蹴った瞬間に壁ジャンプ音（WallJump）を鳴らす
+        SoundManager.Instance.PlaySEAtPosition("WallJump", transform.position);
+
         wallJumpLockTimer = wallJumpTime;
         currentVelocityX = wallJumpForce.x * jumpDirection;
         _rigidbody.linearVelocity = new Vector2(currentVelocityX, wallJumpForce.y);
@@ -688,16 +725,14 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateVisualDirection()
     {
-        float inputThreshold = 0.1f; // スティックの遊び（デッドゾーン）を考慮
+        float inputThreshold = 0.1f;
 
         if (moveInput.x > inputThreshold)
         {
-            // 右に入力されたら即座に右を向く
             transform.localScale = firstScale;
         }
         else if (moveInput.x < -inputThreshold)
         {
-            // 左に入力されたら即座に左を向く
             transform.localScale = new Vector3(-firstScale.x, firstScale.y, firstScale.z);
         }
     }

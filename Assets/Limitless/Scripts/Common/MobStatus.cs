@@ -83,6 +83,7 @@ public abstract class MobStatus : MonoBehaviour
 
         _life -= damage;
         _animator.SetTrigger("Hit");
+        SoundManager.Instance.PlaySEAtPosition("Hit", transform.position);
 
         FxManager.Instance.Play("Damaged", transform);
 
@@ -98,6 +99,7 @@ public abstract class MobStatus : MonoBehaviour
         // 死亡処理
         _state = StateEnum.Die;
         if (_rigidbody != null) _rigidbody.linearVelocity = Vector2.zero;
+        SoundManager.Instance.PlaySEAtPosition("Death", transform.position);
 
         OnDeathEvent?.Invoke(this.gameObject);
         OnDie();
