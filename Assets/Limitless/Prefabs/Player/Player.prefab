@@ -511,6 +511,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3618d174-aeff-4e30-9c08-4ea187f98439
     m_ActionName: 'Player/Reload[/Keyboard/r]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fd646ecb-f01a-447a-972c-7ef3c9fde352
+    m_ActionName: 'Player/Resonance[/XInputControllerWindows1/rightShoulder,/Keyboard/m]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -534,7 +538,7 @@ MonoBehaviour:
   doubleTapTimeLimit: 0.25
   maxNumOfAirDashes: 1
   dashInvincibleFrames: 12
-  jumpForce: 11
+  jumpForce: 10
   maxNumOfAirJumps: 1
   dashJumpForce: 1.1
   smashInputThreshold: 0.5
@@ -553,7 +557,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   wallSlideSpeed: 2
-  wallJumpForce: {x: 3, y: 12}
+  wallJumpForce: {x: 6, y: 10}
   wallJumpTime: 0.05
   downDoubleTapTimeLimit: 0.25
   introDuration: 3
@@ -610,7 +614,6 @@ MonoBehaviour:
   invincibilityDuration: 2
   knockbackDuration: 0.2
   knockbackForce: 10
-  comboResetDuration: 0.5
   shootCollider: {fileID: 7126906893625790347}
   isOnMurasaki: 0
 --- !u!114 &2537649582537771541
@@ -650,16 +653,6 @@ MonoBehaviour:
     priority: 0
     hasProduction: 1
     backgroundEffectPrefab: {fileID: 8576788277409184239, guid: 8e44180605a634149a545a5a462eb87a, type: 3}
-  - name: Pink
-    materialA: 1
-    materialB: 0
-    resultBall:
-      <Type>k__BackingField: 4
-      <BallPrefab>k__BackingField: {fileID: 7504175457323940421, guid: a0ace5653c98a1947b5802650ea783a5, type: 3}
-      <Rate>k__BackingField: 0
-    priority: 1
-    hasProduction: 0
-    backgroundEffectPrefab: {fileID: 0}
   maxBalls: 6
   orbitRadius: 0.8
   centerOffsetY: 0.5

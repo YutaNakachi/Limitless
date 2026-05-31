@@ -23,6 +23,9 @@ public class BatAI : MonoBehaviour
     [SerializeField] private Animator animator;               // 敵のAnimator
     [SerializeField] private string moveBoolName = "Run";     // 移動中にtrueにするBool名
 
+    [Header("ーーデモモードーー")]
+    [SerializeField] private bool demoMode = false;
+
     private Rigidbody2D _rigidbody;
     private Transform _targetPlayer;
     private MobStatus _status;
@@ -57,7 +60,7 @@ public class BatAI : MonoBehaviour
     private void FixedUpdate()
     {
         // 🔥 【大修正】「死亡中」または「ノックバック中」の時だけ即リターンして物理に任せる！
-        if (_status.IsDead || _status.IsKnockbacking) return;
+        if (_status.IsDead || _status.IsKnockbacking || demoMode) return;
 
         // 🔄 1. インターロック解除：MobStatusがNormalに戻ったら、AIの全フラグをリセット
         if (_status.IsAttackable && _isAttacking)
