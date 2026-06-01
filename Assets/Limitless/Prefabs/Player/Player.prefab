@@ -551,10 +551,10 @@ MonoBehaviour:
   doubleTapTimeLimit: 0.25
   maxNumOfAirDashes: 1
   dashInvincibleFrames: 12
-  jumpForce: 10
+  jumpForce: 10.5
   maxNumOfAirJumps: 1
   dashJumpForce: 1.1
-  smashInputThreshold: 0.5
+  smashInputThreshold: 0.6
   smashWindowTime: 0.25
   smashWaitFrames: 4
   coyoteDuration: 0.12
@@ -563,13 +563,13 @@ MonoBehaviour:
   checkSize: {x: 0.05, y: 0.05}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8256
+    m_Bits: 12352
   wallCheckPoint: {fileID: 5552505368642657839}
   wallCheckRadius: 0.1
   wallLayer:
     serializedVersion: 2
     m_Bits: 4096
-  wallSlideSpeed: 2
+  wallSlideSpeed: 3
   wallJumpForce: {x: 6, y: 10}
   wallJumpTime: 0.05
   downDoubleTapTimeLimit: 0.25
@@ -629,7 +629,6 @@ MonoBehaviour:
   knockbackDuration: 0.2
   knockbackForce: 10
   shootCollider: {fileID: 7126906893625790347}
-  isOnMurasaki: 0
 --- !u!114 &2537649582537771541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -645,16 +644,16 @@ MonoBehaviour:
   balls:
   - <Type>k__BackingField: 0
     <BallPrefab>k__BackingField: {fileID: 7504175457323940421, guid: f3405f959028c074591f4d4b9dd50a0c, type: 3}
-    <Rate>k__BackingField: 1
+    <Rate>k__BackingField: 90
   - <Type>k__BackingField: 1
     <BallPrefab>k__BackingField: {fileID: 856638293993571749, guid: 48e76c71e6d15194d848b92047f90ac8, type: 3}
-    <Rate>k__BackingField: 1
+    <Rate>k__BackingField: 5
   - <Type>k__BackingField: 2
     <BallPrefab>k__BackingField: {fileID: 8829045715925878824, guid: fabf4fd11e409f24fa49d17c9f4a701f, type: 3}
-    <Rate>k__BackingField: 1
+    <Rate>k__BackingField: 5
   - <Type>k__BackingField: 3
     <BallPrefab>k__BackingField: {fileID: 856638293993571749, guid: 2f59eb92873ba2e4eb1f9f2c4d7c133e, type: 3}
-    <Rate>k__BackingField: 1
+    <Rate>k__BackingField: 0
   resonanceAction: {fileID: 4957267627485865974, guid: 6832fb3853e9d6440978664f405bd209, type: 3}
   resonanceList:
   - name: Murasaki
@@ -667,16 +666,6 @@ MonoBehaviour:
     priority: 0
     hasProduction: 1
     backgroundEffectPrefab: {fileID: 8576788277409184239, guid: 8e44180605a634149a545a5a462eb87a, type: 3}
-  - name: Pink
-    materialA: 1
-    materialB: 0
-    resultBall:
-      <Type>k__BackingField: 4
-      <BallPrefab>k__BackingField: {fileID: 7504175457323940421, guid: a0ace5653c98a1947b5802650ea783a5, type: 3}
-      <Rate>k__BackingField: 0
-    priority: 1
-    hasProduction: 0
-    backgroundEffectPrefab: {fileID: 0}
   maxBalls: 6
   orbitRadius: 0.8
   centerOffsetY: 0.5

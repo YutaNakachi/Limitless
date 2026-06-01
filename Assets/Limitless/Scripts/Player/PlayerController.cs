@@ -184,6 +184,19 @@ public class PlayerController : MonoBehaviour
     {
         if (_jumpBufferTimer > 0f)
         {
+            // 💡【追加】しゃがみ中にジャンプボタンが押され、かつOneWayPlatformの上にいる場合、すり抜ける
+            if (isGrounded && isCrouching && currentPlatform != null)
+            {
+                currentPlatform.PassThrough(_collider);
+                currentPlatform = null;
+
+                // すり抜けたら「しゃがみ状態」を一時的に解除して、通常の落下に移行させる
+                isCrouching = false;
+
+                _jumpBufferTimer = 0f; // ジャンプ入力を消費して終了（空中ジャンプが暴発するのを防ぐ）
+                return;
+            }
+
             if (!_status.IsMovable)
             {
                 if (_coyoteTimer > 0f || remainingAirJumpCount > 0)
@@ -342,7 +355,7 @@ public class PlayerController : MonoBehaviour
         if (_status.IsMovable && isTouchingWall && !isGrounded && moveInput.x != 0)
         {
             isWallSliding = true;
-            remainingAirJumpCount = maxNumOfAirJumps;
+            //remainingAirJumpCount = maxNumOfAirJumps;
             remainingAirDashCount = maxNumOfAirDashes;
             _coyoteTimer = 0f;
         }

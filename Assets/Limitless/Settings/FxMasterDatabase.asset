@@ -124,7 +124,7 @@ MonoBehaviour:
     rumbleRight: 0.9
     useCoolTime: 0
   - label: Resonance
-    stopDuration: 1.5
+    stopDuration: 2
     timeScale: 0
     shakeDuration: 0
     shakeMagnitude: 0

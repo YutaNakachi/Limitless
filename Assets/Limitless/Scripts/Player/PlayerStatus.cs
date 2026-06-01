@@ -6,7 +6,7 @@ public class PlayerStatus : MobStatus
 {
     [SerializeField] private Collider2D shootCollider;
 
-    public bool isOnMurasaki = false;
+    public bool isOnMurasaki { get; set; } = false;
 
     protected override void Start()
     {

@@ -63,6 +63,12 @@ public class SurvivalModeManager : MonoBehaviour
             playerStatus.OnTakeDamageEvent += (damage) => OnPlayerDamaged();
         }
 
+        // 💡 SoundManagerのBGM専用メソッドを呼び出し、"Survival" をループ再生
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayBGM("Survival");
+        }
+
         // 最初の1匹を即座にスポーン
         SpawnBat();
     }
@@ -193,6 +199,17 @@ public class SurvivalModeManager : MonoBehaviour
         if (comboText != null)
         {
             comboText.text = _comboCount > 0 ? $"{_comboCount} COMBO" : "";
+        }
+    }
+
+    /// <summary>
+    /// ステージクリアやゲームオーバー時など、明示的にBGMを止めたい場合に外部から呼ぶメソッド
+    /// </summary>
+    public void StopStageBGM()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.StopBGM();
         }
     }
 

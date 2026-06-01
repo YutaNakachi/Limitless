@@ -17,31 +17,31 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 9977f7c541709f545a23788775b5449f, type: 3}
     volume: 0.2
     isLoop: 0
-    startTime: 0
+    startTime: 0.07
     endTime: 0
   - key: Dash
     clip: {fileID: 8300000, guid: f11db4559b3ffff45b62e9327fc5535d, type: 3}
-    volume: 0.5
+    volume: 0.3
     isLoop: 0
-    startTime: 0
+    startTime: 0.01
     endTime: 0
   - key: Jump
     clip: {fileID: 8300000, guid: 4e349dc959014a845b9aa317d1c2b7f0, type: 3}
-    volume: 0.9
+    volume: 0.3
     isLoop: 0
-    startTime: 0
+    startTime: 0.01
     endTime: 0
   - key: Run
     clip: {fileID: 8300000, guid: 023ea3ddeaa8dd146b7633a0800e5a0e, type: 3}
     volume: 0.9
     isLoop: 0
-    startTime: 0
+    startTime: 0.01
     endTime: 0
   - key: Crouch
     clip: {fileID: 8300000, guid: d47cf76eb6084c8429b8dc42ca7bc4c9, type: 3}
-    volume: 0.5
+    volume: 0.1
     isLoop: 0
-    startTime: 0
+    startTime: 0.05
     endTime: 0
   - key: Intro
     clip: {fileID: 8300000, guid: 78ad99fd0a0a5144280b07bbdba84815, type: 3}
@@ -105,7 +105,7 @@ MonoBehaviour:
     endTime: 0
   - key: Ao
     clip: {fileID: 8300000, guid: c91fcf414acc0344cb03b13996f1bf3b, type: 3}
-    volume: 0.3
+    volume: 0.5
     isLoop: 1
     startTime: 0
     endTime: 1
@@ -123,16 +123,16 @@ MonoBehaviour:
     endTime: 0
   - key: Murasaki1
     clip: {fileID: 8300000, guid: 7784e7ab59ab376458c07be56b1a8d6f, type: 3}
-    volume: 0.5
+    volume: 1
     isLoop: 0
     startTime: 1
     endTime: 0
   - key: Murasaki2
     clip: {fileID: 8300000, guid: 74a2ce3d01defab4d879743117e67957, type: 3}
-    volume: 0.5
+    volume: 1
     isLoop: 0
     startTime: 0.5
-    endTime: 8
+    endTime: 5
   - key: Bomb
     clip: {fileID: 8300000, guid: 5ff823f546b52574a931e1d9b44290a6, type: 3}
     volume: 0.5
@@ -184,16 +184,16 @@ MonoBehaviour:
   bgmList:
   - key: Title
     clip: {fileID: 8300000, guid: dc52eb17a85e115498a39d248852ace5, type: 3}
-    volume: 0.2
+    volume: 0.1
     startTime: 0
     endTime: 0
   - key: Survival
     clip: {fileID: 8300000, guid: 28b50f18cc1e8494180aa106eda649d1, type: 3}
-    volume: 0.1
+    volume: 0.02
     startTime: 0
     endTime: 0
   - key: Training
     clip: {fileID: 8300000, guid: dd1cb3ccc02a27c49bd87b8863a0d4dc, type: 3}
-    volume: 0.5
+    volume: 0.02
     startTime: 0
     endTime: 0
