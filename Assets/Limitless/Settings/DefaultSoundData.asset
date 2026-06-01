@@ -184,7 +184,7 @@ MonoBehaviour:
   bgmList:
   - key: Title
     clip: {fileID: 8300000, guid: dc52eb17a85e115498a39d248852ace5, type: 3}
-    volume: 0.1
+    volume: 0.511
     startTime: 0
     endTime: 0
   - key: Survival
