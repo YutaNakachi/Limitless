@@ -12,7 +12,7 @@ public class SoundDataAsset : ScriptableObject
         public AudioClip clip;              // オーディオファイル
         [Range(0f, 1f)] public float volume; // 個別の音量調整
 
-        // 💡【追加】ループさせるかどうかの設定フラグ
+        // 💡 ループさせるかどうかの設定フラグ
         [Header("🔁 ループ設定")]
         public bool isLoop;
 
@@ -27,10 +27,12 @@ public class SoundDataAsset : ScriptableObject
     {
         public string key;                  // 識別名
         public AudioClip clip;              // オーディオファイル
-        [Range(0f, 1f)] public float volume; // 曲ごとの音量調整（初期値は1.0）
+        [Range(0f, 1f)] public float volume; // 曲ごとの音量調整
 
+        // 💡【修正】BGM側にもループ区間を指定できるように endTime を追加
         [Header("⏱️ トリミング設定（秒単位 / 0の場合は無効）")]
-        public float startTime;             // 💡 何秒目から再生するか
+        public float startTime;             // 何秒目から再生（またはループ復帰）するか
+        public float endTime;               // 何秒目でループ（折り返し）させるか
     }
 
     [Header("ーー SE（効果音）データの登録 ーー")]

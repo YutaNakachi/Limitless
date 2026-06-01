@@ -106,8 +106,11 @@ public class PlayerController : MonoBehaviour
     private bool _wasGrounded;
     private bool _wasWallSliding;
 
-    // 💡【追加】ジャンプ直後の誤接地判定を防ぐためのタイマー（秒）
+    // ジャンプ直後の誤接地判定を防ぐためのタイマー（秒）
     private float _jumpCooldownTimer;
+
+    // 💡【追加】純粋に空中に浮かんでいた時間を計測するタイマー
+    private float _airTime;
 
     void Awake()
     {
@@ -221,7 +224,6 @@ public class PlayerController : MonoBehaviour
                     _coyoteTimer = 0f;
                     _jumpBufferTimer = 0f;
 
-                    // 💡【修正】タイマーをセットして確実に空中状態を作る
                     _jumpCooldownTimer = 0.1f;
                     isGrounded = false;
                     _wasGrounded = false;
@@ -235,7 +237,6 @@ public class PlayerController : MonoBehaviour
                     _animator.SetTrigger("Jump");
                     _jumpBufferTimer = 0f;
 
-                    // 💡【修正】2段ジャンプ時も同様にタイマーをセット
                     _jumpCooldownTimer = 0.1f;
                     isGrounded = false;
                     _wasGrounded = false;
@@ -294,7 +295,7 @@ public class PlayerController : MonoBehaviour
     {
         if (wallJumpLockTimer > 0) wallJumpLockTimer -= Time.deltaTime;
 
-        // 💡【修正】ジャンプ直後は物理的な接地判定をスキップして強制的に false にする
+        // ジャンプ直後は物理的な接地判定をスキップして強制的に false にする
         if (_jumpCooldownTimer > 0f)
         {
             _jumpCooldownTimer -= Time.deltaTime;
@@ -307,24 +308,29 @@ public class PlayerController : MonoBehaviour
 
         isTouchingWall = Physics2D.OverlapCircle(wallCheckPoint.position, wallCheckRadius, wallLayer);
 
-        // 着地音（Land）の判定
+        // 💡【修正】着地音（Land）の複合判定ロジック
         if (!_wasGrounded && isGrounded)
         {
-            if (_rigidbody.linearVelocity.y < landVelocityThreshold)
+            // 条件1: 規定以上の落下速度が出ている（通常の自由落下）
+            // 条件2: 一定時間以上しっかり空中に浮いていた（低空空中ダッシュ着地や、頂点付近での着地の救済）
+            if (_rigidbody.linearVelocity.y < landVelocityThreshold || _airTime > 0.15f)
             {
                 SoundManager.Instance.PlaySEAtPosition("Land", transform.position);
             }
         }
         _wasGrounded = isGrounded;
 
+        // 💡【修正】空中タイマーの更新処理
         if (isGrounded)
         {
+            _airTime = 0f; // 接地中はタイマーリセット
             _coyoteTimer = coyoteDuration;
             remainingAirJumpCount = maxNumOfAirJumps;
             remainingAirDashCount = maxNumOfAirDashes;
         }
         else
         {
+            _airTime += Time.deltaTime; // 空中にいる間は時間を累積させる
             _coyoteTimer -= Time.deltaTime;
         }
 
@@ -680,7 +686,6 @@ public class PlayerController : MonoBehaviour
         currentVelocityX = wallJumpForce.x * jumpDirection;
         _rigidbody.linearVelocity = new Vector2(currentVelocityX, wallJumpForce.y);
 
-        // 💡【修正】壁ジャンプ時も同様にタイマーをセット
         _jumpCooldownTimer = 0.1f;
         isGrounded = false;
         _wasGrounded = false;
