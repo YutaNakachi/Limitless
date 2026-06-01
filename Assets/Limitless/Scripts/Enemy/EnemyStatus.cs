@@ -49,13 +49,10 @@ public class EnemyStatus : MobStatus
 
         if (smokeEffectPrefab != null)
         {
-            // ボールと同じ位置に生成
             GameObject smoke = Instantiate(smokeEffectPrefab, transform.position, Quaternion.identity);
 
-            // 💡 ここが核心！ボールの子供にすることで、煙の「噴射口」をボールに追従させる
             smoke.transform.SetParent(transform);
 
-            // ボールが飛んでいる想定の時間（例: 2秒後）が来たら、噴射口ごと綺麗に消去する
             Destroy(smoke, smokeEffectDestroyTime);
         }
 
@@ -146,6 +143,9 @@ public class EnemyStatus : MobStatus
                 Instantiate(selectedEffectPrefab, transform.position, Quaternion.identity);
             }
         }
+
+        FxManager.Instance.Play("Bomb", transform);
+        SoundManager.Instance.PlaySEAtPosition("Bomb", transform.position);
 
         Destroy(gameObject);
     }
