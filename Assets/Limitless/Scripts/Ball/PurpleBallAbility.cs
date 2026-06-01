@@ -134,7 +134,8 @@ public class PurpleBallAbility : BallAbility
 
         await UniTask.WaitUntil(() => Time.timeScale >= 1.0f, PlayerLoopTiming.Update);
 
-        SoundManager.Instance.PlaySEAtPosition("Murasaki", transform.position);
+        SoundManager.Instance.PlaySEAtPosition("Murasaki1", transform.position);
+        SoundManager.Instance.PlaySEAtPosition("Murasaki2", transform.position);
 
         // ❌ ここにあった ApplyPlayerRestrictions(); は OnFire の最上部に移動しました！
 
@@ -304,7 +305,8 @@ public class PurpleBallAbility : BallAbility
             if (childCollider != null) childCollider.enabled = false;
         }
 
-        SoundManager.Instance.StopLoopSE("Murasaki");
+        SoundManager.Instance.StopLoopSE("Murasaki1");
+        SoundManager.Instance.StopLoopSE("Murasaki2");
 
         // 3. 茈オブジェクト自体の消滅
         Destroy(gameObject);

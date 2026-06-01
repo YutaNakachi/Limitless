@@ -62,7 +62,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ColliderData crouchCollider;
     [SerializeField] private ColliderData dashCollider;
 
-    // 💡【追加】着地音の連打防止用の落下速度閾値
     [Header("Audio Settings Extension")]
     [SerializeField] private float landVelocityThreshold = -2.0f;
 
@@ -104,9 +103,11 @@ public class PlayerController : MonoBehaviour
 
     private CancellationTokenSource _dashInvincibleCancelToken;
 
-    // 💡【追加】状態の変化を検知するためのプライベート変数
     private bool _wasGrounded;
     private bool _wasWallSliding;
+
+    // 💡【追加】ジャンプ直後の誤接地判定を防ぐためのタイマー（秒）
+    private float _jumpCooldownTimer;
 
     void Awake()
     {
@@ -216,10 +217,14 @@ public class PlayerController : MonoBehaviour
                         _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce);
                     }
 
-                    // 💡 通常地上ジャンプ音（必要に応じてSoundManagerから再生可能）
                     _animator.SetTrigger("Jump");
                     _coyoteTimer = 0f;
                     _jumpBufferTimer = 0f;
+
+                    // 💡【修正】タイマーをセットして確実に空中状態を作る
+                    _jumpCooldownTimer = 0.1f;
+                    isGrounded = false;
+                    _wasGrounded = false;
                 }
                 else if (remainingAirJumpCount > 0 && !isWallSliding)
                 {
@@ -227,9 +232,13 @@ public class PlayerController : MonoBehaviour
                     _rigidbody.linearVelocity = new Vector2(currentVelocityX, jumpForce);
                     remainingAirJumpCount--;
 
-                    // 💡 空中2段ジャンプ音（必要に応じて追加可能）
                     _animator.SetTrigger("Jump");
                     _jumpBufferTimer = 0f;
+
+                    // 💡【修正】2段ジャンプ時も同様にタイマーをセット
+                    _jumpCooldownTimer = 0.1f;
+                    isGrounded = false;
+                    _wasGrounded = false;
                 }
             }
         }
@@ -247,7 +256,6 @@ public class PlayerController : MonoBehaviour
         {
             if (_status.IsMovable && isGrounded)
             {
-                // 💡【差し込み】しゃがんだ瞬間に「サッ」と服が擦れる音を鳴らす
                 if (!isCrouching)
                 {
                     SoundManager.Instance.PlaySEAtPosition("Crouch", transform.position);
@@ -282,25 +290,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     private void Update()
     {
         if (wallJumpLockTimer > 0) wallJumpLockTimer -= Time.deltaTime;
 
-        isGrounded = Physics2D.OverlapBox(groundCheck.position, checkSize, 0f, groundLayer);
+        // 💡【修正】ジャンプ直後は物理的な接地判定をスキップして強制的に false にする
+        if (_jumpCooldownTimer > 0f)
+        {
+            _jumpCooldownTimer -= Time.deltaTime;
+            isGrounded = false;
+        }
+        else
+        {
+            isGrounded = Physics2D.OverlapBox(groundCheck.position, checkSize, 0f, groundLayer);
+        }
+
         isTouchingWall = Physics2D.OverlapCircle(wallCheckPoint.position, wallCheckRadius, wallLayer);
 
-        // 💡【差し込み】着地音（Land）の判定
-        //「前フレームが空中」かつ「今フレームが地上」の瞬間を検知
+        // 着地音（Land）の判定
         if (!_wasGrounded && isGrounded)
         {
-            // 坂道での暴発（チャタリング）防止のため、一定以上の下向き落下速度のときだけ鳴らす
             if (_rigidbody.linearVelocity.y < landVelocityThreshold)
             {
                 SoundManager.Instance.PlaySEAtPosition("Land", transform.position);
             }
         }
-        _wasGrounded = isGrounded; // 状態を記憶
+        _wasGrounded = isGrounded;
 
         if (isGrounded)
         {
@@ -330,10 +345,9 @@ public class PlayerController : MonoBehaviour
             isWallSliding = false;
         }
 
-        // 💡【差し込み】壁すり音（WallSliding）のループ再生制御
+        // 壁すり音（WallSliding）のループ再生制御
         if (isWallSliding)
         {
-            // 壁スライドが「始まった最初の1フレーム」だけ再生を開始する
             if (!_wasWallSliding)
             {
                 SoundManager.Instance.PlaySEAtPosition("WallSliding", transform.position);
@@ -341,13 +355,12 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // 壁スライドが終わったら即ループ音を止める
             if (_wasWallSliding)
             {
                 SoundManager.Instance.StopLoopSE("WallSliding");
             }
         }
-        _wasWallSliding = isWallSliding; // 状態を記憶
+        _wasWallSliding = isWallSliding;
 
         if (_jumpBufferTimer > 0f)
         {
@@ -565,7 +578,6 @@ public class PlayerController : MonoBehaviour
     {
         isOnDash = true;
 
-        // 💡【差し込み】ダッシュ開始の瞬間に鋭い風切り音（Dash）を鳴らす
         SoundManager.Instance.PlaySEAtPosition("Dash", transform.position);
 
         TriggerDashInvincibleAsync().Forget();
@@ -662,12 +674,16 @@ public class PlayerController : MonoBehaviour
             jumpDirection = -Mathf.Sign(transform.localScale.x);
         }
 
-        // 💡【差し込み】壁を力強く蹴った瞬間に壁ジャンプ音（WallJump）を鳴らす
         SoundManager.Instance.PlaySEAtPosition("WallJump", transform.position);
 
         wallJumpLockTimer = wallJumpTime;
         currentVelocityX = wallJumpForce.x * jumpDirection;
         _rigidbody.linearVelocity = new Vector2(currentVelocityX, wallJumpForce.y);
+
+        // 💡【修正】壁ジャンプ時も同様にタイマーをセット
+        _jumpCooldownTimer = 0.1f;
+        isGrounded = false;
+        _wasGrounded = false;
     }
 
     private void wallSliding()

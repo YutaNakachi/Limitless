@@ -51,13 +51,13 @@ MonoBehaviour:
     endTime: 0
   - key: WallJump
     clip: {fileID: 8300000, guid: e1e2d06fe0d78194b9c7c8cc88414d0d, type: 3}
-    volume: 0.5
+    volume: 1
     isLoop: 0
     startTime: 0
     endTime: 0
   - key: WallSliding
     clip: {fileID: 8300000, guid: 1e0f0bf5642f53a4985bdff9d1a2aa98, type: 3}
-    volume: 0.2
+    volume: 0.1
     isLoop: 1
     startTime: 1
     endTime: 2
@@ -98,8 +98,8 @@ MonoBehaviour:
     startTime: 0
     endTime: 0
   - key: JutsushikiFire
-    clip: {fileID: 8300000, guid: 25b377f6da227d5419dc50c967a0008e, type: 3}
-    volume: 0.5
+    clip: {fileID: 8300000, guid: fc706323959494743afeb61a29f69baf, type: 3}
+    volume: 0.55
     isLoop: 0
     startTime: 0
     endTime: 0
@@ -110,14 +110,14 @@ MonoBehaviour:
     startTime: 0
     endTime: 0
   - key: Aka
-    clip: {fileID: 8300000, guid: dee0972dbb32e074b8ce04923c996696, type: 3}
-    volume: 1
+    clip: {fileID: 8300000, guid: 852920a42c0ccab45990b27a949d1a7d, type: 3}
+    volume: 0.8
     isLoop: 1
     startTime: 0
     endTime: 0
   - key: MurasakiLaunch
     clip: {fileID: 8300000, guid: 25b377f6da227d5419dc50c967a0008e, type: 3}
-    volume: 0.5
+    volume: 1
     isLoop: 0
     startTime: 0
     endTime: 0

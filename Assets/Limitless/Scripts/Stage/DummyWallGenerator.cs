@@ -111,6 +111,8 @@ public class DummyWallGenerator : MonoBehaviour
                 rb.angularVelocity = 0f;
                 rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
+                SoundManager.Instance.PlaySEAtPosition("DummyWall", dummy.transform.position);
+
                 dummy.transform.position = targetPos;
             }
 

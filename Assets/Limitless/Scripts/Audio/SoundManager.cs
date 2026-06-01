@@ -135,33 +135,40 @@ public class SoundManager : MonoBehaviour
     private IEnumerator PlayWithTrimRoutine(AudioSource source, float startTime, float endTime, GameObject objToDestroy)
     {
         float startSec = Mathf.Clamp(startTime, 0f, source.clip.length);
+        float endSec = (endTime > 0f && endTime < source.clip.length) ? endTime : source.clip.length;
+
         source.time = startSec;
         source.Play();
 
-        // 💡 ループ再生の場合は、ここで自動破棄タイマーを走らせずにコルーチンを抜ける
+        // 💡 ループ再生の場合（手動ループ制御に切り替え）
         if (source.loop)
         {
+            // source.loop自体はtrueのままだとUnityが勝手に末尾で戻してしまうので、
+            // プログラムで制御するために内部的にはfalseにして監視します。
+            source.loop = false;
+
+            while (source != null)
+            {
+                // endTime（またはファイル末尾）に達したか監視
+                if (source.time >= endSec || !source.isPlaying)
+                {
+                    source.time = startSec; // 指定した開始位置に戻す
+                    source.Play();
+                }
+                yield return null; // 毎フレームチェック
+            }
             yield break;
         }
 
-        // 通常の単発SEは、終了タイミングを計算して自動破棄
-        float endSec = (endTime > 0f && endTime < source.clip.length) ? endTime : source.clip.length;
+        // 通常の単発SE（変更なし）
         float duration = endSec - startSec;
-
         if (duration > 0f)
         {
             yield return new WaitForSeconds(duration);
         }
 
-        if (source != null)
-        {
-            source.Stop();
-        }
-
-        if (objToDestroy != null)
-        {
-            Destroy(objToDestroy);
-        }
+        if (source != null) source.Stop();
+        if (objToDestroy != null) Destroy(objToDestroy);
     }
 
     // ==========================================
