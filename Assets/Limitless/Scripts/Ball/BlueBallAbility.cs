@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -97,11 +98,11 @@ public class BlueBallAbility : BallAbility
         if ((deployTargetLayers.value & (1 << collider.gameObject.layer)) != 0)
         {
             _hasHitThisAction = true;
-            DeployBlue();
+            DeployBlue().Forget();
         }
     }
 
-    private void DeployBlue()
+    private async UniTaskVoid DeployBlue()
     {
         _isDeployed = true;
 
@@ -127,6 +128,10 @@ public class BlueBallAbility : BallAbility
         // 🚀【最重要】展開した瞬間、自身のタグを「Untagged（無所属）」に変更する！
         // これにより、PlayerShootの「if (!collider.CompareTag("Ball")) return;」のチェックをすり抜けるようになります。
         gameObject.tag = "Untagged";
+
+        await UniTask.WaitUntil(() => Time.timeScale >= 1.0f, PlayerLoopTiming.Update);
+
+        SoundManager.Instance.PlaySEAtPosition("Ao", transform.position);
 
         if (blueShockwaveEffectPrefab != null)
         {
@@ -233,6 +238,7 @@ public class BlueBallAbility : BallAbility
         if (GetComponent<CollisionDetector>() != null) GetComponent<CollisionDetector>().enabled = false;
         _collider.enabled = false;
 
+        SoundManager.Instance.StopLoopSE("Ao");
         Destroy(gameObject);
     }
 
@@ -247,14 +253,14 @@ public class BlueBallAbility : BallAbility
             if (timer > 0.5f && _rigidbody != null && _rigidbody.linearVelocity.magnitude <= 0.5f)
             {
                 Debug.Log("🎯 空間起爆：ボールが失速したため「蒼」を自動展開します。");
-                DeployBlue();
+                DeployBlue().Forget();
                 yield break;
             }
 
             if (timer >= ballLifeTime)
             {
                 Debug.Log("🕒 空間起爆：最大寿命に達したため「蒼」を自動展開します。");
-                DeployBlue();
+                DeployBlue().Forget();
                 yield break;
             }
 

@@ -107,7 +107,6 @@ public class PlayerController : MonoBehaviour
     // 💡【追加】状態の変化を検知するためのプライベート変数
     private bool _wasGrounded;
     private bool _wasWallSliding;
-    private AudioSource _wallSlideAudioSource; // 壁すり音用のループスピーカー
 
     void Awake()
     {
@@ -117,12 +116,6 @@ public class PlayerController : MonoBehaviour
         _ballManager = GetComponent<BallManager>();
         _status = GetComponent<MobStatus>();
         _playerShoot = GetComponent<PlayerShoot>();
-
-        // 💡 壁すり音（ループ再生）を制御するために自分自身にスピーカーを1つ持たせる
-        _wallSlideAudioSource = gameObject.AddComponent<AudioSource>();
-        _wallSlideAudioSource.playOnAwake = false;
-        _wallSlideAudioSource.loop = true;
-        _wallSlideAudioSource.spatialBlend = 1f; // プレイヤーの位置から鳴らす(3D)
     }
 
     void Start()
@@ -343,27 +336,15 @@ public class PlayerController : MonoBehaviour
             // 壁スライドが「始まった最初の1フレーム」だけ再生を開始する
             if (!_wasWallSliding)
             {
-                var asset = SoundManager.Instance.GetComponent<SoundManager>();
-                // マネージャーのSoundDataAssetから直接クリップ情報を安全に引っ張ってきてローカルスピーカーでループ再生
-                // ※SoundDataAssetがオープンな設計なので、以下のようにスマートに再生できます
-                // もしデータアセット経由が難しければ、直接SoundManagerに一時停止/再生を任せてもOKですが、今回は安全に制御します
-                // 簡易的にSoundManagerのSEアセットからクリップと音量を取得してローカルでループ
-                SoundDataAsset.SoundEffect se = jsonSoundAssetBugFix();
-                if (se.clip != null && !_wallSlideAudioSource.isPlaying)
-                {
-                    _wallSlideAudioSource.clip = se.clip;
-                    _wallSlideAudioSource.volume = se.volume;
-                    _wallSlideAudioSource.time = se.startTime; // トリミングの開始位置も適用
-                    _wallSlideAudioSource.Play();
-                }
+                SoundManager.Instance.PlaySEAtPosition("WallSliding", transform.position);
             }
         }
         else
         {
             // 壁スライドが終わったら即ループ音を止める
-            if (_wallSlideAudioSource.isPlaying)
+            if (_wasWallSliding)
             {
-                _wallSlideAudioSource.Stop();
+                SoundManager.Instance.StopLoopSE("WallSliding");
             }
         }
         _wasWallSliding = isWallSliding; // 状態を記憶
@@ -385,13 +366,6 @@ public class PlayerController : MonoBehaviour
         _animator.SetBool("IsCrouching", isCrouching);
         _animator.SetBool("IsOnDash", isOnDash);
         _animator.SetBool("IsOnWallSliding", isWallSliding);
-    }
-
-    // 💡 壁すり音アセット取得用のヘルパー（リフレクションやシリアライズを汚さないための安全措置）
-    private SoundDataAsset.SoundEffect jsonSoundAssetBugFix()
-    {
-        // マネージャーから直接データを安全に参照
-        return SoundManager.Instance.GetSEData("WallSliding");
     }
 
     private void FixedUpdate()

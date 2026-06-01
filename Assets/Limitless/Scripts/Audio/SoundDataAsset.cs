@@ -10,11 +10,15 @@ public class SoundDataAsset : ScriptableObject
     {
         public string key;                  // 識別名
         public AudioClip clip;              // オーディオファイル
-        [Range(0f, 1f)] public float volume; // 個別の音量調整（初期値は1.0）
+        [Range(0f, 1f)] public float volume; // 個別の音量調整
+
+        // 💡【追加】ループさせるかどうかの設定フラグ
+        [Header("🔁 ループ設定")]
+        public bool isLoop;
 
         [Header("⏱️ トリミング設定（秒単位 / 0の場合は無効）")]
-        public float startTime;             // 💡 何秒目から再生するか
-        public float endTime;               // 💡 何秒目で再生を停止するか（0なら最後まで）
+        public float startTime;
+        public float endTime;
     }
 
     // --- 🎵 BGM（背景音楽）用のデータ構造 ---

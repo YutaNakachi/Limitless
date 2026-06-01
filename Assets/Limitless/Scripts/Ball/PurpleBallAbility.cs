@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -87,9 +88,6 @@ public class PurpleBallAbility : BallAbility
         FxManager.Instance.Play("PurpleBallKick", transform);
         SoundManager.Instance.PlaySEAtPosition("MurasakiLaunch", _playerStatus.transform.position);
 
-        // 2. ⏳ プレイヤーのロックが完璧に完了した状態で、世界にヒットストップをかける！
-        // FxManager.Instance.HitStop(0.5f); 
-
         if (purpleKickEffectPrefab != null)
         {
             Instantiate(purpleKickEffectPrefab, transform.position, Quaternion.identity);
@@ -101,13 +99,13 @@ public class PurpleBallAbility : BallAbility
         _finalDamage = _isSmashFired ? smashAttackDamage : attackDamage;
 
         // ⚽ ボールそのものを巨大なレーザービームへと変貌させる
-        FirePurpleLaser();
+        FirePurpleLaser().Forget();
     }
 
     /// <summary>
     /// ボールを静止させ、前方へ巨大なレーザー判定を展開する
     /// </summary>
-    private void FirePurpleLaser()
+    private async UniTaskVoid FirePurpleLaser()
     {
         _isLaserFired = true;
 
@@ -133,6 +131,8 @@ public class PurpleBallAbility : BallAbility
             laserChildObject.SetActive(true);
             laserChildObject.transform.localScale = new Vector3(1f, _currentLaserScaleY, 1f);
         }
+
+        await UniTask.WaitUntil(() => Time.timeScale >= 1.0f, PlayerLoopTiming.Update);
 
         SoundManager.Instance.PlaySEAtPosition("Murasaki", transform.position);
 
@@ -303,6 +303,8 @@ public class PurpleBallAbility : BallAbility
             var childCollider = laserChildObject.GetComponent<Collider2D>();
             if (childCollider != null) childCollider.enabled = false;
         }
+
+        SoundManager.Instance.StopLoopSE("Murasaki");
 
         // 3. 茈オブジェクト自体の消滅
         Destroy(gameObject);

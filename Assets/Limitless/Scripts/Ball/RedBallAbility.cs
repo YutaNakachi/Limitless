@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -95,17 +96,17 @@ public class RedBallAbility : BallAbility
         if ((deployTargetLayers.value & (1 << collider.gameObject.layer)) != 0)
         {
             _hasHitThisAction = true;
-            DeployRed();
+            DeployRed().Forget();
         }
     }
 
-    private void DeployRed()
+    private async UniTaskVoid DeployRed()
     {
         _isDeployed = true;
 
         FxManager.Instance.Play("RedBallHit", transform);
         SoundManager.Instance.PlaySEAtPosition("JutsushikiFire", transform.position);
-        SoundManager.Instance.PlaySEAtPosition("Aka", transform.position);
+
 
         if (redHitEffectPrefab != null)
         {
@@ -126,6 +127,10 @@ public class RedBallAbility : BallAbility
         // 🚀【最重要】展開した瞬間、自身のタグを「Untagged（無所属）」に変更する！
         // これにより、PlayerShootの「if (!collider.CompareTag("Ball")) return;」のチェックをすり抜けるようになります。
         gameObject.tag = "Untagged";
+
+        await UniTask.WaitUntil(() => Time.timeScale >= 1.0f, PlayerLoopTiming.Update);
+
+        SoundManager.Instance.PlaySEAtPosition("Aka", transform.position);
 
         if (redExplosionEffectPrefab != null)
         {
@@ -231,6 +236,7 @@ public class RedBallAbility : BallAbility
         if (GetComponent<CollisionDetector>() != null) GetComponent<CollisionDetector>().enabled = false;
         _collider.enabled = false;
 
+        SoundManager.Instance.StopLoopSE("Aka");
         Destroy(gameObject);
     }
 
@@ -245,14 +251,14 @@ public class RedBallAbility : BallAbility
             if (timer > 0.5f && _rigidbody != null && _rigidbody.linearVelocity.magnitude <= 0.5f)
             {
                 Debug.Log("🎯 空間起爆：ボールが失速したため「赫」を自動展開します。");
-                DeployRed();
+                DeployRed().Forget();
                 yield break;
             }
 
             if (timer >= ballLifeTime)
             {
                 Debug.Log("🕒 空間起爆：最大寿命に達したため「赫」を自動展開します。");
-                DeployRed();
+                DeployRed().Forget();
                 yield break;
             }
 

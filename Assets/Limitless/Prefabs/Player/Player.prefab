@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 5026719987303680978}
   - component: {fileID: 4193272097631282014}
   - component: {fileID: 6283479949233536919}
+  - component: {fileID: 4881950326649675949}
   - component: {fileID: 5092463745701814035}
   - component: {fileID: 9141779818832629252}
   - component: {fileID: 8851516159261154114}
@@ -520,6 +521,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &4881950326649675949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6711382325980383970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b08d51afc6b08f4e8efe5dfc1d1ed4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSoundEffects
 --- !u!114 &5092463745701814035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,6 +586,7 @@ MonoBehaviour:
     size: {x: 2.3, y: 1.39}
     offset: {x: 0, y: 0.7}
     direction: 1
+  landVelocityThreshold: -1
 --- !u!114 &9141779818832629252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,6 +667,16 @@ MonoBehaviour:
     priority: 0
     hasProduction: 1
     backgroundEffectPrefab: {fileID: 8576788277409184239, guid: 8e44180605a634149a545a5a462eb87a, type: 3}
+  - name: Pink
+    materialA: 1
+    materialB: 0
+    resultBall:
+      <Type>k__BackingField: 4
+      <BallPrefab>k__BackingField: {fileID: 7504175457323940421, guid: a0ace5653c98a1947b5802650ea783a5, type: 3}
+      <Rate>k__BackingField: 0
+    priority: 1
+    hasProduction: 0
+    backgroundEffectPrefab: {fileID: 0}
   maxBalls: 6
   orbitRadius: 0.8
   centerOffsetY: 0.5

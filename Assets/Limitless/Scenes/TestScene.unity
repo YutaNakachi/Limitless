@@ -964,23 +964,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a10d1808437a747b115f33f10b2a8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OneWayPlatform
---- !u!1 &963077102 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6711382325980383970, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-  m_PrefabInstance: {fileID: 4267747892248187444}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &963077113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963077102}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b08d51afc6b08f4e8efe5dfc1d1ed4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerSoundEffects
 --- !u!1 &988151163
 GameObject:
   m_ObjectHideFlags: 0
@@ -2874,41 +2857,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: resonanceList.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: resonanceList.Array.data[1].name
-      value: Pink
-      objectReference: {fileID: 0}
-    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: resonanceList.Array.data[1].priority
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: resonanceList.Array.data[1].materialA
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: resonanceList.Array.data[1].materialB
+      propertyPath: balls.Array.data[0].<Rate>k__BackingField
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: resonanceList.Array.data[1].hasProduction
+      propertyPath: balls.Array.data[2].<Rate>k__BackingField
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: resonanceList.Array.data[1].backgroundEffectPrefab
-      value: 
+      propertyPath: balls.Array.data[3].<Rate>k__BackingField
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: resonanceList.Array.data[1].resultBall.<Type>k__BackingField
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      propertyPath: resonanceList.Array.data[1].resultBall.<BallPrefab>k__BackingField
-      value: 
-      objectReference: {fileID: 7504175457323940421, guid: a0ace5653c98a1947b5802650ea783a5, type: 3}
     - target: {fileID: 2883445398658177238, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.8278084
@@ -2956,10 +2915,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6711382325980383970, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
-      insertIndex: 6
-      addedObject: {fileID: 963077113}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
 --- !u!1001 &6805449978364454810
 PrefabInstance:
