@@ -15,7 +15,7 @@ MonoBehaviour:
   seList:
   - key: Land
     clip: {fileID: 8300000, guid: 9977f7c541709f545a23788775b5449f, type: 3}
-    volume: 0.5
+    volume: 0.2
     isLoop: 0
     startTime: 0
     endTime: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
     volume: 0.1
     isLoop: 1
     startTime: 1
-    endTime: 2
+    endTime: 1.5
   - key: KickSwing
     clip: {fileID: 8300000, guid: f11db4559b3ffff45b62e9327fc5535d, type: 3}
     volume: 0.9
@@ -105,72 +105,95 @@ MonoBehaviour:
     endTime: 0
   - key: Ao
     clip: {fileID: 8300000, guid: c91fcf414acc0344cb03b13996f1bf3b, type: 3}
-    volume: 1
+    volume: 0.3
     isLoop: 1
     startTime: 0
-    endTime: 0
+    endTime: 1
   - key: Aka
     clip: {fileID: 8300000, guid: 852920a42c0ccab45990b27a949d1a7d, type: 3}
     volume: 0.8
     isLoop: 1
     startTime: 0
-    endTime: 0
+    endTime: 7
   - key: MurasakiLaunch
     clip: {fileID: 8300000, guid: 25b377f6da227d5419dc50c967a0008e, type: 3}
     volume: 1
     isLoop: 0
     startTime: 0
     endTime: 0
-  - key: Murasaki
+  - key: Murasaki1
     clip: {fileID: 8300000, guid: 7784e7ab59ab376458c07be56b1a8d6f, type: 3}
-    volume: 1
-    isLoop: 1
-    startTime: 0
-    endTime: 0
-  - key: Resonance
-    clip: {fileID: 8300000, guid: 490bfbc72255342408984f60044487de, type: 3}
     volume: 0.5
     isLoop: 0
-    startTime: 0
+    startTime: 1
     endTime: 0
+  - key: Murasaki2
+    clip: {fileID: 8300000, guid: 74a2ce3d01defab4d879743117e67957, type: 3}
+    volume: 0.5
+    isLoop: 0
+    startTime: 0.5
+    endTime: 8
   - key: Bomb
     clip: {fileID: 8300000, guid: 5ff823f546b52574a931e1d9b44290a6, type: 3}
     volume: 0.5
     isLoop: 0
     startTime: 0
-    endTime: 0
+    endTime: 1.5
   - key: ReloadBall
-    clip: {fileID: 8300000, guid: 4fa2aa5edbbdb1f4885ff9fcd341bbaf, type: 3}
+    clip: {fileID: 8300000, guid: 490bfbc72255342408984f60044487de, type: 3}
     volume: 0.2
     isLoop: 0
     startTime: 0
     endTime: 0
   - key: FlyingBall
     clip: {fileID: 8300000, guid: b3967a5ec2567854a9a1a879bffde1ea, type: 3}
-    volume: 0.5
+    volume: 0.2
     isLoop: 0
-    startTime: 0
-    endTime: 0
+    startTime: 0.5
+    endTime: 1.5
   - key: FlyingKokusenBall
     clip: {fileID: 8300000, guid: e7908de27be8d9545802e2b76d2359fb, type: 3}
     volume: 0.5
     isLoop: 0
     startTime: 0
     endTime: 0
-  - key: ResonanceSpecialSound
-    clip: {fileID: 8300000, guid: eec3bf121b316d64ca1c8aac7573a2f4, type: 3}
-    volume: 0.5
+  - key: Resonance
+    clip: {fileID: 8300000, guid: 6a9be83b892f8fb4fbc5ef8b03db4e48, type: 3}
+    volume: 0.8
     isLoop: 0
     startTime: 0
-    endTime: 0
+    endTime: 1
+  - key: ResonanceSpecialSound
+    clip: {fileID: 8300000, guid: eec3bf121b316d64ca1c8aac7573a2f4, type: 3}
+    volume: 0.3
+    isLoop: 0
+    startTime: 0.5
+    endTime: 2
   - key: PlayerDeath
     clip: {fileID: 8300000, guid: 5367b8979dc8d6345b6f19428e740200, type: 3}
     volume: 0.5
     isLoop: 0
     startTime: 0
     endTime: 0
+  - key: DummyWall
+    clip: {fileID: 8300000, guid: a57aa98f2666dc84bb77e47bdcbe39c4, type: 3}
+    volume: 0.2
+    isLoop: 0
+    startTime: 0.2
+    endTime: 0.6
   bgmList:
-  - key: 
-    clip: {fileID: 0}
-    volume: 0
+  - key: Title
+    clip: {fileID: 8300000, guid: dc52eb17a85e115498a39d248852ace5, type: 3}
+    volume: 0.2
     startTime: 0
+    endTime: 0
+  - key: Survival
+    clip: {fileID: 8300000, guid: 28b50f18cc1e8494180aa106eda649d1, type: 3}
+    volume: 0.1
+    startTime: 0
+    endTime: 0
+  - key: Training
+    clip: {fileID: 8300000, guid: dd1cb3ccc02a27c49bd87b8863a0d4dc, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTime: 0

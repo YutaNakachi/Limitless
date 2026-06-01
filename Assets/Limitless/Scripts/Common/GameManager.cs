@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameDirector : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     private void Awake()
     {
