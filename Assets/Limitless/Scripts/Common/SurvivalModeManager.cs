@@ -27,6 +27,7 @@ public class SurvivalModeManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI comboText;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI finalScoreText; // リザルト表示用のテキスト
+    [SerializeField] private GameOverMenuManager gameOverMenuManager;
 
     // 内部ステート管理
     private List<GameObject> _activeBats = new List<GameObject>();
@@ -238,6 +239,12 @@ public class SurvivalModeManager : MonoBehaviour
                                   $"FINAL SCORE : {_score}\n" +
                                   $"TOTAL KILLS : {_killCount}\n" +
                                   $"MAX COMBO : {_maxComboCount} Combo";
+        }
+
+        // 💡 画面が出たので、ボタン操作（フォーカス合わせ）のスクリプトを叩く！
+        if (gameOverMenuManager != null)
+        {
+            gameOverMenuManager.ActivateMenu();
         }
     }
 
