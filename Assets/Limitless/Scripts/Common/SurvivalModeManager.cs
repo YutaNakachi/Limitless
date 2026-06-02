@@ -256,6 +256,8 @@ public class SurvivalModeManager : MonoBehaviour
             playerStatus.OnTakeDamageEvent -= (damage) => OnPlayerDamaged();
         }
 
+        StopStageBGM();
+
         Time.timeScale = 1f;
     }
 }

@@ -66,4 +66,11 @@ public class TrainingManager : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        StopStageBGM();
+
+        Time.timeScale = 1f;
+    }
+
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -10,15 +11,29 @@ public class PauseMenuManager : MonoBehaviour
     [SerializeField] private string titleSceneName = "TitleScene";
 
     [Header("ーー UIルートオブジェクトの参照 ーー")]
-    [SerializeField] private GameObject pauseCanvasRoot;  // Canvas自体、または最親のGameObject
-    [SerializeField] private GameObject pauseMenuRoot;    // ポーズメニューのメインボタン群（5つ）の親
-    [SerializeField] private GameObject controlsRoot;     // 操作説明画面の親
+    [SerializeField] private GameObject pauseCanvasRoot;
+    [SerializeField] private GameObject pauseMenuRoot;
+    [SerializeField] private GameObject controlsRoot;
 
     [Header("ーー ゲームパッド用の初期選択ボタン ーー")]
-    [SerializeField] private Button resumeButton;         // ポーズを開いたときに最初にフォーカスするボタン
-    [SerializeField] private Button controlsFirstButton;  // 操作説明を開いたときにフォーカスするボタン（任意）
+    [SerializeField] private Button resumeButton;
+    [SerializeField] private Button controlsButton;
+    [SerializeField] private Button controlsFirstButton;
 
-    [Header("ーー 🎮 Input System アクション参照 (直接登録用) ーー")]
+    [Header("ーー ✨演出用：各ボタンのコンポーネント ーー")]
+    // 0:Resume, 1:Restart, 2:Controls, 3:Title, 4:Quit の順番でアタッチ
+    [SerializeField] private Outline[] buttonOutlines; // 各ボタンのOutlineコンポーネント
+    [SerializeField] private Image[] buttonTargetImages; // 色を変えたいImage（ボタン背景など）
+
+    [Header("ーー ✨演出用：アウトラインの太さ設定 ーー")]
+    [SerializeField] private Vector2 normalOutlineEffectDistance = new Vector2(1f, -1f);
+    [SerializeField] private Vector2 highlightedOutlineEffectDistance = new Vector2(3f, -3f);
+
+    [Header("ーー ✨演出用：カラー設定 ーー")]
+    [SerializeField] private Color normalColor = Color.white;
+    [SerializeField] private Color highlightedColor = Color.yellow;
+
+    [Header("ーー 🎮 Input System アクション参照 ーー")]
     [SerializeField] private InputActionReference pauseActionReference;
     [SerializeField] private InputActionReference cancelActionReference;
 
@@ -27,11 +42,10 @@ public class PauseMenuManager : MonoBehaviour
 
     void Start()
     {
-        // ゲーム開始時はポーズ画面を確実に閉じる
         ClosePauseMenu();
+        ResetAllHighlights();
     }
 
-    // 💡 スクリプト有効時にInput Systemのイベントを登録
     private void OnEnable()
     {
         if (pauseActionReference != null)
@@ -39,7 +53,6 @@ public class PauseMenuManager : MonoBehaviour
             pauseActionReference.action.started += OnPauseTriggered;
             pauseActionReference.action.Enable();
         }
-
         if (cancelActionReference != null)
         {
             cancelActionReference.action.started += OnCancelTriggered;
@@ -47,169 +60,162 @@ public class PauseMenuManager : MonoBehaviour
         }
     }
 
-    // 💡 スクリプト無効・破棄時にイベントを安全に解除
     private void OnDisable()
     {
-        if (pauseActionReference != null)
-        {
-            pauseActionReference.action.started -= OnPauseTriggered;
-        }
-
-        if (cancelActionReference != null)
-        {
-            cancelActionReference.action.started -= OnCancelTriggered;
-        }
+        if (pauseActionReference != null) pauseActionReference.action.started -= OnPauseTriggered;
+        if (cancelActionReference != null) cancelActionReference.action.started -= OnCancelTriggered;
     }
-
-    // ==========================================
-    // 🎮 Input System コールバック受け取り
-    // ==========================================
 
     private void OnPauseTriggered(InputAction.CallbackContext context)
     {
-        if (_isPaused)
-        {
-            ResumeGame();
-        }
-        else
-        {
-            OpenPauseMenu();
-        }
+        if (_isPaused) ResumeGame();
+        else OpenPauseMenu();
     }
 
     private void OnCancelTriggered(InputAction.CallbackContext context)
     {
-        if (_isPaused && _isHowToPlayOpen)
-        {
-            BackToPauseMenuFromControls();
-        }
+        if (_isPaused && _isHowToPlayOpen) BackToPauseMenuFromControls();
     }
-
-    // ==========================================
-    // ⚙️ 画面の開閉・状態コントロール内部ロジック
-    // ==========================================
 
     private void OpenPauseMenu()
     {
         _isPaused = true;
         _isHowToPlayOpen = false;
-
-        Time.timeScale = 0f; // ★ゲーム内の時間を完全停止
+        Time.timeScale = 0f;
 
         pauseCanvasRoot.SetActive(true);
         pauseMenuRoot.SetActive(true);
         controlsRoot.SetActive(false);
 
-        // ゲームパッド操作のために「ゲームに戻る」ボタンをフォーカス
-        SetSelectedButton(resumeButton);
+        // 画面が開く瞬間に一度すべて通常状態へリセット
+        ResetAllHighlights();
+        StartCoroutine(SelectFirstButtonDelay());
+    }
 
-        // ※SoundManagerの実装に合わせて再生してください
-        // SoundManager.Instance.PlaySEAtPosition("PauseOpen", Vector3.zero);
+    private IEnumerator SelectFirstButtonDelay()
+    {
+        yield return null;
+        SetSelectedButton(resumeButton);
     }
 
     private void ClosePauseMenu()
     {
         _isPaused = false;
         _isHowToPlayOpen = false;
-
-        Time.timeScale = 1f; // ★ゲーム内の時間を再開
+        Time.timeScale = 1f;
 
         pauseCanvasRoot.SetActive(false);
         pauseMenuRoot.SetActive(false);
         controlsRoot.SetActive(false);
-
-        // ※SoundManagerの実装に合わせて再生してください
-        // SoundManager.Instance.PlaySEAtPosition("PauseClose", Vector3.zero);
     }
 
     private void SetSelectedButton(Button targetButton)
     {
         if (targetButton == null || EventSystem.current == null) return;
-
-        // 一度選択をクリアしてからフォーカスを当てる（EventSystemのバグ対策）
         EventSystem.current.SetSelectedGameObject(null);
         targetButton.Select();
     }
 
     // ==========================================
-    // 🔘 各ボタンのクリックイベント（Submitと連動）
+    // ✨【修正版】引数を1つにしてUnityに認識させるメソッド
     // ==========================================
 
     /// <summary>
-    /// ボタン1：ゲームに戻る（Resume）
+    /// ボタンが選択された（フォーカス・ホバーされた）とき【EventTrigger用】
     /// </summary>
-    public void ResumeGame()
+    /// <param name="index">0:Resume, 1:Restart, 2:Controls, 3:Title, 4:Quit</param>
+    public void OnButtonSelect(int index)
     {
-        ClosePauseMenu();
+        SetButtonVisualState(index, true);
     }
 
     /// <summary>
-    /// ボタン2：リスタート（Restart）
+    /// ボタンから選択が外れた（離れた）とき【EventTrigger用】
     /// </summary>
+    /// <param name="index">0:Resume, 1:Restart, 2:Controls, 3:Title, 4:Quit</param>
+    public void OnButtonDeselect(int index)
+    {
+        SetButtonVisualState(index, false);
+    }
+
+    /// <summary>
+    /// 実際の見た目を切り替える内部共通ロジック
+    /// </summary>
+    private void SetButtonVisualState(int index, bool isHighlighted)
+    {
+        // 1. アウトラインの太さを変更
+        if (buttonOutlines != null && index < buttonOutlines.Length && buttonOutlines[index] != null)
+        {
+            buttonOutlines[index].effectDistance = isHighlighted ? highlightedOutlineEffectDistance : normalOutlineEffectDistance;
+        }
+
+        // 2. ボタンのカラーを変更
+        if (buttonTargetImages != null && index < buttonTargetImages.Length && buttonTargetImages[index] != null)
+        {
+            buttonTargetImages[index].color = isHighlighted ? highlightedColor : normalColor;
+        }
+    }
+
+    private void ResetAllHighlights()
+    {
+        // すべて通常時の太さと色に戻す
+        if (buttonOutlines != null)
+        {
+            for (int i = 0; i < buttonOutlines.Length; i++)
+            {
+                if (buttonOutlines[i] != null) buttonOutlines[i].effectDistance = normalOutlineEffectDistance;
+            }
+        }
+
+        if (buttonTargetImages != null)
+        {
+            for (int i = 0; i < buttonTargetImages.Length; i++)
+            {
+                if (buttonTargetImages[i] != null) buttonTargetImages[i].color = normalColor;
+            }
+        }
+    }
+
+    // ==========================================
+    // 🔘 ボタンクリックイベント
+    // ==========================================
+
+    public void ResumeGame() => ClosePauseMenu();
+
     public void RestartGame()
     {
-        // ※SoundManager.Instance.PlaySEAtPosition("SelectConfirmed", Vector3.zero);
-
-        Time.timeScale = 1f; // ★シーン読み込み前に時間を必ず1に戻す！
-
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(currentSceneName);
+        if (SoundManager.Instance != null) SoundManager.Instance.PlaySE("ConfirmPauseMenu");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    /// <summary>
-    /// ボタン3：操作説明を表示（HowToPlay）
-    /// </summary>
     public void OpenControls()
     {
-        // ※SoundManager.Instance.PlaySEAtPosition("SelectConfirmed", Vector3.zero);
+        if (SoundManager.Instance != null) SoundManager.Instance.PlaySE("ConfirmPauseMenu");
         _isHowToPlayOpen = true;
-
         pauseMenuRoot.SetActive(false);
         controlsRoot.SetActive(true);
-
-        // 操作説明内に閉じるボタン等があればそれを選択、無ければフォーカスを外す
-        if (controlsFirstButton != null)
-        {
-            SetSelectedButton(controlsFirstButton);
-        }
-        else
-        {
-            if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
-        }
+        if (controlsFirstButton != null) SetSelectedButton(controlsFirstButton);
     }
 
-    /// <summary>
-    /// 操作説明画面からポーズメイン画面へ戻る（Cancelキー入力時など）
-    /// </summary>
     public void BackToPauseMenuFromControls()
     {
-        // ※SoundManager.Instance.PlaySEAtPosition("Cancel", Vector3.zero);
         _isHowToPlayOpen = false;
-
         controlsRoot.SetActive(false);
         pauseMenuRoot.SetActive(true);
-
-        // 操作説明を閉じた後は、「操作説明を開いたボタン（またはゲームに戻る）」にカーソルを戻す
-        SetSelectedButton(resumeButton);
+        SetSelectedButton(controlsButton);
     }
 
-    /// <summary>
-    /// ボタン4：タイトルに戻る（Title）
-    /// </summary>
     public void ReturnToTitle()
     {
-        // ※SoundManager.Instance.PlaySEAtPosition("SelectConfirmed", Vector3.zero);
-
-        Time.timeScale = 1f; // ★タイトルシーンに戻る前に時間を必ず1に戻す！
+        if (SoundManager.Instance != null) SoundManager.Instance.PlaySE("ConfirmPauseMenu");
+        Time.timeScale = 1f;
         SceneManager.LoadScene(titleSceneName);
     }
 
-    /// <summary>
-    /// ボタン5：ゲーム終了（Exit）
-    /// </summary>
     public void Quit()
     {
-        // ※SoundManager.Instance.PlaySEAtPosition("SelectConfirmed", Vector3.zero);
+        if (SoundManager.Instance != null) SoundManager.Instance.PlaySE("ConfirmPauseMenu");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

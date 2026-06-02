@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -26,6 +27,15 @@ public class TitleSceneManager : MonoBehaviour
     [SerializeField] private GameObject survivalHoverImage;  // サバイバル選択時に表示する画像
     [SerializeField] private GameObject trainingHoverImage;  // トレーニング選択時に表示する画像
 
+    [Header("ーー ✨各モードのテキスト参照 ーー")]
+    // 💡もしTextMeshProをお使いの場合は、型を「TextMeshProUGUI」に書き換えてください
+    [SerializeField] private TextMeshProUGUI survivalButtonText;        // サバイバルボタンの文字
+    [SerializeField] private TextMeshProUGUI trainingButtonText;        // トレーニングボタンの文字
+
+    [Header("ーー ✨テキストの拡大率設定 ーー")]
+    [SerializeField] private float normalFontSize = 24f;     // 通常時の文字サイズ
+    [SerializeField] private float highlightedFontSize = 30f; // 選択（ホバー）時の文字サイズ
+
     [Header("ーー 演出タイマー設定 ーー")]
     [SerializeField] private float movieLengthSeconds = 5.0f;
     [SerializeField] private float fadeDuration = 1.2f;
@@ -45,6 +55,9 @@ public class TitleSceneManager : MonoBehaviour
         // 背景演出画像も最初はすべて隠しておく
         if (survivalHoverImage != null) survivalHoverImage.SetActive(false);
         if (trainingHoverImage != null) trainingHoverImage.SetActive(false);
+
+        // 🔥【初期化】テキストのサイズを最初に通常サイズにリセットしておく
+        ResetTextSizes();
 
         if (fadeOverlay != null)
         {
@@ -109,6 +122,11 @@ public class TitleSceneManager : MonoBehaviour
         // 💡 ボタンを触れるようにFadeOverlayを非表示化
         if (fadeOverlay != null) fadeOverlay.gameObject.SetActive(false);
 
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayBGM("Title");
+        }
+
         _isWaitingForAnyKey = true;
         _anyRawInputListener = InputSystem.onAnyButtonPress.Call(OnAnyButtonPressTriggered);
     }
@@ -134,11 +152,16 @@ public class TitleSceneManager : MonoBehaviour
         if (pressAnyRoot != null) pressAnyRoot.SetActive(false);
         if (modeSelectRoot != null) modeSelectRoot.SetActive(true);
 
-        if (SoundManager.Instance != null)
-        {
-            SoundManager.Instance.PlayBGM("Title");
-        }
+        // 💡 直接呼ぶのをやめ、1フレーム待ってからフォーカスを当てるコルーチンを起動
+        StartCoroutine(SelectFirstButtonDelay());
+    }
 
+    private IEnumerator SelectFirstButtonDelay()
+    {
+        // UI（ModeSelectRoot）が完全に起動しきるまで1フレームだけ待つ
+        yield return null;
+
+        // 満を持してフォーカスを当てる
         SetSelectedButton(survivalButton);
     }
 
@@ -152,11 +175,13 @@ public class TitleSceneManager : MonoBehaviour
 
     public void SelectSurvivalMode()
     {
+        SoundManager.Instance.PlaySE("ConfirmTitle");
         SceneManager.LoadScene(survivalSceneName);
     }
 
     public void SelectTrainingMode()
     {
+        SoundManager.Instance.PlaySE("ConfirmTitle");
         SceneManager.LoadScene(trainingSceneName);
     }
 
@@ -173,6 +198,14 @@ public class TitleSceneManager : MonoBehaviour
         {
             survivalHoverImage.SetActive(isHighlighted);
         }
+
+        // ✨【追加】文字サイズの変更
+        if (survivalButtonText != null)
+        {
+            survivalButtonText.fontSize = isHighlighted ? highlightedFontSize : normalFontSize;
+        }
+
+        SoundManager.Instance.PlaySE("ChangeSelected");
     }
 
     /// <summary>
@@ -184,6 +217,20 @@ public class TitleSceneManager : MonoBehaviour
         {
             trainingHoverImage.SetActive(isHighlighted);
         }
+
+        // ✨【追加】文字サイズの変更
+        if (trainingButtonText != null)
+        {
+            trainingButtonText.fontSize = isHighlighted ? highlightedFontSize : normalFontSize;
+        }
+
+        SoundManager.Instance.PlaySE("ChangeSelected");
+    }
+
+    private void ResetTextSizes()
+    {
+        if (survivalButtonText != null) survivalButtonText.fontSize = normalFontSize;
+        if (trainingButtonText != null) trainingButtonText.fontSize = normalFontSize;
     }
 
     // ==========================================

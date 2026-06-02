@@ -181,10 +181,28 @@ MonoBehaviour:
     isLoop: 0
     startTime: 0.2
     endTime: 0.6
+  - key: ConfirmTitle
+    clip: {fileID: 8300000, guid: ffa45816b43df074790e9986c5b85b3c, type: 3}
+    volume: 0.5
+    isLoop: 0
+    startTime: 0
+    endTime: 0
+  - key: ConfirmPauseMenu
+    clip: {fileID: 8300000, guid: 35cf7766e9e2aa542811e896fde57989, type: 3}
+    volume: 0.5
+    isLoop: 0
+    startTime: 0
+    endTime: 0
+  - key: ChangeSelected
+    clip: {fileID: 8300000, guid: 490bfbc72255342408984f60044487de, type: 3}
+    volume: 0.5
+    isLoop: 0
+    startTime: 0
+    endTime: 0
   bgmList:
   - key: Title
     clip: {fileID: 8300000, guid: dc52eb17a85e115498a39d248852ace5, type: 3}
-    volume: 0.511
+    volume: 0.1
     startTime: 0
     endTime: 0
   - key: Survival
@@ -194,6 +212,6 @@ MonoBehaviour:
     endTime: 0
   - key: Training
     clip: {fileID: 8300000, guid: dd1cb3ccc02a27c49bd87b8863a0d4dc, type: 3}
-    volume: 0.02
+    volume: 0.08
     startTime: 0
     endTime: 0

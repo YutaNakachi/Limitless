@@ -113,7 +113,7 @@ public abstract class MobStatus : MonoBehaviour
     }
 
     // 💡【追加】カメラの外にいるかどうかを判定するプライベートメソッド
-    private bool IsOutOfCamera()
+    public bool IsOutOfCamera()
     {
         if (_mainCamera == null) return false;
 
