@@ -237,7 +237,7 @@ public class SurvivalModeManager : MonoBehaviour
             finalScoreText.text = $"<size=120%> == GAME OVER == </size>\n\n" +
                                   $"FINAL SCORE : {_score}\n" +
                                   $"TOTAL KILLS : {_killCount}\n" +
-                                  $"MAX COMBO   : {_maxComboCount} Combo";
+                                  $"MAX COMBO : {_maxComboCount} Combo";
         }
     }
 
