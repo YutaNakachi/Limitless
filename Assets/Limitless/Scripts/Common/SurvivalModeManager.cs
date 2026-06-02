@@ -1,35 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro; // UI表示にTextMeshProを使用する場合
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem; // ✨【追加】Input Systemを使用可能にする
 
 public class SurvivalModeManager : MonoBehaviour
 {
     [Header("ーー プレイヤー設定 ーー")]
     [SerializeField] private MobStatus playerStatus;
 
+    // ✨【追加】プレイヤーの入力をゲームオーバー時に最速で止めるための参照
+    [SerializeField] private PlayerInput playerInput;
+
     [Header("ーー スポーン設定 ーー")]
     [SerializeField] private GameObject batPrefab;
     [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private float initialSpawnInterval = 5f; // Start時のインターバル
-    [SerializeField] private float minSpawnInterval = 1f; // インターバルの下限値
-    [SerializeField] private float spawnSpeedUpRate = 0.05f; // 1秒ごとにスポーン間隔がどれだけ短くなるか
+    [SerializeField] private float initialSpawnInterval = 5f;
+    [SerializeField] private float minSpawnInterval = 1f;
+    [SerializeField] private float spawnSpeedUpRate = 0.05f;
 
     [Header("ーー Batの強化設定 ーー")]
-    [SerializeField] private int baseBatHp = 1; // Start時に生成される敵のHp
-    [SerializeField] private float hpScaleRate = 0.1f; // 1秒ごとに最大HPがどれだけ上昇するか
+    [SerializeField] private int baseBatHp = 1;
+    [SerializeField] private float hpScaleRate = 0.1f;
 
     [Header("ーー コンボ設定 ーー")]
-    [SerializeField] private float comboTimeout = 5f; // コンボが途切れる時間
+    [SerializeField] private float comboTimeout = 5f;
 
     [Header("ーー UI参照 (任意) ーー")]
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI comboText;
     [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private TextMeshProUGUI finalScoreText; // リザルト表示用のテキスト
+    [SerializeField] private TextMeshProUGUI finalScoreText;
     [SerializeField] private GameOverMenuManager gameOverMenuManager;
 
-    // 内部ステート管理
     private List<GameObject> _activeBats = new List<GameObject>();
     private float _currentSpawnInterval;
     private float _spawnTimer;
@@ -40,7 +43,6 @@ public class SurvivalModeManager : MonoBehaviour
     private float _comboTimer;
     private bool _isGameOver;
 
-    // 🔥 リザルト用に追加した内部変数
     private int _killCount;
     private int _maxComboCount;
 
@@ -51,26 +53,23 @@ public class SurvivalModeManager : MonoBehaviour
         _elapsedTime = 0f;
         _score = 0;
         _comboCount = 0;
-        _killCount = 0;      // 初期化
-        _maxComboCount = 0;  // 初期化
+        _killCount = 0;
+        _maxComboCount = 0;
         _isGameOver = false;
 
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
 
-        // プレイヤーのイベントを予約
         if (playerStatus != null)
         {
             playerStatus.OnDeathEvent += (playerObj) => GameOver();
             playerStatus.OnTakeDamageEvent += (damage) => OnPlayerDamaged();
         }
 
-        // 💡 SoundManagerのBGM専用メソッドを呼び出し、"Survival" をループ再生
         if (SoundManager.Instance != null)
         {
             SoundManager.Instance.PlayBGM("Survival");
         }
 
-        // 最初の1匹を即座にスポーン
         SpawnBat();
     }
 
@@ -79,11 +78,8 @@ public class SurvivalModeManager : MonoBehaviour
         if (_isGameOver) return;
 
         _elapsedTime += Time.deltaTime;
-
-        // 1. スポーン時間間隔の短縮化
         _currentSpawnInterval = Mathf.Max(minSpawnInterval, initialSpawnInterval - (_elapsedTime * spawnSpeedUpRate));
 
-        // 2. スポーンタイマー処理、または画面内0匹時の即時スポーン
         _spawnTimer -= Time.deltaTime;
         if (_spawnTimer <= 0f || _activeBats.Count == 0)
         {
@@ -91,7 +87,6 @@ public class SurvivalModeManager : MonoBehaviour
             _spawnTimer = _currentSpawnInterval;
         }
 
-        // 3. コンボタイマーの監視
         if (_comboCount > 0)
         {
             _comboTimer -= Time.deltaTime;
@@ -104,9 +99,6 @@ public class SurvivalModeManager : MonoBehaviour
         UpdateUI();
     }
 
-    /// <summary>
-    /// Batを生成する
-    /// </summary>
     private void SpawnBat()
     {
         if (spawnPoints.Length == 0 || batPrefab == null) return;
@@ -124,15 +116,11 @@ public class SurvivalModeManager : MonoBehaviour
 
             enemyStatus.SetMaxLife(targetHp);
 
-            // イベント自動紐付け
             enemyStatus.OnTakeDamageEvent += (damage) => OnPlayerHitSuccess();
             enemyStatus.OnDeathEvent += (batObj) => OnBatKilled(batObj);
         }
     }
 
-    /// <summary>
-    /// 敵に攻撃がヒットしたときに呼ばれる
-    /// </summary>
     private void OnPlayerHitSuccess()
     {
         if (_isGameOver) return;
@@ -140,7 +128,6 @@ public class SurvivalModeManager : MonoBehaviour
         _comboCount++;
         _comboTimer = comboTimeout;
 
-        // 🔥 【追加】最大コンボ数をリアルタイムに更新・記録
         if (_comboCount > _maxComboCount)
         {
             _maxComboCount = _comboCount;
@@ -149,18 +136,12 @@ public class SurvivalModeManager : MonoBehaviour
         Debug.Log($"🔥 コンボ継続！ 現在: {_comboCount} Combo (最高: {_maxComboCount})");
     }
 
-    /// <summary>
-    /// Playerがダメージを受けたときに呼ばれる
-    /// </summary>
     private void OnPlayerDamaged()
     {
         if (_isGameOver) return;
         BreakCombo();
     }
 
-    /// <summary>
-    /// コンボが途切れたときの処理
-    /// </summary>
     private void BreakCombo()
     {
         if (_comboCount > 0)
@@ -170,9 +151,6 @@ public class SurvivalModeManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Batが倒されたときに呼び出される（スコア加算）
-    /// </summary>
     private void OnBatKilled(GameObject bat)
     {
         if (_isGameOver) return;
@@ -182,10 +160,8 @@ public class SurvivalModeManager : MonoBehaviour
             _activeBats.Remove(bat);
         }
 
-        // 🔥 【追加】Kill数をカウントアップ
         _killCount++;
 
-        // スコア計算（コンボ倍率を適用）
         int baseScore = 100;
         float comboMultiplier = 1f + (_comboCount * 0.1f);
         int addedScore = Mathf.RoundToInt(baseScore * comboMultiplier);
@@ -203,9 +179,6 @@ public class SurvivalModeManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// ステージクリアやゲームオーバー時など、明示的にBGMを止めたい場合に外部から呼ぶメソッド
-    /// </summary>
     public void StopStageBGM()
     {
         if (SoundManager.Instance != null)
@@ -220,19 +193,28 @@ public class SurvivalModeManager : MonoBehaviour
         _isGameOver = true;
         StopStageBGM();
 
-        StartCoroutine(ResultCoroutine());
+        // ✨【重要】死亡した瞬間に、プレイヤーのアクションマップ（操作）を即座に止める！
+        // これにより、リザルト画面が出るまでの2.5秒間も死体撃ちや暴発を完全に防げます
+        if (playerInput != null)
+        {
+            playerInput.actions.FindActionMap("Player")?.Disable();
+        }
 
-        //Time.timeScale = 0f;
+        StartCoroutine(ResultCoroutine());
     }
 
     private IEnumerator ResultCoroutine()
     {
+        // 死亡演出を待つ間（2.5秒間）はゲーム内の時間は動いているため、
+        // 敵の動きやパーティクルは綺麗に再生され続けます
         yield return new WaitForSeconds(2.5f);
         Debug.Log($"📢 GAME OVER! スコア: {_score}, KILLS: {_killCount}, MAX COMBO: {_maxComboCount}");
 
+        // ✨【重要】リザルトパネルが開いた段階で、ゲーム内の時間を完全停止させる
+        Time.timeScale = 0f;
+
         if (gameOverPanel != null) gameOverPanel.SetActive(true);
 
-        // 🔥 【大改造】リザルトテキストに3つの情報をまとめてかっこよく表示
         if (finalScoreText != null)
         {
             finalScoreText.text = $"<size=120%> == GAME OVER == </size>\n\n" +
@@ -241,7 +223,6 @@ public class SurvivalModeManager : MonoBehaviour
                                   $"MAX COMBO : {_maxComboCount} Combo";
         }
 
-        // 💡 画面が出たので、ボタン操作（フォーカス合わせ）のスクリプトを叩く！
         if (gameOverMenuManager != null)
         {
             gameOverMenuManager.ActivateMenu();
@@ -258,6 +239,7 @@ public class SurvivalModeManager : MonoBehaviour
 
         StopStageBGM();
 
+        // シーン破棄（終了・リトライ時）には必ず時間を1に戻しておく
         Time.timeScale = 1f;
     }
 }

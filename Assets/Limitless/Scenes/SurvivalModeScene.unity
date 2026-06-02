@@ -629,6 +629,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366f861a132b72c45a2840fe4419d9bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
+--- !u!114 &277644319 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6283479949233536919, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+  m_PrefabInstance: {fileID: 1829928707}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
 --- !u!1 &287979579
 GameObject:
   m_ObjectHideFlags: 0
@@ -4615,6 +4626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SurvivalModeManager
   playerStatus: {fileID: 241238048}
+  playerInput: {fileID: 277644319}
   batPrefab: {fileID: 6559199684679116014, guid: aa65fa530b3fc6145a05b4a1c1fe190f, type: 3}
   spawnPoints:
   - {fileID: 1504522817}
@@ -4676,6 +4688,7 @@ MonoBehaviour:
   highlightedColor: {r: 0, g: 1, b: 1, a: 1}
   pauseActionReference: {fileID: 5652077031759512851, guid: 6832fb3853e9d6440978664f405bd209, type: 3}
   cancelActionReference: {fileID: 7727032971491509709, guid: 6832fb3853e9d6440978664f405bd209, type: 3}
+  playerInput: {fileID: 277644319}
 --- !u!114 &1721503977
 MonoBehaviour:
   m_ObjectHideFlags: 0

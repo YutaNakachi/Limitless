@@ -21,9 +21,8 @@ public class PauseMenuManager : MonoBehaviour
     [SerializeField] private Button controlsFirstButton;
 
     [Header("ーー ✨演出用：各ボタンのコンポーネント ーー")]
-    // 0:Resume, 1:Restart, 2:Controls, 3:Title, 4:Quit の順番でアタッチ
-    [SerializeField] private Outline[] buttonOutlines; // 各ボタンのOutlineコンポーネント
-    [SerializeField] private Image[] buttonTargetImages; // 色を変えたいImage（ボタン背景など）
+    [SerializeField] private Outline[] buttonOutlines;
+    [SerializeField] private Image[] buttonTargetImages;
 
     [Header("ーー ✨演出用：アウトラインの太さ設定 ーー")]
     [SerializeField] private Vector2 normalOutlineEffectDistance = new Vector2(1f, -1f);
@@ -36,6 +35,12 @@ public class PauseMenuManager : MonoBehaviour
     [Header("ーー 🎮 Input System アクション参照 ーー")]
     [SerializeField] private InputActionReference pauseActionReference;
     [SerializeField] private InputActionReference cancelActionReference;
+
+    // ✨【追加】PlayerInputの制御用
+    // インスペクターで、Player（操作キャラクター）のオブジェクト、
+    // あるいはPlayerInputコンポーネントがついているオブジェクトをアタッチしてください。
+    [Header("ーー 🎮 プレイヤー入力の制御用 ーー")]
+    [SerializeField] private PlayerInput playerInput;
 
     private bool _isPaused = false;
     private bool _isHowToPlayOpen = false;
@@ -83,11 +88,21 @@ public class PauseMenuManager : MonoBehaviour
         _isHowToPlayOpen = false;
         Time.timeScale = 0f;
 
+        // ✨【重要】ポーズを開いたので、プレイヤーのアクションマップ（操作）を止める
+        if (playerInput != null)
+        {
+            // もし「Player」という名前のアクションマップを使っている場合、それを無効化する
+            playerInput.actions.FindActionMap("Player")?.Disable();
+
+            // 💡もし「UI」というポーズメニュー操作用の別マップを用意している場合は、
+            // 以下のようにUI側だけを有効化するとより確実です
+            // playerInput.actions.FindActionMap("UI")?.Enable();
+        }
+
         pauseCanvasRoot.SetActive(true);
         pauseMenuRoot.SetActive(true);
         controlsRoot.SetActive(false);
 
-        // 画面が開く瞬間に一度すべて通常状態へリセット
         ResetAllHighlights();
         StartCoroutine(SelectFirstButtonDelay());
     }
@@ -104,6 +119,12 @@ public class PauseMenuManager : MonoBehaviour
         _isHowToPlayOpen = false;
         Time.timeScale = 1f;
 
+        // ✨【重要】ポーズを閉じたので、プレイヤーのアクションマップ（操作）を再開する
+        if (playerInput != null)
+        {
+            playerInput.actions.FindActionMap("Player")?.Enable();
+        }
+
         pauseCanvasRoot.SetActive(false);
         pauseMenuRoot.SetActive(false);
         controlsRoot.SetActive(false);
@@ -116,40 +137,15 @@ public class PauseMenuManager : MonoBehaviour
         targetButton.Select();
     }
 
-    // ==========================================
-    // ✨【修正版】引数を1つにしてUnityに認識させるメソッド
-    // ==========================================
+    public void OnButtonSelect(int index) => SetButtonVisualState(index, true);
+    public void OnButtonDeselect(int index) => SetButtonVisualState(index, false);
 
-    /// <summary>
-    /// ボタンが選択された（フォーカス・ホバーされた）とき【EventTrigger用】
-    /// </summary>
-    /// <param name="index">0:Resume, 1:Restart, 2:Controls, 3:Title, 4:Quit</param>
-    public void OnButtonSelect(int index)
-    {
-        SetButtonVisualState(index, true);
-    }
-
-    /// <summary>
-    /// ボタンから選択が外れた（離れた）とき【EventTrigger用】
-    /// </summary>
-    /// <param name="index">0:Resume, 1:Restart, 2:Controls, 3:Title, 4:Quit</param>
-    public void OnButtonDeselect(int index)
-    {
-        SetButtonVisualState(index, false);
-    }
-
-    /// <summary>
-    /// 実際の見た目を切り替える内部共通ロジック
-    /// </summary>
     private void SetButtonVisualState(int index, bool isHighlighted)
     {
-        // 1. アウトラインの太さを変更
         if (buttonOutlines != null && index < buttonOutlines.Length && buttonOutlines[index] != null)
         {
             buttonOutlines[index].effectDistance = isHighlighted ? highlightedOutlineEffectDistance : normalOutlineEffectDistance;
         }
-
-        // 2. ボタンのカラーを変更
         if (buttonTargetImages != null && index < buttonTargetImages.Length && buttonTargetImages[index] != null)
         {
             buttonTargetImages[index].color = isHighlighted ? highlightedColor : normalColor;
@@ -158,7 +154,6 @@ public class PauseMenuManager : MonoBehaviour
 
     private void ResetAllHighlights()
     {
-        // すべて通常時の太さと色に戻す
         if (buttonOutlines != null)
         {
             for (int i = 0; i < buttonOutlines.Length; i++)
@@ -166,7 +161,6 @@ public class PauseMenuManager : MonoBehaviour
                 if (buttonOutlines[i] != null) buttonOutlines[i].effectDistance = normalOutlineEffectDistance;
             }
         }
-
         if (buttonTargetImages != null)
         {
             for (int i = 0; i < buttonTargetImages.Length; i++)
@@ -179,7 +173,6 @@ public class PauseMenuManager : MonoBehaviour
     // ==========================================
     // 🔘 ボタンクリックイベント
     // ==========================================
-
     public void ResumeGame() => ClosePauseMenu();
 
     public void RestartGame()
