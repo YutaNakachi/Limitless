@@ -42,12 +42,18 @@ public abstract class MobStatus : MonoBehaviour
     // 👈 仕様：初期状態は無敵にしない（敵が即座に攻撃を受け付けるため）
     public bool IsInvincible { get; protected set; } = false;
 
+    // 💡【追加】カメラキャッシュ用の変数
+    private Camera _mainCamera;
+
     protected virtual void Start()
     {
         _life = LifeMax;
         _animator = GetComponentInChildren<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        // 💡【追加】メインカメラをキャッシュ
+        _mainCamera = Camera.main;
 
         LifeGaugeContainer.Instance.Add(this);
     }
@@ -78,7 +84,8 @@ public abstract class MobStatus : MonoBehaviour
     /// </summary>
     public virtual void TakeDamage(int damage, Vector2 attackerPosition)
     {
-        if (IsInvincible) return;
+        // 💡【追加】もともとの無敵フラグが立っているか、もしくはカメラ外ならダメージを通さない
+        if (IsInvincible || IsOutOfCamera()) return;
         if (IsDead) return;
 
         _life -= damage;
@@ -103,6 +110,17 @@ public abstract class MobStatus : MonoBehaviour
 
         OnDeathEvent?.Invoke(this.gameObject);
         OnDie();
+    }
+
+    // 💡【追加】カメラの外にいるかどうかを判定するプライベートメソッド
+    private bool IsOutOfCamera()
+    {
+        if (_mainCamera == null) return false;
+
+        Vector3 viewPos = _mainCamera.WorldToViewportPoint(transform.position);
+
+        // 画面の上下左右の外側に出ているかをチェック
+        return viewPos.x < 0f || viewPos.x > 1f || viewPos.y < 0f || viewPos.y > 1f;
     }
 
     protected virtual void OnDie()

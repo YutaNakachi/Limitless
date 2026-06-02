@@ -11,16 +11,16 @@ public class SurvivalModeManager : MonoBehaviour
     [Header("ーー スポーン設定 ーー")]
     [SerializeField] private GameObject batPrefab;
     [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private float initialSpawnInterval = 5f;
-    [SerializeField] private float minSpawnInterval = 1f;
+    [SerializeField] private float initialSpawnInterval = 5f; // Start時のインターバル
+    [SerializeField] private float minSpawnInterval = 1f; // インターバルの下限値
     [SerializeField] private float spawnSpeedUpRate = 0.05f; // 1秒ごとにスポーン間隔がどれだけ短くなるか
 
     [Header("ーー Batの強化設定 ーー")]
-    [SerializeField] private int baseBatHp = 1;
+    [SerializeField] private int baseBatHp = 1; // Start時に生成される敵のHp
     [SerializeField] private float hpScaleRate = 0.1f; // 1秒ごとに最大HPがどれだけ上昇するか
 
     [Header("ーー コンボ設定 ーー")]
-    [SerializeField] private float comboTimeout = 5f;
+    [SerializeField] private float comboTimeout = 5f; // コンボが途切れる時間
 
     [Header("ーー UI参照 (任意) ーー")]
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -217,6 +217,7 @@ public class SurvivalModeManager : MonoBehaviour
     {
         if (_isGameOver) return;
         _isGameOver = true;
+        StopStageBGM();
 
         StartCoroutine(ResultCoroutine());
 
