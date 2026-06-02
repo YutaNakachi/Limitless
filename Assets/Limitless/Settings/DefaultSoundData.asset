@@ -207,11 +207,11 @@ MonoBehaviour:
     endTime: 0
   - key: Survival
     clip: {fileID: 8300000, guid: 28b50f18cc1e8494180aa106eda649d1, type: 3}
-    volume: 0.02
+    volume: 0.1
     startTime: 0
     endTime: 0
   - key: Training
     clip: {fileID: 8300000, guid: dd1cb3ccc02a27c49bd87b8863a0d4dc, type: 3}
-    volume: 0.08
+    volume: 0.1
     startTime: 0
     endTime: 0

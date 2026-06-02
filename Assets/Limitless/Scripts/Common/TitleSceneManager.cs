@@ -28,7 +28,6 @@ public class TitleSceneManager : MonoBehaviour
     [SerializeField] private GameObject trainingHoverImage;  // トレーニング選択時に表示する画像
 
     [Header("ーー ✨各モードのテキスト参照 ーー")]
-    // 💡もしTextMeshProをお使いの場合は、型を「TextMeshProUGUI」に書き換えてください
     [SerializeField] private TextMeshProUGUI survivalButtonText;        // サバイバルボタンの文字
     [SerializeField] private TextMeshProUGUI trainingButtonText;        // トレーニングボタンの文字
 
@@ -44,6 +43,11 @@ public class TitleSceneManager : MonoBehaviour
     private bool _isWaitingForAnyKey = false;
     private System.IDisposable _anyRawInputListener;
 
+    // ✨【追加】動画スキップ状態管理用の変数
+    private Coroutine _sequencerCoroutine;
+    private bool _isVideoPlaying = false;
+    private System.IDisposable _videoSkipListener;
+
     void Start()
     {
         _videoPlayer = GetComponentInChildren<VideoPlayer>();
@@ -52,11 +56,9 @@ public class TitleSceneManager : MonoBehaviour
         if (pressAnyRoot != null) pressAnyRoot.SetActive(false);
         if (modeSelectRoot != null) modeSelectRoot.SetActive(false);
 
-        // 背景演出画像も最初はすべて隠しておく
         if (survivalHoverImage != null) survivalHoverImage.SetActive(false);
         if (trainingHoverImage != null) trainingHoverImage.SetActive(false);
 
-        // 🔥【初期化】テキストのサイズを最初に通常サイズにリセットしておく
         ResetTextSizes();
 
         if (fadeOverlay != null)
@@ -72,38 +74,76 @@ public class TitleSceneManager : MonoBehaviour
             _videoPlayer.Play();
         }
 
-        StartCoroutine(FixedTimerSequence());
+        // ✨【変更】コルーチンをキャンセルできるように変数に格納して開始
+        _sequencerCoroutine = StartCoroutine(FixedTimerSequence());
+
+        // ✨【追加】動画再生中のボタン入力を監視開始
+        _isVideoPlaying = true;
+        _videoSkipListener = InputSystem.onAnyButtonPress.Call(OnVideoSkipTriggered);
     }
 
-    // ✨ ESCキーの入力を毎フレーム安全に監視
     void Update()
     {
-        // キーボードが接続されており、かつESCキーが押された瞬間であるかを確認
         if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             QuitGame();
         }
     }
 
-    /// <summary>
-    /// ゲームを安全に終了するメソッド
-    /// </summary>
     private void QuitGame()
     {
         Debug.Log("Game Quitting...");
-
 #if UNITY_EDITOR
-        // Unityエディタ上では再生を停止する
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-        // 実機ビルドではアプリケーションを終了する
         Application.Quit();
 #endif
+    }
+
+    // ✨【追加】動画再生中に何かボタンが押されたら呼ばれるメソッド
+    private void OnVideoSkipTriggered(InputControl control)
+    {
+        if (!_isVideoPlaying) return;
+
+        // ESCキーだったらスキップではなくゲーム終了を優先するため弾く
+        if (Keyboard.current != null && control == Keyboard.current.escapeKey)
+        {
+            return;
+        }
+
+        _isVideoPlaying = false;
+
+        // リスナーを即座に解除（多重連打対策）
+        if (_videoSkipListener != null) _videoSkipListener.Dispose();
+
+        // 通常の流れ（タイマー）を強制ストップしてスキップ処理へ
+        if (_sequencerCoroutine != null) StopCoroutine(_sequencerCoroutine);
+        StartCoroutine(SkipVideoSequence());
+    }
+
+    // ✨【追加】動画を飛ばして一気にタイトルへ繋ぐスキップ演出コルーチン
+    private IEnumerator SkipVideoSequence()
+    {
+        // 1. 綺麗につなぐため、ホワイトアウトフェードをパッと挟む（0.3秒ほどで素早くフェード）
+        float prevFadeDuration = fadeDuration;
+        fadeDuration = 0.3f;
+        yield return StartCoroutine(FadeVisual(fadeOverlay != null ? fadeOverlay.color.a : 0f, 1f));
+
+        // 2. 裏で動画を止めて非表示にする
+        if (_videoPlayer != null && _videoPlayer.isPlaying) _videoPlayer.Stop();
+        if (videoPlayerObject != null) videoPlayerObject.SetActive(false);
+
+        // 3. タイトル画面を表示させてフェードイン
+        fadeDuration = prevFadeDuration; // フェード時間を元に戻す
+        yield return StartCoroutine(RevealTitleScreen());
     }
 
     private IEnumerator FixedTimerSequence()
     {
         yield return new WaitForSeconds(movieLengthSeconds);
+
+        // 最後まで見終えたら動画用の入力監視はもう不要なので解除
+        CleanUpVideoListener();
 
         yield return StartCoroutine(FadeVisual(0f, 1f));
 
@@ -119,7 +159,6 @@ public class TitleSceneManager : MonoBehaviour
 
         yield return StartCoroutine(FadeVisual(1f, 0f));
 
-        // 💡 ボタンを触れるようにFadeOverlayを非表示化
         if (fadeOverlay != null) fadeOverlay.gameObject.SetActive(false);
 
         if (SoundManager.Instance != null)
@@ -135,8 +174,6 @@ public class TitleSceneManager : MonoBehaviour
     {
         if (!_isWaitingForAnyKey) return;
 
-        // 💡【修正】もし押されたのが「ESCキー」だった場合は、ゲーム終了処理（Update側）に任せるため、
-        // Press Any画面を通過させる処理（以降のロジック）を無視して弾く
         if (Keyboard.current != null && control == Keyboard.current.escapeKey)
         {
             return;
@@ -152,79 +189,52 @@ public class TitleSceneManager : MonoBehaviour
         if (pressAnyRoot != null) pressAnyRoot.SetActive(false);
         if (modeSelectRoot != null) modeSelectRoot.SetActive(true);
 
-        // 💡 直接呼ぶのをやめ、1フレーム待ってからフォーカスを当てるコルーチンを起動
         StartCoroutine(SelectFirstButtonDelay());
     }
 
     private IEnumerator SelectFirstButtonDelay()
     {
-        // UI（ModeSelectRoot）が完全に起動しきるまで1フレームだけ待つ
         yield return null;
-
-        // 満を持してフォーカスを当てる
         SetSelectedButton(survivalButton);
     }
 
     private void SetSelectedButton(Button targetButton)
     {
         if (targetButton == null || EventSystem.current == null) return;
-
         EventSystem.current.SetSelectedGameObject(null);
         targetButton.Select();
     }
 
     public void SelectSurvivalMode()
     {
-        SoundManager.Instance.PlaySE("ConfirmTitle");
+        if (SoundManager.Instance != null) SoundManager.Instance.PlaySE("ConfirmTitle");
         SceneManager.LoadScene(survivalSceneName);
     }
 
     public void SelectTrainingMode()
     {
-        SoundManager.Instance.PlaySE("ConfirmTitle");
+        if (SoundManager.Instance != null) SoundManager.Instance.PlaySE("ConfirmTitle");
         SceneManager.LoadScene(trainingSceneName);
     }
 
-    // ==========================================
-    // ✨ ボタンの選択状態に連動するメソッド
-    // ==========================================
-
-    /// <summary>
-    /// サバイバルボタンが選ばれた（フォーカス・ホバーされた）とき
-    /// </summary>
     public void OnSurvivalButtonHighlighted(bool isHighlighted)
     {
-        if (survivalHoverImage != null)
-        {
-            survivalHoverImage.SetActive(isHighlighted);
-        }
-
-        // ✨【追加】文字サイズの変更
+        if (survivalHoverImage != null) survivalHoverImage.SetActive(isHighlighted);
         if (survivalButtonText != null)
         {
             survivalButtonText.fontSize = isHighlighted ? highlightedFontSize : normalFontSize;
         }
-
-        SoundManager.Instance.PlaySE("ChangeSelected");
+        if (isHighlighted && SoundManager.Instance != null) SoundManager.Instance.PlaySE("ChangeSelected");
     }
 
-    /// <summary>
-    /// トレーニングボタンが選ばれた（フォーカス・ホバーされた）とき
-    /// </summary>
     public void OnTrainingButtonHighlighted(bool isHighlighted)
     {
-        if (trainingHoverImage != null)
-        {
-            trainingHoverImage.SetActive(isHighlighted);
-        }
-
-        // ✨【追加】文字サイズの変更
+        if (trainingHoverImage != null) trainingHoverImage.SetActive(isHighlighted);
         if (trainingButtonText != null)
         {
             trainingButtonText.fontSize = isHighlighted ? highlightedFontSize : normalFontSize;
         }
-
-        SoundManager.Instance.PlaySE("ChangeSelected");
+        if (isHighlighted && SoundManager.Instance != null) SoundManager.Instance.PlaySE("ChangeSelected");
     }
 
     private void ResetTextSizes()
@@ -233,9 +243,6 @@ public class TitleSceneManager : MonoBehaviour
         if (trainingButtonText != null) trainingButtonText.fontSize = normalFontSize;
     }
 
-    // ==========================================
-    // 🌫️ 汎用フェードコルーチン
-    // ==========================================
     private IEnumerator FadeVisual(float startAlpha, float endAlpha)
     {
         if (fadeOverlay == null) yield break;
@@ -255,8 +262,20 @@ public class TitleSceneManager : MonoBehaviour
         fadeOverlay.color = c;
     }
 
+    private void CleanUpVideoListener()
+    {
+        _isVideoPlaying = false;
+        if (_videoSkipListener != null)
+        {
+            _videoSkipListener.Dispose();
+            _videoSkipListener = null;
+        }
+    }
+
     private void OnDestroy()
     {
+        CleanUpVideoListener();
+
         if (_anyRawInputListener != null)
         {
             _anyRawInputListener.Dispose();
