@@ -218,6 +218,12 @@ public class RedBallAbility : BallAbility
     // 各Ball固有のHit Effectを仕込む、OnHit()で呼び出す
     protected override void PlayHitEffect(Collider2D collider)
     {
+        // 相手が「EnemyStatus」を持っているか確認
+        EnemyStatus target = collider.GetComponent<EnemyStatus>();
+
+        if (target == null) return;
+        if (target.IsOutOfCamera()) return;
+
         Vector2 myCenter = transform.position;
         Vector3 exactHitPoint = collider.ClosestPoint(myCenter);
 

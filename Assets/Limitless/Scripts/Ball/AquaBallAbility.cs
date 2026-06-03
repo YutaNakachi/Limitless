@@ -93,28 +93,26 @@ public class AquaBallAbility : BallAbility
         // 水系の専用追加SEがあれば鳴らす（例: びしゃん、シュワァァなど）
         if (SoundManager.Instance != null)
         {
-            SoundManager.Instance.PlaySEAtPosition("BarrierUp", playerStatus.transform.position);
+            SoundManager.Instance.PlaySEAtPosition("Barrier", playerStatus.transform.position);
         }
 
         // ⏳ 2. 指定された時間（秒）だけポーズ画面などのTime.timeScaleを考慮して待機
         yield return new WaitForSeconds(duration);
 
         // 🔓 3. バリアの終了処理
-        if (playerStatus != null)
-        {
-            playerStatus.CancelInvicible(); // 無敵解除
-
-            // プレイヤーがまだ生存している場合のみ、SEを鳴らす
-            if (!playerStatus.IsDead && SoundManager.Instance != null)
-            {
-                SoundManager.Instance.PlaySEAtPosition("BarrierDown", playerStatus.transform.position);
-            }
-        }
 
         if (barrierObject != null)
         {
             barrierObject.SetActive(false); // ビジュアルを非アクティブに
         }
+
+        yield return new WaitForSeconds(0.1f);
+
+        if (playerStatus != null)
+        {
+            playerStatus.CancelInvicible(); // 無敵解除
+        }
+
 
         Debug.Log($"🍃 AquaBall: バリアの持続時間が終了しました。");
     }

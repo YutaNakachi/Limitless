@@ -4642,7 +4642,7 @@ MonoBehaviour:
   minSpawnInterval: 2
   spawnSpeedUpRate: 0.05
   baseBatHp: 1
-  hpScaleRate: 0.05
+  hpScaleRate: 0.1
   comboTimeout: 5
   scoreText: {fileID: 1415064523}
   comboText: {fileID: 2053772080}

@@ -223,4 +223,4 @@ MonoBehaviour:
   normalHealRate: 0.3
   smashHealRate: 0.6
   kokusenHealRate: 1
-  healEffectPrefab: {fileID: 0}
+  healEffectPrefab: {fileID: 3389979432865530425, guid: 9034f5fbd54ed1940b03535e27f803a5, type: 3}
