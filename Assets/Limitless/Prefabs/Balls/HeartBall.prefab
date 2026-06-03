@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 6244979713803959242}
   - component: {fileID: 27281023705090119}
   - component: {fileID: 7304066395945644652}
-  - component: {fileID: 2766605200379448915}
+  - component: {fileID: 2609258735961418032}
   m_Layer: 7
-  m_Name: PinkBall
+  m_Name: HeartBall
   m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   onTriggerEnter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2766605200379448915}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NormalBallAbility, Assembly-CSharp
         m_MethodName: OnHit
         m_Mode: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
   onCollisionStay:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2766605200379448915
+--- !u!114 &2609258735961418032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -203,24 +203,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 7504175457323940421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6322bb95b8d6e24280b13db12c2ae21, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e76e577caa99ef4caed874d5daf799e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NormalBallAbility
-  attackDamage: 5
-  smashAttackDamage: 10
-  kokusenAttackDamage: 591000
-  ballLifeTime: 0.5
-  maxHitCount: 3
-  smashMaxHitCount: 5
-  kokusenMaxHitCount: 10
+  m_EditorClassIdentifier: Assembly-CSharp::HeartBallAbility
+  attackDamage: 0
+  smashAttackDamage: 0
+  kokusenAttackDamage: 0
+  ballLifeTime: 2
+  maxHitCount: 0
+  smashMaxHitCount: 0
+  kokusenMaxHitCount: 0
   hitEffectPrefab: {fileID: 5669246471909640947, guid: 6737581d4861f6d4fb35be353d2e562f, type: 3}
   hitKokusenEffectPrefab: {fileID: 9027514048236820045, guid: ac48f8914e04efc4c8dac1d09c8084ca, type: 3}
   kickEffectPrefab: {fileID: 3042519775331041172, guid: fe5980c82f46c254e9a2410b097baceb, type: 3}
   smashKickEffectPrefab: {fileID: 467751860875805754, guid: 6b5c44c3e2915c7409d002c05e0ac56d, type: 3}
   kokusenKickEffectPrefab: {fileID: 9027514048236820045, guid: ac48f8914e04efc4c8dac1d09c8084ca, type: 3}
-  spawnEffectPrefab: {fileID: 7516003108749195644, guid: 8243718f683d2da4b8fd91aa9b375e55, type: 3}
+  spawnEffectPrefab: {fileID: 7516003108749195644, guid: aea519a730d68c84f83e60357ea61c6b, type: 3}
   ballType: 0
-  smokeEffectPrefab: {fileID: 3288035947860902249, guid: 6663032c2debf3f47aa581817466411f, type: 3}
-  kokusenSmokeEffectPrefab: {fileID: 3288035947860902249, guid: 8d213e2755cf08d49a5142320860d582, type: 3}
-  kokusenThunderEffectPrefab: {fileID: 9027514048236820045, guid: 609deac07faff0a4a85b32bf579c3dfc, type: 3}
-  effectDestroyTime: 5
+  normalHealRate: 0.3
+  smashHealRate: 0.6
+  kokusenHealRate: 1
+  healEffectPrefab: {fileID: 0}

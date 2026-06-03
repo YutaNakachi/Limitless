@@ -112,6 +112,19 @@ public abstract class MobStatus : MonoBehaviour
         OnDie();
     }
 
+    /// <summary>
+    /// ❤️【新規追加】体力を指定量だけ安全に回復する（最大値を超えない）
+    /// </summary>
+    public virtual void Heal(int healAmount)
+    {
+        if (IsDead) return;
+
+        // 体力を加算し、最大値（LifeMax）を超えないように制限する
+        _life = Mathf.Min(LifeMax, _life + healAmount);
+
+        Debug.Log($"❤️ {gameObject.name} が {healAmount} 回復！ 現在のHP: {_life}/{LifeMax}");
+    }
+
     // 💡【追加】カメラの外にいるかどうかを判定するプライベートメソッド
     public bool IsOutOfCamera()
     {

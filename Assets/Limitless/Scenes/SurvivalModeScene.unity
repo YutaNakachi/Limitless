@@ -4849,6 +4849,18 @@ PrefabInstance:
       propertyPath: balls.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: balls.Array.data[0].<Rate>k__BackingField
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: balls.Array.data[1].<Rate>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2537649582537771541, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
+      propertyPath: balls.Array.data[2].<Rate>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2883445398658177238, guid: 61ef47e7f6afc324dbb5c27d62ff8aa1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

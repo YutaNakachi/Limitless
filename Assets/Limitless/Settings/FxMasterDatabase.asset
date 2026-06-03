@@ -133,3 +133,13 @@ MonoBehaviour:
     rumbleLeft: 0.5
     rumbleRight: 0.8
     useCoolTime: 0
+  - label: ItemBallKick
+    stopDuration: 0.04
+    timeScale: 0
+    shakeDuration: 0
+    shakeMagnitude: 0
+    objectShakeMagnitude: 0
+    useObjectShakeY: 0
+    rumbleLeft: 0
+    rumbleRight: 0
+    useCoolTime: 0
