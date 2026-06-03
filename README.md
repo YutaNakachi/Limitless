@@ -131,11 +131,6 @@ Limitless/
 ├── Resources/          # 動的ロード用の各種アセット、オーディオ、またはエフェクトPrefab
 ├── Scenes/             # Title, MainGame, Battle などのシーンファイル
 ├── Scripts/            # 💻 C#スクリプト（役割別の配置）
-│   ├── Actors/         # 動体ロジック（PlayerStatus, EnemyStatus, BatAI 等）
-│   ├── Combat/         # 攻撃・シュート（MobAttack, PlayerShoot 等）
-│   ├── Ball/           # ボール制御（BallController, BallAbility 基底クラス等）
-│   ├── UI/             # 画面表示（LifeGaugeContainer, LifeGauge 等）
-│   └── Managers/       # 管理システム（FxManager, GameManager 等）
 ├── Settings/           # URP Assets, Input System (新入力システムの設定データ)
 └── Tilemaps/           # ステージ構成用のタイルマップ、グリッド、パレットデータ
 ```
@@ -149,13 +144,15 @@ Limitless/
 | **Pixel Adventure 1** | Unity Asset Store | Tilemap, ギミック用素材 |
 | **Comic Explosion Effect** | Unity Asset Store | Effect素材 |
 | **Cartoon FX Remaster Free** | Unity Asset Store | Effect素材 |
-| **8-bit Fantasy & Adventure Music** | Unity Asset Store | BGM素材 |
-| **Retro Action Music - Final Punch EX** | Unity Asset Store | BGM素材 |
 | **DoTween** | Unity Asset Store | アニメーション実装簡略化 |
 | **Free Sound Effects Pack** | Unity Asset Store | SE素材 |
 | **Enemy Galore 1 - Pixel Art** | Unity Asset Store | 敵キャラ素材 |
 | **VFX - Impact and Hit - Light Version** | Unity Asset Store | Hit Effect素材 |
 | **Bold VFX Pack DEMO** | Unity Asset Store | Effect素材 |
+| **Free Sound Effects Pack** | Unity Asset Store | SE素材 |
+| **RPG Essentials Sound Effects - FREE!** | Unity Asset Store | SE素材 |
+| **Footsteps Sounds - Volume 02** | Unity Asset Store | SE素材 |
+| **Free Laser Weapons** | Unity Asset Store | SE素材 |
 
 > ⚠️ **注意事項**: 有料アセットなどのライセンスが含まれる場合、アセットそのもののファイルをパブリックリポジトリにそのまま公開（アップロード）しないよう、`.gitignore` で適切に管理してください。
 
