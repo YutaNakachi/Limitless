@@ -208,6 +208,7 @@ MonoBehaviour:
   smashKickEffectPrefab: {fileID: 467751860875805754, guid: 6b5c44c3e2915c7409d002c05e0ac56d, type: 3}
   kokusenKickEffectPrefab: {fileID: 9027514048236820045, guid: ac48f8914e04efc4c8dac1d09c8084ca, type: 3}
   spawnEffectPrefab: {fileID: 7516003108749195644, guid: c01c7f4fa8f5d3a448bc8df56502bc4a, type: 3}
+  ballType: 0
   laserChildObject: {fileID: 3785061497719050932}
   purpleKickEffectPrefab: {fileID: 7627304123461817746, guid: 73540ef474d7b4242b9c602349aa9b38, type: 3}
   purpleThunderEffectPrefab: {fileID: 9027514048236820045, guid: 2e477c0d731d31748988e7d37c603425, type: 3}

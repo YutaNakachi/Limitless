@@ -608,6 +608,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: fd646ecb-f01a-447a-972c-7ef3c9fde352
     m_ActionName: 'Player/Resonance[/XInputControllerWindows1/rightShoulder,/Keyboard/m]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 49c9ddce-898d-4175-83e3-0b8c7225ecd1
+    m_ActionName: 'Player/Pause[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 628b069a-cd48-44d3-8dbf-0747a242a17f
+    m_ActionName: 'UI/Pause[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -646,7 +654,7 @@ MonoBehaviour:
   jumpForce: 10.5
   maxNumOfAirJumps: 1
   dashJumpForce: 1.1
-  smashInputThreshold: 0.6
+  smashInputThreshold: 0.5
   smashWindowTime: 0.25
   smashWaitFrames: 4
   coyoteDuration: 0.12
