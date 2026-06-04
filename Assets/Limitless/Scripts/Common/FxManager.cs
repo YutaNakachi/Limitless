@@ -28,6 +28,12 @@ public class FxManager : MonoBehaviour
     // ⏱️ 連続暴発を防ぐための絶対時間記録用
     private float _lastPlayedTime = -999f;
 
+    /// <summary>
+    /// 💡【追加】現在、演出によるヒットストップや時間停止が実行中（タイマー残あり）かどうかを返します
+    /// </summary>
+    public bool IsPlayingHitStop => hitStopRemainingTime > 0f;
+
+
     void Awake()
     {
         if (Instance == null)
@@ -146,25 +152,41 @@ public class FxManager : MonoBehaviour
 
     private async UniTaskVoid PlayHitStopAsync(FxPresetData.FxSettings settings, CancellationToken token)
     {
+        // 最初のアニメーション速度を設定
         Time.timeScale = settings.timeScale;
 
-        // 🎮【コントローラー振動開始】
         Gamepad gamepad = Gamepad.current;
         if (gamepad != null)
         {
-            // インスペクターで設定した左右のモーター強度を適用
             gamepad.SetMotorSpeeds(settings.rumbleLeft, settings.rumbleRight);
         }
 
         try
         {
-            // 残り時間が 0 になるまでループ
             while (hitStopRemainingTime > 0)
             {
                 await UniTask.Yield(PlayerLoopTiming.Update, token);
 
+                // 💡 【重要】もしポーズ画面が開いたら、ここでカウントを止めて待機する
+                if (PauseMenuManager.IsPaused)
+                {
+                    // ポーズ中はコントローラーの振動を一旦止める
+                    if (gamepad != null) gamepad.ResetHaptics();
+
+                    // ポーズが解除されるまで、このループ内で時間を進めずに待機
+                    while (PauseMenuManager.IsPaused)
+                    {
+                        await UniTask.Yield(PlayerLoopTiming.Update, token);
+                    }
+
+                    // ポーズ解除！タイムスケールと振動を「演出用の値」に復帰させる
+                    Time.timeScale = settings.timeScale;
+                    if (gamepad != null) gamepad.SetMotorSpeeds(settings.rumbleLeft, settings.rumbleRight);
+                }
+
+                // 通常のカウントダウン処理（ポーズ中はここを通らない）
                 float dt = Time.unscaledDeltaTime;
-                if (dt <= 0) dt = 0.016f; // 万が一のノイズ対策
+                if (dt <= 0) dt = 0.016f;
 
                 hitStopRemainingTime -= dt;
             }
@@ -175,18 +197,17 @@ public class FxManager : MonoBehaviour
         }
         finally
         {
-            // 🎮【コントローラー振動停止】
-            // 正常終了時はもちろん、次の重い一撃によってこのタスクがキャンセルされた際にも100%確実にリセットを通す
             if (gamepad != null)
             {
                 gamepad.ResetHaptics();
             }
 
-            if (!token.IsCancellationRequested)
+            // 💡 キャンセルされず、かつ「今ポーズ中ではない」場合のみ通常速度に戻す
+            if (!token.IsCancellationRequested && !PauseMenuManager.IsPaused)
             {
                 hitStopRemainingTime = 0f;
                 Time.timeScale = 1.0f;
-                Debug.Log("⏱️ [UniTask] ヒットストップが正常に終了、時間軸とゲームパッドの振動が復帰しました。");
+                Debug.Log("⏱️ 演出が最後まで正常終了。時間軸が復帰しました。");
             }
         }
     }

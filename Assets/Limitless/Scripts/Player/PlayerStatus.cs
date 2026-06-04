@@ -27,7 +27,7 @@ public class PlayerStatus : MobStatus
     /// </summary>
     private IEnumerator PlayerInvincibilityRoutine()
     {
-        IsInvincible = true;
+        SetInvicible();
 
         // DOTweenで半透明(0.3)と不透明(1.0)を高速往復（Yoyo）させて点滅を表現
         if (_spriteRenderer != null)
@@ -46,7 +46,7 @@ public class PlayerStatus : MobStatus
             _spriteRenderer.DOFade(1.0f, 0f);
         }
 
-        IsInvincible = false;
+        CancelInvicible();
     }
 
     public override void GoToAttackStateIfPossible()

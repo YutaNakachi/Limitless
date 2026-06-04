@@ -39,8 +39,9 @@ public abstract class MobStatus : MonoBehaviour
     protected Rigidbody2D _rigidbody;
     protected SpriteRenderer _spriteRenderer;
 
-    // 👈 仕様：初期状態は無敵にしない（敵が即座に攻撃を受け付けるため）
-    public bool IsInvincible { get; protected set; } = false;
+    private int _invincibleCount = 0;
+
+    public bool IsInvincible => _invincibleCount > 0;
 
     // 💡【追加】カメラキャッシュ用の変数
     private Camera _mainCamera;
@@ -71,12 +72,15 @@ public abstract class MobStatus : MonoBehaviour
 
     public void SetInvicible()
     {
-        IsInvincible = true;
+        _invincibleCount++;
+        Debug.Log($"🛡️ 無敵カウント増加: {_invincibleCount}");
     }
 
     public void CancelInvicible()
     {
-        IsInvincible = false;
+        // 0未満にならないようにクランプ
+        _invincibleCount = Mathf.Max(0, _invincibleCount - 1);
+        Debug.Log($"🍂 無敵カウント減少: {_invincibleCount}");
     }
 
     /// <summary>

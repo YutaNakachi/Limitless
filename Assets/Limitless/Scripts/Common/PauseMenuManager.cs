@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class PauseMenuManager : MonoBehaviour
 {
+    // 💡【追加】外部のFxManager等から「今ポーズ中か」をノーコストで参照できるように静的プロパティ化
+    public static bool IsPaused { get; private set; } = false;
+
     [Header("ーー シーン名設定 ーー")]
     [SerializeField] private string titleSceneName = "TitleScene";
 
@@ -36,14 +39,17 @@ public class PauseMenuManager : MonoBehaviour
     [SerializeField] private InputActionReference pauseActionReference;
     [SerializeField] private InputActionReference cancelActionReference;
 
-    // ✨【追加】PlayerInputの制御用
-    // インスペクターで、Player（操作キャラクター）のオブジェクト、
-    // あるいはPlayerInputコンポーネントがついているオブジェクトをアタッチしてください。
     [Header("ーー 🎮 プレイヤー入力の制御用 ーー")]
     [SerializeField] private PlayerInput playerInput;
 
-    private bool _isPaused = false;
     private bool _isHowToPlayOpen = false;
+
+    void Awake()
+    {
+        // 💡【重要】static変数はシーンを跨いでもメモリに残るため、
+        // シーン起動時（リスタート時など）に必ず確実に false へ初期化（リセット）します
+        IsPaused = false;
+    }
 
     void Start()
     {
@@ -73,30 +79,32 @@ public class PauseMenuManager : MonoBehaviour
 
     private void OnPauseTriggered(InputAction.CallbackContext context)
     {
-        if (_isPaused) ResumeGame();
+        if (IsPaused) ResumeGame();
         else OpenPauseMenu();
     }
 
     private void OnCancelTriggered(InputAction.CallbackContext context)
     {
-        if (_isPaused && _isHowToPlayOpen) BackToPauseMenuFromControls();
+        if (IsPaused && _isHowToPlayOpen) BackToPauseMenuFromControls();
     }
 
     private void OpenPauseMenu()
     {
-        _isPaused = true;
+        IsPaused = true;
         _isHowToPlayOpen = false;
         Time.timeScale = 0f;
 
-        // ✨【重要】ポーズを開いたので、プレイヤーのアクションマップ（操作）を止める
         if (playerInput != null)
         {
-            // もし「Player」という名前のアクションマップを使っている場合、それを無効化する
             playerInput.actions.FindActionMap("Player")?.Disable();
 
-            // 💡もし「UI」というポーズメニュー操作用の別マップを用意している場合は、
-            // 以下のようにUI側だけを有効化するとより確実です
-            // playerInput.actions.FindActionMap("UI")?.Enable();
+            // 💡【追加】ポーズ時にプレイヤーのアニメーションを完全にフリーズさせる
+            // (Unscaled Time モードであっても、コンポーネント自体がOFFになれば強制停止します)
+            Animator playerAnim = playerInput.GetComponentInChildren<Animator>();
+            if (playerAnim != null)
+            {
+                playerAnim.enabled = false;
+            }
         }
 
         pauseCanvasRoot.SetActive(true);
@@ -115,14 +123,28 @@ public class PauseMenuManager : MonoBehaviour
 
     private void ClosePauseMenu()
     {
-        _isPaused = false;
+        IsPaused = false;
         _isHowToPlayOpen = false;
-        Time.timeScale = 1f;
 
-        // ✨【重要】ポーズを閉じたので、プレイヤーのアクションマップ（操作）を再開する
+        if (FxManager.Instance == null || !FxManager.Instance.IsPlayingHitStop)
+        {
+            Time.timeScale = 1f;
+        }
+        else
+        {
+            Debug.Log("⏳ 裏で演出タスクが待機中のため、TimeScaleの通常復帰を保留しました。");
+        }
+
         if (playerInput != null)
         {
             playerInput.actions.FindActionMap("Player")?.Enable();
+
+            // 💡【追加】ポーズ解除時にアニメーションを再開させる
+            Animator playerAnim = playerInput.GetComponentInChildren<Animator>();
+            if (playerAnim != null)
+            {
+                playerAnim.enabled = true;
+            }
         }
 
         pauseCanvasRoot.SetActive(false);
