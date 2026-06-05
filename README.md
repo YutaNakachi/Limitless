@@ -120,9 +120,6 @@
   * `BallAbility` 基底クラスによるボール特殊能力の拡張構造
 
 ### 2. 📂 ディレクトリ構成（Project Structure）
-
-画像の実態に則した、`Limitless` フォルダ配下の最新構成です。
-
 ```text
 Limitless/
 ├── Animations/         # キャラクター（Player/Enemy）のアニメーション、各種Controller
