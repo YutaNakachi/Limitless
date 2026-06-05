@@ -4,7 +4,7 @@
 ![Platform](https://img.shields.io/badge/Platform-PC%20%2F%20WebGL-orange)
 ![Players](https://img.shields.io/badge/Players-1--2%20Players-green)
 
-**「様々な能力を持つ呪術球を蹴り分け、無限のステージを攻略する超常スタイリッシュアクション！」**
+**「様々な能力を持つ呪術球を蹴り分け、無限に発生する敵をなぎ倒す超常スタイリッシュアクション！」**
 
 『Limitless』は、王道アクションの心地よい手触りと、独自のシステムによるタクティカルな駆け引きを融合させた、2Dスタイリッシュ・タクティカルシューティングアクションゲームです。
 
