@@ -162,15 +162,15 @@ Limitless/
 開発の進行に伴い、各オブジェクトのコンポーネント構成や階層構造をここに追記・標準化していきます。
 
 ### 1. PlayerObject の構成
-- **Player (親GameObject)**: `Rigidbody2D`, `CapsuleCollider2D`, 'PlayerInput', `PlayerController.cs`, 'PlayerShoot.cs', 'PlayerStatus.cs', 'BallManager.cs'
+- **Player (親GameObject)**: `Rigidbody2D`, `CapsuleCollider2D`, `PlayerInput`, `PlayerController.cs`, `PlayerShoot.cs`, `PlayerStatus.cs`, `BallManager.cs`
   - 📌 *仕様ノート*: しゃがみ時やダッシュ時、スクリプトから `CapsuleCollider2D` の `Size.y` と `Offset.y` を動的に縮小する。
 - **Visual (子GameObject)**:
-  - GroundCheck: 'isGrounded'Check用の空GameObject
+  - GroundCheck: `isGrounded`Check用の空GameObject
   - ShootCollider: Shoot用Collider
 
 ### 2. EnemyObject の構成
 （※ステージ実装時に詳細を追記予定）
-- **Enemy (親GameObject)**: `Rigidbody2D`, `Collider2D`, `EnemyAI.cs`, 'MobStatus.cs'
+- **Enemy (親GameObject)**: `Rigidbody2D`, `Collider2D`, `EnemyAI.cs`, `MobStatus.cs`
 - **Visual (子GameObject)**: 
 
 ### 3. BallAbility（オブジェクト指向による属性拡張）
