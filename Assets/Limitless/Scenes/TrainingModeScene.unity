@@ -683,6 +683,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -808,6 +809,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5be0a09d498fef48a5b0f28d21117dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AspectKeeper
 --- !u!1 &592413672 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7529552747373312864, guid: 104d2d8808be51b4b8c7ba90a1314352, type: 3}
@@ -2522,6 +2535,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 60595673706127918, guid: 104d2d8808be51b4b8c7ba90a1314352, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 60595673706127918, guid: 104d2d8808be51b4b8c7ba90a1314352, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 60595673706127918, guid: 104d2d8808be51b4b8c7ba90a1314352, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 60595673706127918, guid: 104d2d8808be51b4b8c7ba90a1314352, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 296814931136023267, guid: 104d2d8808be51b4b8c7ba90a1314352, type: 3}
       propertyPath: m_Sprite
       value: 
