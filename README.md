@@ -10,7 +10,7 @@
 ---
 
 ### 🔗 クイックアクセス (Quick Links)
-[📄 技術ドキュメント (Documentation)](./Documentation) ｜ [💻 Windows版をダウンロード](./releases/tag/v1.0.0) ｜ [🎮 Web版をプレイ](https://play.unity.com/en/games/1e4a3e99-11dc-434d-a8e9-837ac58566f8/limitless) 
+[📄 技術ドキュメント (Documentation)](./Documentation) ｜ [💻 Windows版をダウンロード](https://github.com/YutaNakachi/Limitless/releases/tag/v1.0.0) ｜ [🎮 Web版をプレイ](https://play.unity.com/en/games/1e4a3e99-11dc-434d-a8e9-837ac58566f8/limitless) 
 
 ---
 
